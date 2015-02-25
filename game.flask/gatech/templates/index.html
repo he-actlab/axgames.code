@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Game - Acceptable?</title>
+<base target="_blank">
+<link rel="icon" href="https://research.cc.gatech.edu/act-lab/sites/edu.act-lab/files/ACT-logo-scaled_1.png" type="image/png">
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+<html>
+<body>
+	<div id="wrap">
+		<div class="im">
+			<center>
+				<h1>Is This Quality Acceptable?</h1>
+				<h2>Explain how to play the game</h2>
+				<form action='/game' method="post">
+				<!-- <form method="post" target=_self> --> 	
+					<input type="submit" name="start" value="Play Game!" style="background-color:Gray;font-size:22px;padding:10px"></input>&nbsp;&nbsp;&nbsp;&nbsp;
+				</form>
+				<!-- <h2>Msg: {{ msg }}</h2> -->
+			</center>
+		</div>
+	</div>
+</body>
+</html>

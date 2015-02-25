@@ -1,0 +1,1 @@
+web: gunicorn gatech.game:app --log-file=-
