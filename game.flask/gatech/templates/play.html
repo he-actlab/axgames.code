@@ -54,9 +54,9 @@ function image(img) {
 			<center>
 				<h1>Is This Quality Acceptable?</h1>
 				<h2 style="font-size:40px;">Stage {{ stage }}</h2>
-				<img src="{{ url_for('static',filename='img/baboon.png') }}" style='width: 25%; max-height: 100%;' hspace="20">
-				<img src="{{ url_for('static',filename='img/baboon-sobel.png') }}" style='width: 25%; max-height: 100%; margin=auto' hspace="20">
-				<img src="{{ url_for('static',filename='img/baboon_0.415.png') }}" style='width: 25%; max-height: 100%; margin=auto' hspace="20">
+				<img src="{{ url_for('static',filename=filePaths[0]) }}" style='width: 25%; max-height: 100%;' hspace="20">
+				<img src="{{ url_for('static',filename=filePaths[1]) }}" style='width: 25%; max-height: 100%; margin=auto' hspace="20">
+				<img src="{{ url_for('static',filename=filePaths[2]) }}" style='width: 25%; max-height: 100%; margin=auto' hspace="20">
 				<br><br>
 				<form method="post" target="_self">
 					<input type="image" name="5d" src="{{ url_for('static',filename='img/chips/5.png') }}" height="80" size="80"></input>

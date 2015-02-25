@@ -7,6 +7,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 
 from database import db_session
 from database import init_db
+from query import upload_files, draw_image_files
 #from models import Image, DegradedImage
 from models import Image
 from core import scoring, final_score
@@ -32,6 +33,7 @@ def init_session():
 	session['betmoney'] = 0
 	session['score'] = []
 	session['lock'] = False
+	session['filepaths'] = []
 
 @app.route("/game", methods = ['POST', 'GET'])
 def game():
@@ -40,18 +42,21 @@ def game():
 	final = 0
 	decision = ''
 	winlose = ''
+	
 	if request.method == "POST":
 		action = request.form.keys()[0]
 		action = action.split('.')[0]
 		msg = action # for debug
 		if action == 'start':
 			init_session()
+			session['filepaths'] = draw_image_files()
 		elif session['lock'] == True:
 			if action == 'continue':
 				session['stage'] += 1
 				session['bankroll'] += session['score'][len(session['score']) - 1]
 				session['betmoney'] = 0
 				session['lock'] = False
+				session['filepaths'] = draw_image_files()
 			elif action == 'final':
 				finalNum = final_score(session['score'])
 				decision = "final"
@@ -112,27 +117,34 @@ def game():
 						winlose=winlose, \
 						score=session['score'], \
 						final=final, \
+						filePaths=session['filepaths'], \
 						msg=str(msg), \
 						username=session['username'])
 
-@app.route('/')
-def index():
- 	return render_template('index.html')
+@app.route('/upload', methods = ['POST', 'GET'])
+def upload():
+	orgpath = ''
+	degpath = ''
+	sobelpath = ''
+	if request.method == "GET":
+		orgpath = request.args.get('orgpath', '')
+		degpath = request.args.get('degpath', '')
+		sobelpath = request.args.get('sobelpath', '')
+	status = upload_files(orgpath, degpath, sobelpath)
+	return status
 
-@app.route('/db')
+@app.route('/initdb')
 def initialize_database():
 	init_db()
-#	with open('baboon-sobel.png', 'rb') as f:
-#		data = f.read()
-#	f.close()
-#	u = User('admin6', 'admin7@localhost', data)
-#	db_session.add(u)
-#	db_session.commit()
-	return "db"
+	return "initializing database done ..."
 
 @app.teardown_appcontext
 def shutdown_session(exception=None):
     db_session.remove()
+
+@app.route('/')
+def index():
+ 	return render_template('index.html')
 
 if __name__ == '__main__':
 	app.debug = True
