@@ -7,10 +7,10 @@ from flask.ext.sqlalchemy import SQLAlchemy
 
 from database import db_session
 from database import init_db
-from query import upload_files, draw_image_files
+from query import upload_files, draw_image_files, get_image_id
 #from models import Image, DegradedImage
 from models import Image
-from core import scoring, final_score
+from core import scoring, final_score, calculate_reward
 
 import os, random, uuid
 import psycopg2
@@ -26,14 +26,19 @@ FlaskUUID(app)
 def init_session():
 	uid=uuid.uuid4()
 	session['username'] = str(uid)
+	session['win'] = 0.0
+	initialize()
+
+def initialize():
 	session['bankroll'] = 10000
 	session['bet'] = 0
-	session['win'] = 0
 	session['stage'] = 1
 	session['betmoney'] = 0
 	session['score'] = []
 	session['lock'] = False
 	session['filepaths'] = []
+	session['degimageid'] = -1
+	session['expired'] = False
 
 @app.route("/game", methods = ['POST', 'GET'])
 def game():
@@ -42,7 +47,7 @@ def game():
 	final = 0
 	decision = ''
 	winlose = ''
-	
+
 	if request.method == "POST":
 		action = request.form.keys()[0]
 		action = action.split('.')[0]
@@ -50,6 +55,10 @@ def game():
 		if action == 'start':
 			init_session()
 			session['filepaths'] = draw_image_files()
+			filename = ((session['filepaths'])[2]).split('/')[1]
+			session['degimageid'] = get_image_id(filename)
+		elif session['expired'] == True:
+			decision = "finish"
 		elif session['lock'] == True:
 			if action == 'continue':
 				session['stage'] += 1
@@ -57,6 +66,8 @@ def game():
 				session['betmoney'] = 0
 				session['lock'] = False
 				session['filepaths'] = draw_image_files()
+				filename = ((session['filepaths'])[2]).split('/')[1]
+				session['degimageid'] = get_image_id(filename)
 			elif action == 'final':
 				finalNum = final_score(session['score'])
 				decision = "final"
@@ -65,6 +76,18 @@ def game():
 					winlose = 'Win'
 				else:
 					winlose = 'Lose'
+				session['lock'] = True	
+			elif action == 'initialize':
+				session['win'] += calculate_reward(final_score(session['score']))
+				initialize()
+				session['filepaths'] = draw_image_files()
+				filename = ((session['filepaths'])[2]).split('/')[1]
+				session['degimageid'] = get_image_id(filename)
+				session['lock'] = False
+			elif action == 'finish':
+				session['win'] += calculate_reward(final_score(session['score']))
+				decision = "finish"
+				session['expired'] = True
 			else:
 				decision = 'pending'
 		else:
@@ -73,7 +96,7 @@ def game():
 					decision = 'nobet'
 				else:
 					decision = 'accept'	
-					score = scoring(decision, session['betmoney'])
+					score = scoring(decision, session['betmoney'], session['degimageid'])
 					if score > 0.0:
 						winlose = 'Win'
 					else:
@@ -85,7 +108,7 @@ def game():
 					decision = 'nobet'
 				else:
 					decision = 'reject'
-					score = scoring(decision, session['betmoney'])
+					score = scoring(decision, session['betmoney'], session['degimageid'])
 					if score > 0.0:
 						winlose = 'Win'
 					else:

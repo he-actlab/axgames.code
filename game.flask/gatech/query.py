@@ -1,4 +1,4 @@
-import os
+import os, sys
 
 from database import db_session
 from models import Image, DegradedImage
@@ -60,10 +60,6 @@ def upload_files(orgpath, degpath, sblpath):
 		db_session.add(d)
 		db_session.commit()
 
-		with open('gatech/' + imageFilename, 'wb') as f:
-			f.write(imagedata)
-		f.close()
-
 	return debugMsg
 
 #
@@ -96,7 +92,8 @@ def draw_image_files():
 	filePaths.append('img/' + drawnImageFilename)
 	filePaths.append('img/' + drawnSblImageFilename)
 
-	for degresult in db_session.query(DegradedImage).filter_by(org_image_id=orgImageId).order_by(DegradedImage.num_played):
+	for degresult in db_session.query(DegradedImage).filter_by(org_image_id=orgImageId).\
+													 order_by(DegradedImage.num_played):
 		degImageId = degresult.deg_image_id
 		drawnImageFilename = degresult.filename
 		drawnImageData = degresult.image_file
@@ -113,15 +110,33 @@ def draw_image_files():
 
 	return filePaths
 
+def get_image_id(filename):
+	image_id = ''
+	for result in db_session.query(DegradedImage).filter_by(filename=filename):
+		image_id = result.deg_image_id
+		break
+	return image_id
 
+def get_num_played(degImageId):
+	for result in db_session.query(DegradedImage).filter_by(deg_image_id=degImageId):
+		numPlayed = result.num_played
+		break
+	return numPlayed
 
+def get_num_accepted(degImageId):
+	for result in db_session.query(DegradedImage).filter_by(deg_image_id=degImageId):
+		numAccepted = result.num_accepted
+		break
+	return numAccepted
 
-
-
-
-
-
-
+def update_record(degImageId):
+	for result in db_session.query(DegradedImage).filter_by(deg_image_id=degImageId):
+		numAccepted = result.num_accepted + 1
+		db_session.query(DegradedImage).filter(DegradedImage.deg_image_id == degImageId).\
+		 								update({"num_accepted": numAccepted})		
+		db_session.commit()
+		break
+	
 
 
 

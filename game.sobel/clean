@@ -1,7 +1,0 @@
-#!/usr/bin/env sh 
-
-rm output/nrmse/*
-rm output/psnr/*
-
-rm pngOutput/nrmse/*
-rm pngOutput/psnr/*

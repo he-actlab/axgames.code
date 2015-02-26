@@ -54,9 +54,9 @@ function image(img) {
 			<center>
 				<h1>Is This Quality Acceptable?</h1>
 				<h2 style="font-size:40px;">Stage {{ stage }}</h2>
-				<img src="{{ url_for('static',filename=filePaths[0]) }}" style='width: 25%; max-height: 100%;' hspace="20">
-				<img src="{{ url_for('static',filename=filePaths[1]) }}" style='width: 25%; max-height: 100%; margin=auto' hspace="20">
-				<img src="{{ url_for('static',filename=filePaths[2]) }}" style='width: 25%; max-height: 100%; margin=auto' hspace="20">
+				<img src="{{ url_for('static',filename=filePaths[0]) }}" style='width: 260px; max-height: 260px;' hspace="20">
+				<img src="{{ url_for('static',filename=filePaths[1]) }}" style='width: 260px; max-height: 260px; margin=auto' hspace="20">
+				<img src="{{ url_for('static',filename=filePaths[2]) }}" style='width: 260px; max-height: 260px; margin=auto' hspace="20">
 				<br><br>
 				<form method="post" target="_self">
 					<input type="image" name="5d" src="{{ url_for('static',filename='img/chips/5.png') }}" height="80" size="80"></input>
@@ -66,39 +66,46 @@ function image(img) {
 					<input type="image" name="1000d" src="{{ url_for('static',filename='img/chips/1000.png') }}" height="80" size="80"></input>
 					<input type="image" name="5000d" src="{{ url_for('static',filename='img/chips/5000.png') }}" height="80" size="80"></input>
 				</form>
-				<h2>Bet: {{ bet }}</h2>
-				<form method="post" target="_self">
-					{% if decision != 'accept' and decision != 'reject' and decision != 'pending' %}
-					  	<input type="submit" name="accept" value="Accept" style="background-color:lightgreen;font-size:22px;padding:10px"></input>&nbsp;&nbsp;&nbsp;&nbsp;
-					  	<input type="submit" name="reject" value="Reject" style="background-color:Crimson;font-size:22px;padding:10px"></input>
-					  	{% if bet != 0 %}
-							&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="clear" value="Clear Bet" style="background-color:Gray;font-size:22px;padding:10px"></input>
-						{% endif %}	
-					{% else %}
-						{% if stage != 10 %}
-							<input type="submit" name="continue" value="Next Stage" style="background-color:lightblue;font-size:22px;padding:10px"></input>
+				{% if decision != 'finish' %}
+					<h2>Bet: {{ bet }}</h2>
+					<form method="post" target="_self">
+						{% if decision == 'accept' or decision == 'reject' or decision == 'pending' %}
+							{% if stage != 10 %}
+								<input type="submit" name="continue" value="Next Stage" style="background-color:lightblue;font-size:22px;padding:10px"></input>
+							{% else %}
+								<input type="submit" name="final" value="Final Score" style="background-color:red;font-size:22px;padding:10px"></input>
+							{% endif %}	
+						{% elif decision == 'final' %}
+							<input type="submit" name="finish" value="Finish Game" style="background-color:lightseagreen;font-size:22px;padding:10px"></input>
+							<input type="submit" name="initialize" value="Restart" style="background-color:lightblue;font-size:22px;padding:10px"></input>
 						{% else %}
-							<input type="submit" name="final" value="Final Score" style="background-color:red;font-size:22px;padding:10px"></input>
+						  	<input type="submit" name="accept" value="Accept" style="background-color:lightgreen;font-size:22px;padding:10px"></input>&nbsp;&nbsp;&nbsp;&nbsp;
+						  	<input type="submit" name="reject" value="Reject" style="background-color:Crimson;font-size:22px;padding:10px"></input>
+						  	{% if bet != 0 %}
+								&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="clear" value="Clear Bet" style="background-color:Gray;font-size:22px;padding:10px"></input>
+							{% endif %}	
 						{% endif %}	
-					{% endif %}	
-				</form>
-				<h2>Bankroll: {{ bankroll }}</h2>
-				<h2>Win: {{ win }}</h2>
-				<h2>DebugMsg: {{ msg }}</h2>
-				<h2>Username: {{ username }}</h2>
+					</form>
+					<h2>Bankroll: {{ bankroll }}</h2>
+					<h2>Win: {{ win }}</h2>
+				{% endif %}	
 				{% if decision %}
 					{% if decision == 'pending' %}
 						<h1 style="font-size:40px;">Push Next Stage Button!</h1>
 					{% elif decision == 'nobet' %}
 						<h1 style="font-size:40px;">No betting money!</h1>
 					{% elif decision == 'final' %}
-						<h1 style="background-color:lightgreen;font-size:40px;padding:10px">Final {{ winlose }}: {{ final }}</h1>
+						<h1 style="font-size:40px;">Final {{ winlose }}: {{ final }}</h1>
+					{% elif decision == 'finish' %}
+						<h1 style="font-size:40px;">Total Reward: {{ win }}</h1>
 					{% else %}
 						<h1 style="font-size:40px;">{{ winlose }}: {{ score[score|length - 1] }}</h1>
 					{% endif %}	
 				{% else %}
 					<h1 style="font-size:40px;">   </h1>
 				{% endif %}	
+				<!-- <h2>DebugMsg: {{ msg }}</h2>
+				<h2>Username: {{ username }}</h2> -->
 			</center>
 
 		</div>

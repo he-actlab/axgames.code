@@ -2,13 +2,13 @@
 
 import os, sys
 
-command = sys.argv[1]
-inDir = sys.argv[2]
-outDir = sys.argv[3]
-
 if len(sys.argv) != 4:
 	print "Usage: ./png2rgbAll.py [png2rgb|rgb2png|png2gray] INPUT_DIR OUTPUT_DIR"
 	sys.exit(0)
+
+command = sys.argv[1]
+inDir = sys.argv[2]
+outDir = sys.argv[3]
 
 if os.path.isdir(inDir) != True:
 	print "Error! Input directores does not exist!"
