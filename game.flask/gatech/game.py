@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from flask.ext.session import Session
 from flask.ext.uuid import FlaskUUID
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask_bootstrap import Bootstrap
 
 from database import db_session
 from database import init_db
@@ -22,6 +23,7 @@ SESSION_TYPE = 'filesystem'
 app.config.from_object(__name__)
 Session(app)
 FlaskUUID(app)
+Bootstrap(app)
 
 def init_session():
 	uid=uuid.uuid4()
@@ -167,7 +169,7 @@ def shutdown_session(exception=None):
 
 @app.route('/')
 def index():
- 	return render_template('index.html')
+	return render_template('index.html')
 
 if __name__ == '__main__':
 	app.debug = True
