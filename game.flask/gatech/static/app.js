@@ -3,10 +3,6 @@ var main = function() {
 	$('.carousel').carousel({
 		interval: false
 	});
-	
-	//$('.thumb').hide();
-	//$('.thumb').fadeIn(2600);
-	//$('.caption').hide();
 
 	$('#thumbnail-display').click(function() {
 		$('.thumb').fadeIn(1600);
@@ -17,49 +13,17 @@ var main = function() {
 	$('#level-aux').hide();
 	$('#level-chips').hide();
 	$('#level-betting-money').hide();
-	$('#level-three-buttons').hide();
-	$('#level-bankroll').hide();
-	
-	$('#level2-aux').hide();
-	$('#level2-chips').hide();
-	$('#level2-betting-money').hide();
-	$('#level2-three-buttons').hide();
-	$('#level2-bankroll').hide();
-	
-	$('#level3-aux').hide();
-	$('#level3-chips').hide();
-	$('#level3-betting-money').hide();
-	$('#level3-three-buttons').hide();
-	$('#level3-bankroll').hide();
-	
-	
-	
+	$('#level-six-buttons').hide();
+	$('#level-bankroll').hide();	
 	
 	$('#level-main').click(function() {
-		$('#level-main').fadeOut(600);
-		$('#level-aux').fadeIn(1200);
-		$('#level-chips').fadeIn(1200);
-		$('#level-betting-money').fadeIn(1200);
-		$('#level-three-buttons').fadeIn(1200);
-		$('#level-bankroll').fadeIn(1200);
-	});
-	
-	$('#level2-main').click(function() {
-		$('#level2-main').fadeOut(600);
-		$('#level2-aux').fadeIn(1200);
-		$('#level2-chips').fadeIn(1200);
-		$('#level2-betting-money').fadeIn(1200);
-		$('#level2-three-buttons').fadeIn(1200);
-		$('#level2-bankroll').fadeIn(1200);
-	});
-	
-	$('#level3-main').click(function() {
-		$('#level3-main').fadeOut(600);
-		$('#level3-aux').fadeIn(1200);
-		$('#level3-chips').fadeIn(1200);
-		$('#level3-betting-money').fadeIn(1200);
-		$('#level3-three-buttons').fadeIn(1200);
-		$('#level3-bankroll').fadeIn(1200);
+		$('#level-main').fadeOut(600).promise().done(function() {
+			$('#level-aux').fadeIn(1600);
+			$('#level-chips').fadeIn(1600);
+			$('#level-betting-money').fadeIn(1600);
+			$('#level-six-buttons').fadeIn(1600);
+			$('#level-bankroll').fadeIn(1600);
+ 		});
 	});
 	
 	var betMoney = 0;

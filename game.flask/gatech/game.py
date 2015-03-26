@@ -51,9 +51,16 @@ def game():
 	winlose = ''
 
 	if request.method == "POST":
-		action = request.form.keys()[0]
+		form = request.form
+		os.system('echo here1')
+		keys = form.keys()
+		os.system('echo here2')
+		action = keys[0]
+		os.system('echo here3')
 		action = action.split('.')[0]
+		os.system('echo here4')
 		msg = action # for debug
+		os.system('echo ' + msg)
 		if action == 'start':
 			init_session()
 			session['filepaths'] = draw_image_files()

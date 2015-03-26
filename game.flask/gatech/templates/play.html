@@ -19,426 +19,150 @@
 <body>
 	<div class="carousel-inner" role="listbox">
 
-		<!-- SLIDE 1 -->
+		<!-- Code for main screen -->
 		<div class="item active">
 			
-			<!-- CODE FOR THE THREE IMAGES -->
+			<!-- Code for images -->
 			<div class="three-images">
 				<div class="container">
-					<h1 class="text-center">Is this Quality Acceptable?</h1>
-					<h2 class="text-center">Level 1</h2>
+					<!-- <h1 class="text-center">Is this Quality Acceptable?</h1> -->
+					<h1 class="text-center">Level {{ stage }}</h1>
 	
 					<!-- CODE FOR THUMBNAILS WITH CAPTION -->
 					<div class="col-md-12" id="level-main">
 						<h3 class="text-center">Tap the image to start betting</h3>
 						<center>
 						<div class="thumbnail" style="width:630px">
-							<img src="{{ url_for('static',filename=filePaths[0]) }}" class="thumb" style="width:580px">
+							<img src="{{ url_for('static',filename=filePaths[0]) }}" class="thumb" style="width:530px">
 							<div class="caption">
-							  	<p class="text-center">Original Image</p>
+							  	<p class="text-center"><center><h3>Original Image</h3></center></p>
 							</div>
 						</div>
 						</center>
 					</div>
 					<div class="col-md-12" id="level-aux">
-						<br>
 						<div class="col-md-6">
-							<div class="thumbnail">
-								<img src="{{ url_for('static',filename=filePaths[1]) }}" class="thumb">
+							<div class="thumbnail" style="width:500px">
+								<img src="{{ url_for('static',filename=filePaths[1]) }}" class="thumb" style="width:400px">
 									<div class="caption">
-									  	<p class="text-center">Sobel Filtered Image with no Degradation</p>
+									  	<p class="text-center"><center><h3>Original Sobel Filtered Image</h3></center></p>
 									</div>
 							</div>
 						</div>
 						<div class="col-md-6">
-							<div class="thumbnail">
-								<img src="{{ url_for('static',filename=filePaths[2]) }}" class="thumb">
+							<div class="thumbnail" style="width:500px">
+								<img src="{{ url_for('static',filename=filePaths[2]) }}" class="thumb" style="width:400px">
 									<div class="caption">
-									   	<p class="text-center">Sobel Filtered Image with some Degradation</p>
+									   	<p class="text-center"><center><h3>Degraded Sobel Filtered Image</h3></center></p>
 									</div>
 							</div>
 						</div>
 					</div>
-					<!-- CODE FOR THUMBNAILS WITH CAPTION ENDS-->
+					<!-- CODE FOR THUMBNAILS WITH CAPTION ENDS -->
 			
 				</div>
 			</div>
-			<!-- CODE FOR THE THREE IMAGES ENDS-->
+			<!-- Code for images ends -->
 
 			<!-- CODE FOR BETTING CHIPS -->
 			<div class="chips" id="level-chips">
-				<div class="container">
+				<div class="container" style="width:700px"> 
 					<h3 class="text-center">Select the betting amount</h3>
-					<br>
 					<div class="col-sm-2">
-						<center><img src="{{ url_for('static',filename='img/chips/5.png') }}" height="100" width="100" data-toggle="tooltip" data-placement="bottom" title="Bet $5" id="bet5"></center>
+						<center><img src="{{ url_for('static',filename='img/chips/5.png') }}" height="80" width="80" data-toggle="tooltip" data-placement="bottom" title="Bet $5" id="bet5"></center>
 					</div>
 					<div class="col-sm-2">
-						<center><img src="{{ url_for('static',filename='img/chips/25.png') }}" height="100" width="100"  data-toggle="tooltip" data-placement="bottom" title="Bet $25" id="bet25"></center>
+						<center><img src="{{ url_for('static',filename='img/chips/25.png') }}" height="80" width="80"  data-toggle="tooltip" data-placement="bottom" title="Bet $25" id="bet25"></center>
 					</div>
 					<div class="col-sm-2">
-						<center><img src="{{ url_for('static',filename='img/chips/100.png') }}" height="100" width="100"  data-toggle="tooltip" data-placement="bottom" title="Bet $100" id="bet100"></center>
+						<center><img src="{{ url_for('static',filename='img/chips/100.png') }}" height="80" width="80"  data-toggle="tooltip" data-placement="bottom" title="Bet $100" id="bet100"></center>
 					</div>
 					<div class="col-sm-2">
-						<center><img src="{{ url_for('static',filename='img/chips/500.png') }}" height="100" width="100"  data-toggle="tooltip" data-placement="bottom" title="Bet $500"id="bet500"></center>
+						<center><img src="{{ url_for('static',filename='img/chips/500.png') }}" height="80" width="80"  data-toggle="tooltip" data-placement="bottom" title="Bet $500"id="bet500"></center>
 					</div>
 					<div class="col-sm-2">
-						<center><img src="{{ url_for('static',filename='img/chips/1000.png') }}" height="100" width="100"  data-toggle="tooltip" data-placement="bottom" title="Bet $1000" id="bet1000"></center>
+						<center><img src="{{ url_for('static',filename='img/chips/1000.png') }}" height="80" width="80"  data-toggle="tooltip" data-placement="bottom" title="Bet $1000" id="bet1000"></center>
 					</div>
 					<div class="col-sm-2">
-						<center><img src="{{ url_for('static',filename='img/chips/5000.png') }}" height="100" width="100"  data-toggle="tooltip" data-placement="bottom" title="Bet $5" id="bet5000"></center>
+						<center><img src="{{ url_for('static',filename='img/chips/5000.png') }}" height="80" width="80"  data-toggle="tooltip" data-placement="bottom" title="Bet $5" id="bet5000"></center>
 					</div>
-					<br><br><br><br>
 				</div>
 			</div> 
 			<!-- CODE FOR BETTING CHIPS ENDS-->
 
 			<!-- CODE FOR DISPLAYING BETTING MONEY -->
 			<div class="betting-money" id="level-betting-money">
-				<h3 class="text-center" id="bet-money">Bet: $0</h3>
+				<div class="container">
+					<div class="col-sm-6">
+						<center><h3 class="text-center" id="bet-money">Bet: $0</h3></center>
+					</div>
+					<div class="col-sm-6">
+						<center><h3 class="text-center" id="bank-roll">Bankroll: ${{ bankroll }}</h3></center>
+					</div>	
+				</div>
 			</div>
 			<!-- CODE FOR DISPLAYING BETTING MONEY ENDS-->
 
-			<!-- CODE FOR THREE BUTTONS -->
-			<div class="three-buttons" id="level-three-buttons">
+			<!-- CODE FOR SIX BUTTONS -->
+			<div class="three-buttons" id="level-six-buttons">
 				<div class="container">
 					<br>
+					<form method="post" target="_self">
+						<div class="col-sm-2">
+							<center><input type="submit" name="saccept" value="Strong Accept" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" ></input></center>
+						</div>
+						<div class="col-sm-2">
+							<center><input type="submit" name="naccept" value="Accept" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" ></input></center>
+						</div>
+						<div class="col-sm-2">
+							<center><input type="submit" name="waccept" value="Weak Accept" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" ></input></center>
+						</div>
+						<div class="col-sm-2">
+							<center><input type="submit" name="wreject" value="Weak Reject" class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" ></input></center>
+						</div>
+						<div class="col-sm-2">
+							<center><input type="submit" name="nreject" value="Reject" class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" ></input></center>
+						</div>
+						<div class="col-sm-2">
+							<center><input type="submit" name="sreject" value="Strong Reject" class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" ></input></center>
+						</div>
+						<br><br><br>
+					</form>
 
-					<div class="col-sm-2">
-						<center><button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="The quality of the degraded image is acceptable" id="accept" style="height:80px; width:180px"><h3>Strong Accept</h3></button></center>
-					</div>
-
-					<div class="col-sm-2">
-						<center><button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="The quality of the degraded image is acceptable" id="accept" style="height:80px; width:180px"><h3>    Accept   </h3></button></center>
-					</div>
-	
-					<div class="col-sm-2">
-						<center><button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="The quality of the degraded image is not acceptable" id="reject" style="height:80px; width:180px"><h3> Weak Accept </h3></button></center>
-					</div>
-
-					<div class="col-sm-2">
-						<center><button type="button" class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="The quality of the degraded image is not acceptable" id="reject" style="height:80px; width:180px"><h3>Weak Reject</h3></button></center>
-					</div>
-
-					<div class="col-sm-2">
-						<center><button type="button" class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="The quality of the degraded image is not acceptable" id="reject" style="height:80px; width:180px"><h3>Reject</h3></button></center>
-					</div>
-
-					<div class="col-sm-2">
-						<center><button type="button" class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="The quality of the degraded image is not acceptable" id="reject" style="height:80px; width:180px"><h3>Strong Reject</h3></button></center>
-					</div>
-
-					<br><br><br><br><br>
-	
 					<div class="col-md-12">
-						<center><button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Clear the bet amount" id="clear" style="height:80px; width:180px"><h3>Clear bet</h3></button></center>
+						<center><button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Clear the bet amount" id="clear"><h4>Clear bet</h4></button></center>
 					</div>
-			
 				</div>
 			</div>
-			<!-- CODE FOR THREE BUTTONS ENDS-->
+			<!-- CODE FOR SIX BUTTONS ENDS-->
 
-			<!-- CODE FOR BANKROLL -->		
-			<div class="bankroll" id="level1-bankroll">
+			<!-- CODE FOR BANKROLL -->	
+			<div class="bankroll" id="level-bankroll">
 				<div class="container">
-
-					<br><br>
-					<h3 class="text-center" id="bank-roll">Bankroll: $10000</h3>
-					<h3 class="text-center" id="winnings">Winnings: $0.0</h3>
+					
+					<!-- <h3 class="text-center" id="winnings">Winnings: ${{ win }}</h3> -->
 				</div>
 			</div>		
 			<!-- CODE FOR BANKROLL ENDS-->
-			
-			<!-- CODE FOR BLANKSPACE -->
-			<div class="blankspace">
-				<div class="container">
-					<br><br><br><br><br><br>
-				</div>
-			</div>
-			<!-- CODE FOR BLANKSPACE ENDS--> 
-			
-			<div class="carousel-caption">
-				Stage 1
-			</div>
+
 		</div>
-		<!-- SLIDE 1 ENDS -->
+		<!-- Code for main screen ends -->
 		
-		<!-- SLIDE 2 -->
-		<div class="item">
-			
-			<!-- CODE FOR THE THREE IMAGES -->
-			<div class="three-images">
-				<div class="container">
-					<h1 class="text-center">Is this Quality Acceptable?</h1>
-					<h2 class="text-center">Level 2</h2>
-					<!--<center><a class="btn btn-info btn-lg" href="#" role="button" id="thumbnail-display">Tap to display the images</a></center> -->
-					<br>
-	
-					<!-- CODE FOR THUMBNAILS WITH CAPTION -->
-					<div class="col-md-8" id="level2-main">
-						<h3 class="text-center">Tap the image to start betting</h3>
-						<div class="thumbnail">
-							<img src="{{ url_for('static',filename=filePaths[0]) }}" class="thumb">
-							<div class="caption">
-							  	<p class="text-center">Original Image</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-12" id="level2-aux">
-						<div class="col-md-6">
-							<div class="thumbnail">
-								<img src="images/sobel-clean2.png" class="thumb">
-									<div class="caption">
-									  	<p class="text-center">Sobel Filtered Image with no Degradation</p>
-									</div>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="thumbnail">
-								<img src="images/sobel-dirty2.png" class="thumb">
-									<div class="caption">
-									   	<p class="text-center">Sobel Filtered Image with some Degradation</p>
-									</div>
-							</div>
-						</div>
-					</div>
-					<!-- CODE FOR THUMBNAILS WITH CAPTION ENDS-->
-			
-				</div>
-			</div>
-			<!-- CODE FOR THE THREE IMAGES ENDS-->
-
-			<!-- CODE FOR BETTING CHIPS -->
-			<div class="chips" id="level2-chips">
-				<div class="container">
-					<h3 class="text-center">Select the betting amount</h3>
-					<br>
-	
-					<div class="col-md-2">
-						<center><img src="images/5.png" data-toggle="tooltip" data-placement="bottom" title="Bet $5" id="bet5"></center>
-					</div>
-					<div class="col-md-2">
-						<center><img src="images/25.png" data-toggle="tooltip" data-placement="bottom" title="Bet $25" id="bet25"></center>
-					</div>
-					<div class="col-md-2">
-						<center><img src="images/100.png" data-toggle="tooltip" data-placement="bottom" title="Bet $100" id="bet100"></center>
-					</div>
-					<div class="col-md-2">
-						<center><img src="images/500.png" data-toggle="tooltip" data-placement="bottom" title="Bet $500"id="bet500"></center>
-					</div>
-					<div class="col-md-2">
-						<center><img src="images/1000.png" data-toggle="tooltip" data-placement="bottom" title="Bet $1000" id="bet1000"></center>
-					</div>
-					<div class="col-md-2">
-						<center><img src="images/5000.png" data-toggle="tooltip" data-placement="bottom" title="Bet $5" id="bet5000"></center>
-					</div>
-	
-					<br><br><br><br><br><br>
-					<!--<h3 class="text-center">Bet: $0</h3>-->
-	
-				</div>
-			</div> 
-			<!-- CODE FOR BETTING CHIPS ENDS-->
-
-			<!-- CODE FOR DISPLAYING BETTING MONEY -->
-			<div class="betting-money" id="level2-betting-money">
-				<br>
-				<h3 class="text-center" id="bet-money">Bet: $0</h3>
-			</div>
-			<!-- CODE FOR DISPLAYING BETTING MONEY ENDS-->
-
-			<!-- CODE FOR THREE BUTTONS -->
-			<div class="three-buttons" id="level2-three-buttons">
-				<div class="container">
-					<br><br>
-
-					<div class="col-md-4">
-						<center><button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="The quality of the degraded image is acceptable" id="accept"><h3>Accept</h3></button></center>
-					</div>
-	
-					<div class="col-md-4">
-						<center><button type="button" class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="The quality of the degraded image is not acceptable" id="reject"><h3>Reject</h3></button></center>
-					</div>
-	
-					<div class="col-md-4">
-						<center><button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Clear the bet amount" id="clear"><h3>Clear bet</h3></button></center>
-					</div>
-			
-				</div>
-			</div>
-			<!-- CODE FOR THREE BUTTONS ENDS-->
-
-			<!-- CODE FOR BANKROLL -->		
-			<div class="bankroll" id="level2-bankroll">
-				<div class="container">
-
-					<br><br>
-					<h3 class="text-center" id="bank-roll">Bankroll: $10000</h3>
-					<h3 class="text-center" id="winnings">Winnings: $0.0</h3>
-				</div>
-			</div>		
-			<!-- CODE FOR BANKROLL ENDS-->
-			
-			<!-- CODE FOR BLANKSPACE -->
-			<div class="blankspace">
-				<div class="container">
-					<br><br><br><br><br><br>
-				</div>
-			</div>
-			<!-- CODE FOR BLANKSPACE ENDS--> 
-			
-			<div class="carousel-caption">
-				Stage 2
-			</div>
-		</div>
-		<!-- SLIDE 2 ENDS -->
-		
-		<!-- SLIDE 3 -->
-		<div class="item">
-			
-			<!-- CODE FOR THE THREE IMAGES -->
-			<div class="three-images">
-				<div class="container">
-					<h1 class="text-center">Is this Quality Acceptable?</h1>
-					<h2 class="text-center">Level 3</h2>
-					<!--<center><a class="btn btn-info btn-lg" href="#" role="button" id="thumbnail-display">Tap to display the images</a></center> -->
-					<br>
-	
-					<!-- CODE FOR THUMBNAILS WITH CAPTION -->
-					<div class="col-md-12" id="level3-main">
-						<h3 class="text-center">Tap the image to start betting</h3>
-						<div class="thumbnail">
-							<img src="images/original3.png" class="thumb">
-								<div class="caption">
-								  	<p class="text-center">Original Image</p>
-								</div>
-						</div>
-					</div>
-					<div class="col-md-12" id="level3-aux">
-						<div class="col-md-6">
-							<div class="thumbnail">
-								<img src="images/sobel-clean3.png" class="thumb">
-									<div class="caption">
-									  	<p class="text-center">Sobel Filtered Image with no Degradation</p>
-									</div>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="thumbnail">
-								<img src="images/sobel-dirty3.png" class="thumb">
-									<div class="caption">
-									   	<p class="text-center">Sobel Filtered Image with some Degradation</p>
-									</div>
-							</div>
-						</div>
-					</div>
-					<!-- CODE FOR THUMBNAILS WITH CAPTION ENDS-->
-			
-				</div>
-			</div>
-			<!-- CODE FOR THE THREE IMAGES ENDS-->
-
-			<!-- CODE FOR BETTING CHIPS -->
-			<div class="chips" id="level3-chips">
-				<div class="container">
-					<h3 class="text-center">Select the betting amount</h3>
-					<br>
-	
-					<div class="col-md-2">
-						<center><img src="images/5.png" data-toggle="tooltip" data-placement="bottom" title="Bet $5" id="bet5"></center>
-					</div>
-					<div class="col-md-2">
-						<center><img src="images/25.png" data-toggle="tooltip" data-placement="bottom" title="Bet $25" id="bet25"></center>
-					</div>
-					<div class="col-md-2">
-						<center><img src="images/100.png" data-toggle="tooltip" data-placement="bottom" title="Bet $100" id="bet100"></center>
-					</div>
-					<div class="col-md-2">
-						<center><img src="images/500.png" data-toggle="tooltip" data-placement="bottom" title="Bet $500"id="bet500"></center>
-					</div>
-					<div class="col-md-2">
-						<center><img src="images/1000.png" data-toggle="tooltip" data-placement="bottom" title="Bet $1000" id="bet1000"></center>
-					</div>
-					<div class="col-md-2">
-						<center><img src="images/5000.png" data-toggle="tooltip" data-placement="bottom" title="Bet $5" id="bet5000"></center>
-					</div>
-	
-					<br><br><br><br><br><br>
-					<!--<h3 class="text-center">Bet: $0</h3>-->
-	
-				</div>
-			</div> 
-			<!-- CODE FOR BETTING CHIPS ENDS-->
-
-			<!-- CODE FOR DISPLAYING BETTING MONEY -->
-			<div class="betting-money" id="level3-betting-money">
-				<br>
-				<h3 class="text-center" id="bet-money">Bet: $0</h3>
-			</div>
-			<!-- CODE FOR DISPLAYING BETTING MONEY ENDS-->
-
-			<!-- CODE FOR THREE BUTTONS -->
-			<div class="three-buttons" id="level3-three-buttons">
-				<div class="container">
-					<br><br>
-
-					<div class="col-md-4">
-						<center><button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="The quality of the degraded image is acceptable" id="accept"><h3>Accept</h3></button></center>
-					</div>
-	
-					<div class="col-md-4">
-						<center><button type="button" class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="The quality of the degraded image is not acceptable" id="reject"><h3>Reject</h3></button></center>
-					</div>
-	
-					<div class="col-md-4">
-						<center><button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Clear the bet amount" id="clear"><h3>Clear bet</h3></button></center>
-					</div>
-			
-				</div>
-			</div>
-			<!-- CODE FOR THREE BUTTONS ENDS-->
-
-			<!-- CODE FOR BANKROLL -->		
-			<div class="bankroll" id="level3-bankroll">
-				<div class="container">
-
-					<br><br>
-					<h3 class="text-center" id="bank-roll">Bankroll: $10000</h3>
-					<h3 class="text-center" id="winnings">Winnings: $0.0</h3>
-				</div>
-			</div>		
-			<!-- CODE FOR BANKROLL ENDS-->
-			
-			<!-- CODE FOR BLANKSPACE -->
-			<div class="blankspace">
-				<div class="container">
-					<br><br><br><br><br><br>
-				</div>
-			</div>
-			<!-- CODE FOR BLANKSPACE ENDS--> 
-			
-			<div class="carousel-caption">
-				Stage 3
-			</div>
-		</div>
-		<!-- SLIDE 3 ENDS -->
-		
-		</div>
-
-		<!-- Controls -->
-		<!-- 
-		<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-			<span class="sr-only">Previous</span>
-		</a>
-		<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-			<span class="sr-only">Next</span>
-		</a>
-		--> 
 	</div>
-	</div>	
 	<!-- CODE FOR CAROUSEL ENDS-->
+	<!-- Controls -->
+	<!-- 
+	<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+		<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+		<span class="sr-only">Previous</span>
+	</a>
+	<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+		<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+		<span class="sr-only">Next</span>
+	</a>
+	--> 
+
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 	<div id="wrap">
 		<div class="im">
@@ -495,8 +219,8 @@
 				{% else %}
 					<h1 style="font-size:40px;">   </h1>
 				{% endif %}	
-				<!-- <h2>DebugMsg: {{ msg }}</h2>
-				<h2>Username: {{ username }}</h2> -->
+				<h2>DebugMsg: {{ msg }}</h2>
+				<h2>Username: {{ username }}</h2>
 			</center>
 
 		</div>
