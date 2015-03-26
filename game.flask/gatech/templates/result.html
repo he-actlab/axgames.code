@@ -29,6 +29,17 @@
 					<h1 class="text-center">Level {{ stage }}</h1>
 	
 					<!-- CODE FOR THUMBNAILS WITH CAPTION -->
+					<div class="col-md-12" id="level-main">
+						<h3 class="text-center">Tap the image to start betting</h3>
+						<center>
+						<div class="thumbnail" style="width:630px">
+							<img src="{{ url_for('static',filename=filePaths[0]) }}" class="thumb" style="width:530px">
+							<div class="caption">
+							  	<p class="text-center"><center><h3>Original Image</h3></center></p>
+							</div>
+						</div>
+						</center>
+					</div>
 					<div class="col-md-12" id="level-aux">
 						<div class="col-md-6">
 							<div class="thumbnail" style="width:500px">
@@ -48,6 +59,7 @@
 						</div>
 					</div>
 					<!-- CODE FOR THUMBNAILS WITH CAPTION ENDS -->
+			
 				</div>
 			</div>
 			<!-- Code for images ends -->
@@ -56,26 +68,24 @@
 			<div class="chips" id="level-chips">
 				<div class="container" style="width:700px"> 
 					<h3 class="text-center">Select the betting amount</h3>
-					<form method="post" target="_self">
-						<div class="col-sm-2">
-							<center><input type="image" name="5d" src="{{ url_for('static',filename='img/chips/5.png') }}" height="80" size="80"></input></center>
-						</div>
-						<div class="col-sm-2">
-							<center><input type="image" name="25d" src="{{ url_for('static',filename='img/chips/25.png') }}" height="80" size="80"></input></center>
-						</div>
-						<div class="col-sm-2">
-							<center><input type="image" name="100d" src="{{ url_for('static',filename='img/chips/100.png') }}" height="80" size="80"></input></center>
-						</div>
-						<div class="col-sm-2">
-							<center><input type="image" name="500d" src="{{ url_for('static',filename='img/chips/500.png') }}" height="80" size="80"></input></center>
-						</div>
-						<div class="col-sm-2">
-							<center><input type="image" name="1000d" src="{{ url_for('static',filename='img/chips/1000.png') }}" height="80" size="80"></input></center>
-						</div>
-						<div class="col-sm-2">
-							<center><input type="image" name="5000d" src="{{ url_for('static',filename='img/chips/5000.png') }}" height="80" size="80"></input></center>
-						</div>
-					</form>
+					<div class="col-sm-2">
+						<center><img src="{{ url_for('static',filename='img/chips/5.png') }}" height="80" width="80" data-toggle="tooltip" data-placement="bottom" title="Bet $5" id="bet5"></center>
+					</div>
+					<div class="col-sm-2">
+						<center><img src="{{ url_for('static',filename='img/chips/25.png') }}" height="80" width="80"  data-toggle="tooltip" data-placement="bottom" title="Bet $25" id="bet25"></center>
+					</div>
+					<div class="col-sm-2">
+						<center><img src="{{ url_for('static',filename='img/chips/100.png') }}" height="80" width="80"  data-toggle="tooltip" data-placement="bottom" title="Bet $100" id="bet100"></center>
+					</div>
+					<div class="col-sm-2">
+						<center><img src="{{ url_for('static',filename='img/chips/500.png') }}" height="80" width="80"  data-toggle="tooltip" data-placement="bottom" title="Bet $500"id="bet500"></center>
+					</div>
+					<div class="col-sm-2">
+						<center><img src="{{ url_for('static',filename='img/chips/1000.png') }}" height="80" width="80"  data-toggle="tooltip" data-placement="bottom" title="Bet $1000" id="bet1000"></center>
+					</div>
+					<div class="col-sm-2">
+						<center><img src="{{ url_for('static',filename='img/chips/5000.png') }}" height="80" width="80"  data-toggle="tooltip" data-placement="bottom" title="Bet $5" id="bet5000"></center>
+					</div>
 				</div>
 			</div> 
 			<!-- CODE FOR BETTING CHIPS ENDS-->
@@ -86,7 +96,7 @@
 					<div class="col-sm-3">
 					</div>
 					<div class="col-sm-3">
-						<center><h3 class="text-center" id="bet-money">Bet: ${{ bet }}</h3></center>
+						<center><h3 class="text-center" id="bet-money">Bet: $0</h3></center>
 					</div>
 					<div class="col-sm-3">
 						<center><h3 class="text-center" id="bank-roll">Bankroll: ${{ bankroll }}</h3></center>
@@ -121,18 +131,40 @@
 							<center><input type="submit" name="sreject" value="Strong Reject" class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" ></input></center>
 						</div>
 						<br><br><br>
-						<div class="col-md-12">
-							<center><input type="submit" name="clear" value="Clear bet" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom"></input></center>
-						</div>
 					</form>
+
+					<div class="col-md-12">
+						<center><button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Clear the bet amount" id="clear"><h4>Clear bet</h4></button></center>
+					</div>
 				</div>
 			</div>
 			<!-- CODE FOR SIX BUTTONS ENDS-->
+
+			<!-- CODE FOR BANKROLL -->	
+			<div class="bankroll" id="level-bankroll">
+				<div class="container">
+					
+					<!-- <h3 class="text-center" id="winnings">Winnings: ${{ win }}</h3> -->
+				</div>
+			</div>		
+			<!-- CODE FOR BANKROLL ENDS-->
 
 		</div>
 		<!-- Code for main screen ends -->
 		
 	</div>
+	<!-- CODE FOR CAROUSEL ENDS-->
+	<!-- Controls -->
+	<!-- 
+	<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+		<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+		<span class="sr-only">Previous</span>
+	</a>
+	<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+		<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+		<span class="sr-only">Next</span>
+	</a>
+	--> 
 
 	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
@@ -199,7 +231,10 @@
 	</div>
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+	
+	<script src="{{ url_for('static',filename='app.js') }}"></script>
 </body>
 </html>

@@ -42,6 +42,38 @@ def initialize():
 	session['degimageid'] = -1
 	session['expired'] = False
 
+@app.route("/original", methods = ['POST', 'GET'])
+def original():
+	msg = ''
+	money = 0
+	final = 0
+	decision = ''
+	winlose = ''
+
+	if request.method == "POST":
+		action = request.form.keys()[0]
+		action = action.split('.')[0]
+		msg = action # for debug
+		os.system('echo ' + msg)
+
+		init_session()
+		session['filepaths'] = draw_image_files()
+		filename = ((session['filepaths'])[2]).split('/')[1]
+		session['degimageid'] = get_image_id(filename)
+
+	return render_template('original.html', \
+						bankroll=session['bankroll'] - session['betmoney'], \
+						bet=session['bet'] + session['betmoney'], \
+						win=session['win'], \
+						stage=session['stage'], \
+						decision=decision, \
+						winlose=winlose, \
+						score=session['score'], \
+						final=final, \
+						filePaths=session['filepaths'], \
+						msg=str(msg), \
+						username=session['username'])
+
 @app.route("/game", methods = ['POST', 'GET'])
 def game():
 	msg = ''
@@ -51,14 +83,8 @@ def game():
 	winlose = ''
 
 	if request.method == "POST":
-		form = request.form
-		os.system('echo here1')
-		keys = form.keys()
-		os.system('echo here2')
-		action = keys[0]
-		os.system('echo here3')
+		action = request.form.keys()[0]
 		action = action.split('.')[0]
-		os.system('echo here4')
 		msg = action # for debug
 		os.system('echo ' + msg)
 		if action == 'start':
