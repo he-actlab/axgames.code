@@ -126,30 +126,18 @@ def game():
 			else:
 				decision = 'pending'
 		else:
-			if action == 'accept':
+			if action == 'saccept' or action == 'naccept' or action == 'waccept' or action == 'wreject' or action == 'nreject' or action == 'sreject':
 				if session['betmoney'] == 0:
 					decision = 'nobet'
 				else:
-					decision = 'accept'	
-					score = scoring(decision, session['betmoney'], session['degimageid'])
+					score = scoring(action, session['betmoney'], session['degimageid'])
 					if score > 0.0:
 						winlose = 'Win'
 					else:
 						winlose = 'Lose'
 					session['score'].append(score)
 					session['lock'] = True
-			elif action == 'reject':
-				if session['betmoney'] == 0:
-					decision = 'nobet'
-				else:
-					decision = 'reject'
-					score = scoring(decision, session['betmoney'], session['degimageid'])
-					if score > 0.0:
-						winlose = 'Win'
-					else:
-						winlose = 'Lose'
-					session['score'].append(score)
-					session['lock'] = True
+					# TODO return render_template('result.html', ... )
 			elif action == 'clear':
 				session['betmoney'] = 0
 			elif action == '5d':
@@ -164,7 +152,7 @@ def game():
 				money = 1000
 			elif action == '5000d':
 				money = 5000
-			if (session['bankroll'] - session['betmoney'] - money > 0):
+			if (session['bankroll'] - session['betmoney'] - money >= 0):
 				session['betmoney'] += money
 	return render_template('play.html', \
 						bankroll=session['bankroll'] - session['betmoney'], \

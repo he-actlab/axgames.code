@@ -4,36 +4,39 @@ import random
 from query import get_num_played, get_num_accepted, update_record
 
 # todo: we need a real scoring algorithm
+# update_todo: we need to incorporate the six level answers from strong accept to strong reject
 def scoring(decision, betmoney, degImageId):
 
-	winlose = True
+	# winlose = True
 
-	numPlayed = get_num_played (degImageId)
-	numAccepted = get_num_accepted (degImageId)
+	# numPlayed = get_num_played (degImageId)
+	# numAccepted = get_num_accepted (degImageId)
 
-	if float(numPlayed) - 1 > 0:
-		if float(numAccepted) / (float(numPlayed) - 1) > 0.5: # accept
-			if decision == 'accept':
-				winlose = True
-			else:
-				winlose = False
-		else: # reject
-			if decision == 'accept':
-				winlose = False
-			else:
-				winlose = True
-	else: # if this is the first time to be evaluated, just give the victory to the player
-		winlose = True
+	# if float(numPlayed) - 1 > 0:
+	# 	if float(numAccepted) / (float(numPlayed) - 1) > 0.5: # accept
+	# 		if decision == 'accept':
+	# 			winlose = True
+	# 		else:
+	# 			winlose = False
+	# 	else: # reject
+	# 		if decision == 'accept':
+	# 			winlose = False
+	# 		else:
+	# 			winlose = True
+	# else: # if this is the first time to be evaluated, just give the victory to the player
+	# 	winlose = True
 
-	if winlose == True:
-		ret = betmoney
-	else:
-		ret = -betmoney
+	# if winlose == True:
+	# 	ret = betmoney
+	# else:
+	# 	ret = -betmoney
 
-	if decision == 'accept':
-		update_record (degImageId)
+	# if decision == 'accept':
+	# 	update_record (degImageId)
 
-	return ret
+	# return ret
+
+	return 1
 
 def final_score(list):
 	sum = 0
