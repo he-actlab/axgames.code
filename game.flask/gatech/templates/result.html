@@ -21,37 +21,206 @@
 
 		<!-- Code for main screen -->
 		<div class="item active">
-			
-			<br><br><br><br><br><br>
 
 			<!-- Code for stacked bar -->
 			<center>
-				<div class="container" style="width:745px;padding:0px;border:0px" align="right">
-					<div class="col-sm-2" style="width:465px;padding:0px;border:0px">
-						<h3>You</h3>
+			<h1>Score Board</h1>
+			<div class="container">
+				<div style="width:800px; margin-top:10px;">
+					<div class="container" style="width:527px;padding:0px;border:0px" align="right"> <!-- progress_bar_size(500) + margin_of_badge(10) + half_of_arrow(15) --> 
+						<div class="col-sm-2" style="width:352px;padding:0px;border:0px">
+							<span class="glyphicon glyphicon-arrow-down" style="margin:0px;font-size:25px"></span>
+						</div>
+						<div class="col-sm-2" style="width:175px;padding:0px;border:0px">
+						</div>
 					</div>
-					<div class="col-sm-2" style="width:280px;padding:0px;border:0px">
+		            <span class="badge" style="padding: 3px; float: left; width: 100px; text-align: center; margin-right: 10px; font-size:15px;">Stage 1</span>
+		            <span class="label label-primary" style="padding: 3px; float: right; width: 100px; text-align: center; margin-left: 10px; font-size:15px;">+500</span>
+		            <div class="progress"  style="width:500px;" id="prgbar">
+		                <div class="progress-bar progress-bar-striped" style="background-color:#006400; width: {{ proportion[0] * 100 }}%; font-size:15px;"> {{ selections[0] }} </div>
+		                <div class="progress-bar progress-bar-striped" style="background-color:#3EA055; width: {{ proportion[1] * 100 }}%; font-size:15px;"> {{ selections[1] }} </div>
+		                <div class="progress-bar progress-bar-striped" style="background-color:#C0D890; width: {{ proportion[2] * 100 }}%; font-size:15px;"> {{ selections[2] }} </div>
+		                <div class="progress-bar progress-bar-striped" style="background-color:#ffa07a; width: {{ proportion[3] * 100 }}%; font-size:15px;"> {{ selections[3] }} </div>
+		                <div class="progress-bar progress-bar-striped" style="background-color:#ed4337; width: {{ proportion[4] * 100 }}%; font-size:15px;"> {{ selections[4] }} </div>
+		                <div class="progress-bar progress-bar-striped" style="background-color:#8B0000; width: {{ proportion[5] * 100 }}%; font-size:15px;"> {{ selections[5] }} </div>
+		            </div>
+		        </div> 
+		        <div style="width:800px; margin-top:10px;">
+					<div class="container" style="width:527px;padding:0px;border:0px" align="right"> <!-- +15px --> 
+						<div class="col-sm-2" style="width:302px;padding:0px;border:0px">
+							<span class="glyphicon glyphicon-arrow-down" style="margin:0px;font-size:25px"></span>
+						</div>
+						<div class="col-sm-2" style="width:225px;padding:0px;border:0px">
+						</div>
+					</div>
+		            <span class="badge" style="padding: 3px; float: left; width: 100px; text-align: center; margin-right: 10px; font-size:15px;">Stage 1</span>
+		            <span class="label label-danger" style="padding: 3px; float: right; width: 100px; text-align: center; margin-left: 10px; font-size:15px;">-700</span>
+		            <div class="progress"  style="width:500px;" id="prgbar">
+		                <div class="progress-bar progress-bar-success progress-bar-striped" style="width: 35%; font-size:15px;"> Test1 </div>
+		                <div class="progress-bar progress-bar-warning progress-bar-striped" style="width: 20%; font-size:15px;"> Test2 </div>
+		                <div class="progress-bar progress-bar-danger progress-bar-striped" style="width: 10%; font-size:15px;"> Test3 </div>
+		            </div>
+		        </div> 
+		        <div style="width:800px; margin-top:10px;">
+					<div class="container" style="width:527px;padding:0px;border:0px" align="right"> <!-- +15px --> 
+						<div class="col-sm-2" style="width:202px;padding:0px;border:0px">
+							<span class="glyphicon glyphicon-arrow-down" style="margin:0px;font-size:25px"></span>
+						</div>
+						<div class="col-sm-2" style="width:325px;padding:0px;border:0px">
+						</div>
+					</div>
+		            <span class="badge" style="padding: 3px; float: left; width: 100px; text-align: center; margin-right: 10px; font-size:15px;">Stage 1</span>
+		            <span class="label label-danger" style="padding: 3px; float: right; width: 100px; text-align: center; margin-left: 10px; font-size:15px;">-100</span>
+		            <div class="progress"  style="width:500px;" id="prgbar">
+		                <div class="progress-bar progress-bar-success progress-bar-striped" style="width: 35%; font-size:15px;"> Test1 </div>
+		                <div class="progress-bar progress-bar-warning progress-bar-striped" style="width: 20%; font-size:15px;"> Test2 </div>
+		                <div class="progress-bar progress-bar-danger progress-bar-striped" style="width: 10%; font-size:15px;"> Test3 </div>
+		            </div>
+		        </div> 
+		        <div style="width:800px; margin-top:10px;">
+					<div class="container" style="width:527px;padding:0px;border:0px" align="right"> <!-- +15px --> 
+						<div class="col-sm-2" style="width:67px;padding:0px;border:0px">
+							<span class="glyphicon glyphicon-arrow-down" style="margin:0px;font-size:25px"></span>
+						</div>
+						<div class="col-sm-2" style="width:460px;padding:0px;border:0px">
+						</div>
+					</div>
+		            <span class="badge" style="padding: 3px; float: left; width: 100px; text-align: center; margin-right: 10px; font-size:15px;">Stage 1</span>
+		            <span class="label label-primary" style="padding: 3px; float: right; width: 100px; text-align: center; margin-left: 10px; font-size:15px;">Score: 0</span>
+		            <div class="progress"  style="width:500px;" id="prgbar">
+		                <div class="progress-bar progress-bar-success progress-bar-striped" style="width: 8%; font-size:15px;"> Test1 </div>
+		                <div class="progress-bar progress-bar-warning progress-bar-striped" style="width: 20%; font-size:15px;"> Test2 </div>
+		                <div class="progress-bar progress-bar-danger progress-bar-striped" style="width: 10%; font-size:15px;"> Test3 </div>
+		            </div>
+		        </div> 
+		        <div style="width:800px; margin-top:10px;">
+					<div class="container" style="width:730px;padding:0px;border:0px" align="right">
+						<div class="col-sm-2" style="width:450px;padding:0px;border:0px">
+							<span class="glyphicon glyphicon-arrow-down" style="margin:0px;font-size:25px"></span>
+						</div>
+						<div class="col-sm-2" style="width:280px;padding:0px;border:0px">
+						</div>
+					</div>
+		            <span class="badge" style="padding: 3px; float: left; width: 100px; text-align: center; margin-right: 10px; font-size:15px;">Stage 1</span>
+		            <span class="label label-primary" style="padding: 3px; float: right; width: 100px; text-align: center; margin-left: 10px; font-size:15px;">Score: 0</span>
+		            <div class="progress"  style="width:500px;" id="prgbar">
+		                <div class="progress-bar progress-bar-success progress-bar-striped" style="width: 35%; font-size:15px;"> Test1 </div>
+		                <div class="progress-bar progress-bar-warning progress-bar-striped" style="width: 20%; font-size:15px;"> Test2 </div>
+		                <div class="progress-bar progress-bar-danger progress-bar-striped" style="width: 10%; font-size:15px;"> Test3 </div>
+		            </div>
+		        </div> 
+		        <div style="width:800px; margin-top:10px;">
+					<div class="container" style="width:730px;padding:0px;border:0px" align="right">
+						<div class="col-sm-2" style="width:450px;padding:0px;border:0px">
+							<span class="glyphicon glyphicon-arrow-down" style="margin:0px;font-size:25px"></span>
+						</div>
+						<div class="col-sm-2" style="width:280px;padding:0px;border:0px">
+						</div>
+					</div>
+		            <span class="badge" style="padding: 3px; float: left; width: 100px; text-align: center; margin-right: 10px; font-size:15px;">Stage 1</span>
+		            <span class="label label-primary" style="padding: 3px; float: right; width: 100px; text-align: center; margin-left: 10px; font-size:15px;">Score: 0</span>
+		            <div class="progress"  style="width:500px;" id="prgbar">
+		                <div class="progress-bar progress-bar-success progress-bar-striped" style="width: 35%; font-size:15px;"> Test1 </div>
+		                <div class="progress-bar progress-bar-warning progress-bar-striped" style="width: 20%; font-size:15px;"> Test2 </div>
+		                <div class="progress-bar progress-bar-danger progress-bar-striped" style="width: 10%; font-size:15px;"> Test3 </div>
+		            </div>
+		        </div> 
+		        <div style="width:800px; margin-top:10px;">
+					<div class="container" style="width:730px;padding:0px;border:0px" align="right">
+						<div class="col-sm-2" style="width:450px;padding:0px;border:0px">
+							<span class="glyphicon glyphicon-arrow-down" style="margin:0px;font-size:25px"></span>
+						</div>
+						<div class="col-sm-2" style="width:280px;padding:0px;border:0px">
+						</div>
+					</div>
+		            <span class="badge" style="padding: 3px; float: left; width: 100px; text-align: center; margin-right: 10px; font-size:15px;">Stage 1</span>
+		            <span class="label label-primary" style="padding: 3px; float: right; width: 100px; text-align: center; margin-left: 10px; font-size:15px;">Score: 0</span>
+		            <div class="progress"  style="width:500px;" id="prgbar">
+		                <div class="progress-bar progress-bar-success progress-bar-striped" style="width: 35%; font-size:15px;"> Test1 </div>
+		                <div class="progress-bar progress-bar-warning progress-bar-striped" style="width: 20%; font-size:15px;"> Test2 </div>
+		                <div class="progress-bar progress-bar-danger progress-bar-striped" style="width: 10%; font-size:15px;"> Test3 </div>
+		            </div>
+		        </div> 
+		        <div style="width:800px; margin-top:10px;">
+					<div class="container" style="width:730px;padding:0px;border:0px" align="right">
+						<div class="col-sm-2" style="width:450px;padding:0px;border:0px">
+							<span class="glyphicon glyphicon-arrow-down" style="margin:0px;font-size:25px"></span>
+						</div>
+						<div class="col-sm-2" style="width:280px;padding:0px;border:0px">
+						</div>
+					</div>
+		            <span class="badge" style="padding: 3px; float: left; width: 100px; text-align: center; margin-right: 10px; font-size:15px;">Stage 1</span>
+		            <span class="label label-primary" style="padding: 3px; float: right; width: 100px; text-align: center; margin-left: 10px; font-size:15px;">Score: 0</span>
+		            <div class="progress"  style="width:500px;" id="prgbar">
+		                <div class="progress-bar progress-bar-success progress-bar-striped" style="width: 35%; font-size:15px;"> Test1 </div>
+		                <div class="progress-bar progress-bar-warning progress-bar-striped" style="width: 20%; font-size:15px;"> Test2 </div>
+		                <div class="progress-bar progress-bar-danger progress-bar-striped" style="width: 10%; font-size:15px;"> Test3 </div>
+		            </div>
+		        </div> 
+		        <div style="width:800px; margin-top:10px;">
+					<div class="container" style="width:730px;padding:0px;border:0px" align="right">
+						<div class="col-sm-2" style="width:450px;padding:0px;border:0px">
+							<span class="glyphicon glyphicon-arrow-down" style="margin:0px;font-size:25px"></span>
+						</div>
+						<div class="col-sm-2" style="width:280px;padding:0px;border:0px">
+						</div>
+					</div>
+		            <span class="badge" style="padding: 3px; float: left; width: 100px; text-align: center; margin-right: 10px; font-size:15px;">Stage 1</span>
+		            <span class="label label-primary" style="padding: 3px; float: right; width: 100px; text-align: center; margin-left: 10px; font-size:15px;">Score: 0</span>
+		            <div class="progress"  style="width:500px;" id="prgbar">
+		                <div class="progress-bar progress-bar-success progress-bar-striped" style="width: 35%; font-size:15px;"> Test1 </div>
+		                <div class="progress-bar progress-bar-warning progress-bar-striped" style="width: 20%; font-size:15px;"> Test2 </div>
+		                <div class="progress-bar progress-bar-danger progress-bar-striped" style="width: 10%; font-size:15px;"> Test3 </div>
+		            </div>
+		        </div> 
+		        <div style="width:800px; margin-top:10px;">
+					<div class="container" style="width:730px;padding:0px;border:0px" align="right">
+						<div class="col-sm-2" style="width:450px;padding:0px;border:0px">
+							<span class="glyphicon glyphicon-arrow-down" style="margin:0px;font-size:25px"></span>
+						</div>
+						<div class="col-sm-2" style="width:280px;padding:0px;border:0px">
+						</div>
+					</div>
+		            <span class="badge" style="padding: 3px; float: left; width: 100px; text-align: center; margin-right: 10px; font-size:15px;">Stage 1</span>
+		            <span class="label label-primary" style="padding: 3px; float: right; width: 100px; text-align: center; margin-left: 10px; font-size:15px;">Score: 0</span>
+		            <div class="progress"  style="width:500px;" id="prgbar">
+		                <div class="progress-bar progress-bar-success progress-bar-striped" style="width: 35%; font-size:15px;"> Test1 </div>
+		                <div class="progress-bar progress-bar-warning progress-bar-striped" style="width: 20%; font-size:15px;"> Test2 </div>
+		                <div class="progress-bar progress-bar-danger progress-bar-striped" style="width: 10%; font-size:15px;"> Test3 </div>
+		            </div>
+		        </div> 
+		        <!-- 
+				<div class="col-sm-2" style="width:800px;padding:0px;border:0px">
+					<div class="container" style="width:745px;padding:0px;border:0px" align="right">
+						<div class="col-sm-2" style="width:465px;padding:0px;border:0px">
+							<h4>You</h4>
+						</div>
+						<div class="col-sm-2" style="width:280px;padding:0px;border:0px">
+						</div>
+					</div>
+					<div class="container" style="width:730px;padding:0px;border:0px" align="right">
+						<div class="col-sm-2" style="width:450px;padding:0px;border:0px">
+							<span class="glyphicon glyphicon-arrow-down" style="margin:0px;font-size:25px"></span>
+						</div>
+						<div class="col-sm-2" style="width:280px;padding:0px;border:0px">
+						</div>
+					</div>
+					<div class="progress" style="width:700px">
+					  	<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 35%">
+					    	<span class="sr-only">35% Complete (success)</span>
+					  	</div>
+					  	<div class="progress-bar progress-bar-warning progress-bar-striped" style="width: 20%">
+					    	<span class="sr-only">20% Complete (warning)</span>
+					  	</div>
+					  	<div class="progress-bar progress-bar-danger progress-bar-striped" style="width: 10%">
+					    	<span class="sr-only">10% Complete (danger)</span>
+					  	</div>
 					</div>
 				</div>
-				<div class="container" style="width:730px;padding:0px;border:0px" align="right">
-					<div class="col-sm-2" style="width:450px;padding:0px;border:0px">
-						<span class="glyphicon glyphicon-arrow-down" style="margin:0px;font-size:25px"></span>
-					</div>
-					<div class="col-sm-2" style="width:280px;padding:0px;border:0px">
-					</div>
-				</div>
-				<div class="progress" style="width:700px">
-				  	<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 35%">
-				    	<span class="sr-only">35% Complete (success)</span>
-				  	</div>
-				  	<div class="progress-bar progress-bar-warning progress-bar-striped" style="width: 20%">
-				    	<span class="sr-only">20% Complete (warning)</span>
-				  	</div>
-				  	<div class="progress-bar progress-bar-danger progress-bar-striped" style="width: 10%">
-				    	<span class="sr-only">10% Complete (danger)</span>
-				  	</div>
-				</div>
+				-->
+			</div>
 			</center>
+
 			<!-- Code for stacked bar ends -->
 		</div>
 		<!-- Code for main screen ends -->

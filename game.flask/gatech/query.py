@@ -56,7 +56,7 @@ def upload_files(orgpath, degpath, sblpath):
 		for result in db_session.query(Image).filter_by(filename=orgImageFileName):
 			orgImageId = result.image_id
 			break
-		d = DegradedImage(imageFilename, imagedata, error, 0, 0, orgImageId)
+		d = DegradedImage(imageFilename, imagedata, error, 0, 0, 0, 0, 0, 0, 0, orgImageId)
 		db_session.add(d)
 		db_session.commit()
 

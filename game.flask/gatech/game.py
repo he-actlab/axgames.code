@@ -87,9 +87,7 @@ def game():
 		action = action.split('.')[0]
 		msg = action # for debug
 		os.system('echo ' + msg)
-		if action == 'start':
-			init_session()
-			session['filepaths'] = draw_image_files()
+		if action == 'startbet':
 			filename = ((session['filepaths'])[2]).split('/')[1]
 			session['degimageid'] = get_image_id(filename)
 		elif session['expired'] == True:
@@ -137,7 +135,12 @@ def game():
 						winlose = 'Lose'
 					session['score'].append(score)
 					session['lock'] = True
-					# TODO return render_template('result.html', ... )
+					msg = str(score)
+					return render_template('result.html', \
+											stage=session['stage'], \
+											score=session['score'], \
+											selections=['SA','WR','NA','NR','WA','SR'], \
+											proportion=[0.2,0.3,0.1,0.2,0.05,0.15])
 			elif action == 'clear':
 				session['betmoney'] = 0
 			elif action == '5d':
