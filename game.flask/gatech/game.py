@@ -17,6 +17,15 @@ import os, random, uuid
 import psycopg2
 import urlparse
 
+from enum import Enum
+class Color(Enum):
+	saColor = "#006400"
+	naColor = "#3EA055" 
+	waColor = "#C0D890"
+	wrColor = "#ffa07a"
+	nrColor = "#ed4337"
+	srColor = "#8B0000"
+
 app = Flask(__name__)
 
 SESSION_TYPE = 'filesystem'
@@ -37,6 +46,11 @@ def initialize():
 	session['stage'] = 1
 	session['betmoney'] = 0
 	session['score'] = []
+	session['options'] = []
+	session['proportion'] = []
+	session['decision_location'] = []
+	session['color'] = []
+	session['bankroll_history'] = []
 	session['lock'] = False
 	session['filepaths'] = []
 	session['degimageid'] = -1
@@ -62,7 +76,7 @@ def original():
 		session['degimageid'] = get_image_id(filename)
 
 	return render_template('original.html', \
-						bankroll=session['bankroll'] - session['betmoney'], \
+						bankroll=session['bankroll'], \
 						bet=session['bet'] + session['betmoney'], \
 						win=session['win'], \
 						stage=session['stage'], \
@@ -73,6 +87,20 @@ def original():
 						filePaths=session['filepaths'], \
 						msg=str(msg), \
 						username=session['username'])
+
+def getColor(decision):
+	if decision == "SA":
+		return Color.saColor
+	elif decision == "NA":
+		return Color.naColor
+	elif decision == "WA":
+		return Color.waColor
+	elif decision == "WR":
+		return Color.wrColor
+	elif decision == "NR":
+		return Color.nrColor
+	elif decision == "SR":
+		return Color.srColor
 
 @app.route("/game", methods = ['POST', 'GET'])
 def game():
@@ -92,16 +120,36 @@ def game():
 			session['degimageid'] = get_image_id(filename)
 		elif session['expired'] == True:
 			decision = "finish"
-		elif session['lock'] == True:
-			if action == 'continue':
-				session['stage'] += 1
-				session['bankroll'] += session['score'][len(session['score']) - 1]
-				session['betmoney'] = 0
-				session['lock'] = False
+		elif action == 'continue':
+			os.system('echo continue')
+			session['stage'] += 1
+			session['bankroll'] += session['score'][len(session['score']) - 1]
+			session['betmoney'] = 0
+			session['lock'] = False
+			session['filepaths'] = draw_image_files()
+			filename = ((session['filepaths'])[2]).split('/')[1]
+			session['degimageid'] = get_image_id(filename)
+			return render_template('original.html', \
+									bankroll=session['bankroll'], \
+									bet=session['bet'] + session['betmoney'], \
+									win=session['win'], \
+									stage=session['stage'], \
+									decision=decision, \
+									winlose=winlose, \
+									score=session['score'], \
+									final=final, \
+									filePaths=session['filepaths'], \
+									msg=str(msg), \
+									username=session['username'])
+		elif action == 'finish':
+			return render_template('index.html')
+		elif action == 'initialize':
+				initialize()
 				session['filepaths'] = draw_image_files()
 				filename = ((session['filepaths'])[2]).split('/')[1]
 				session['degimageid'] = get_image_id(filename)
-			elif action == 'final':
+		elif session['lock'] == True:
+			if action == 'final':
 				finalNum = final_score(session['score'])
 				decision = "final"
 				final = str(finalNum)
@@ -110,37 +158,39 @@ def game():
 				else:
 					winlose = 'Lose'
 				session['lock'] = True	
-			elif action == 'initialize':
-				session['win'] += calculate_reward(final_score(session['score']))
-				initialize()
-				session['filepaths'] = draw_image_files()
-				filename = ((session['filepaths'])[2]).split('/')[1]
-				session['degimageid'] = get_image_id(filename)
-				session['lock'] = False
-			elif action == 'finish':
-				session['win'] += calculate_reward(final_score(session['score']))
-				decision = "finish"
-				session['expired'] = True
 			else:
 				decision = 'pending'
 		else:
-			if action == 'saccept' or action == 'naccept' or action == 'waccept' or action == 'wreject' or action == 'nreject' or action == 'sreject':
+			if action == 'SA' or action == 'NA' or action == 'WA' or action == 'WR' or action == 'NR' or action == 'SR':
 				if session['betmoney'] == 0:
 					decision = 'nobet'
 				else:
-					score = scoring(action, session['betmoney'], session['degimageid'])
+					score, options, proportion, decision_location = scoring(action, session['betmoney'], session['degimageid'])
 					if score > 0.0:
 						winlose = 'Win'
 					else:
 						winlose = 'Lose'
-					session['score'].append(score)
+					session['score'].append(int(score))
+					bankroll = session['bankroll'] + int(score)
+					session['bankroll_history'].append(bankroll)
+					session['options'].append(options)
+					session['proportion'].append(proportion)
+					session['decision_location'].append(decision_location)
+					color = []
+					for option in options:
+						color.append(getColor(option))
+					session['color'].append(color)
 					session['lock'] = True
-					msg = str(score)
+					
 					return render_template('result.html', \
-											stage=session['stage'], \
+											stage=range(1,session['stage'] + 1), \
 											score=session['score'], \
-											selections=['SA','WR','NA','NR','WA','SR'], \
-											proportion=[0.2,0.3,0.1,0.2,0.05,0.15])
+											options=session['options'], \
+											proportion=session['proportion'], \
+											decision_location=session['decision_location'], \
+											color=session['color'], \
+											bankroll_history=session['bankroll_history'])
+
 			elif action == 'clear':
 				session['betmoney'] = 0
 			elif action == '5d':

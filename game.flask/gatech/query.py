@@ -33,11 +33,10 @@ def upload_files(orgpath, degpath, sblpath):
 			sblImagedata = f.read()
 		f.close()
 
-		i = Image(imageFilename, imagedata, sblImagedata, 0)
+		#i = Image(imageFilename, imagedata, sblImagedata, 6)
+		i = Image(imageFilename, imagedata, sblImagedata, 36)
 		db_session.add(i)
 		db_session.commit()
-		# i2 = Image.query.get(1)
-		# i2 = db_session.query(Image).get(1)
 
 	# approximately sobel-filtered image file directory
 	imageList = os.popen('ls ' + degpath).readlines()
@@ -56,7 +55,8 @@ def upload_files(orgpath, degpath, sblpath):
 		for result in db_session.query(Image).filter_by(filename=orgImageFileName):
 			orgImageId = result.image_id
 			break
-		d = DegradedImage(imageFilename, imagedata, error, 0, 0, 0, 0, 0, 0, 0, orgImageId)
+		#d = DegradedImage(imageFilename, imagedata, error, 6, 1, 1, 1, 1, 1, 1, orgImageId)
+		d = DegradedImage(imageFilename, imagedata, error, 36, 1, 11, 5, 3, 9, 7, orgImageId)
 		db_session.add(d)
 		db_session.commit()
 
@@ -76,14 +76,12 @@ def draw_image_files():
 		drawnImageFilename = result.filename
 		drawnImageData = result.image_file
 		drawnSblImageData = result.sbl_image_file
-		numPlayed = result.num_played + 1
-		db_session.query(Image).filter(Image.image_id == orgImageId).\
-		 						update({"num_played": numPlayed})		
-		db_session.commit()
 		break
+
 	with open('gatech/static/img/' + drawnImageFilename, 'wb') as f1:
 		f1.write(drawnImageData)
 	f1.close()
+
 	drawnSblImageFilename = drawnImageFilename.split('.png')[0] + '-sobel.png'
 	with open('gatech/static/img/' + drawnSblImageFilename, 'wb') as f2:
 		f2.write(drawnSblImageData)
@@ -97,10 +95,6 @@ def draw_image_files():
 		degImageId = degresult.deg_image_id
 		drawnImageFilename = degresult.filename
 		drawnImageData = degresult.image_file
-		numPlayed = degresult.num_played + 1
-		db_session.query(DegradedImage).filter(DegradedImage.deg_image_id == degImageId).\
-		 						update({"num_played": numPlayed})		
-		db_session.commit()
 		break
 	with open('gatech/static/img/' + drawnImageFilename, 'wb') as f2:
 		f2.write(drawnImageData)
@@ -123,20 +117,65 @@ def get_num_played(degImageId):
 		break
 	return numPlayed
 
-def get_num_accepted(degImageId):
+def get_num_decision(degImageId, decision):
 	for result in db_session.query(DegradedImage).filter_by(deg_image_id=degImageId):
-		numAccepted = result.num_accepted
+		if decision == "SA":
+			record = result.num_saccept
+		elif decision == "NA":
+			record = result.num_naccept
+		elif decision == "WA":
+			record = result.num_waccept
+		elif decision == "WR":
+			record = result.num_wreject
+		elif decision == "NR":
+			record = result.num_nreject
+		elif decision == "SR":
+			record = result.num_sreject
 		break
-	return numAccepted
+	return record
 
-def update_record(degImageId):
+def update_record(degImageId, decision):
 	for result in db_session.query(DegradedImage).filter_by(deg_image_id=degImageId):
-		numAccepted = result.num_accepted + 1
-		db_session.query(DegradedImage).filter(DegradedImage.deg_image_id == degImageId).\
-		 								update({"num_accepted": numAccepted})		
+		if decision == "SA":
+			newNum = result.num_saccept + 1
+			db_session.query(DegradedImage).filter(DegradedImage.deg_image_id == degImageId).\
+		 								update({"num_saccept": newNum})
+		elif decision == "NA":
+			newNum = result.num_naccept + 1
+			db_session.query(DegradedImage).filter(DegradedImage.deg_image_id == degImageId).\
+		 								update({"num_naccept": newNum})
+		elif decision == "WA":
+			newNum = result.num_waccept + 1
+			db_session.query(DegradedImage).filter(DegradedImage.deg_image_id == degImageId).\
+		 								update({"num_waccept": newNum})
+		elif decision == "WR":
+			newNum = result.num_wreject + 1
+			db_session.query(DegradedImage).filter(DegradedImage.deg_image_id == degImageId).\
+		 								update({"num_wreject": newNum})
+		elif decision == "NR":
+			newNum = result.num_nreject + 1
+			db_session.query(DegradedImage).filter(DegradedImage.deg_image_id == degImageId).\
+		 								update({"num_nreject": newNum})
+		elif decision == "SR":
+			newNum = result.num_sreject + 1
+			db_session.query(DegradedImage).filter(DegradedImage.deg_image_id == degImageId).\
+		 								update({"num_sreject": newNum})
 		db_session.commit()
-		break
+
+		# update num_played for degImage 
+		numPlayed = result.num_played + 1
+		db_session.query(DegradedImage).filter(DegradedImage.deg_image_id == degImageId).\
+		 								update({"num_played": numPlayed})		
+		db_session.commit()
+
+		# update num_played for image 
+		for newresult in db_session.query(Image).filter_by(image_id=result.org_image_id):
+			numPlayed = newresult.num_played + 1
+			os.system('echo ' + str(numPlayed))
+			db_session.query(Image).filter(Image.image_id == newresult.image_id).\
+			 								update({"num_played": numPlayed})		
+			db_session.commit()
+			break
+		
 	
-
-
 

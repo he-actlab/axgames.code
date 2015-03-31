@@ -1,42 +1,51 @@
 import os, sys
 import random 
 
-from query import get_num_played, get_num_accepted, update_record
+from query import get_num_played, get_num_decision, update_record
 
 # todo: we need a real scoring algorithm
 # update_todo: we need to incorporate the six level answers from strong accept to strong reject
 def scoring(decision, betmoney, degImageId):
 
-	# winlose = True
+	os.system('echo degImageId=' + str(degImageId))
+	nPlayed = get_num_played (degImageId)
+	os.system('echo nPlayed=' + str(nPlayed))
+	nSaccept = get_num_decision (degImageId, "SA")
+	nNaccept = get_num_decision (degImageId, "NA")
+	nWaccept = get_num_decision (degImageId, "WA")
+	nWreject = get_num_decision (degImageId, "WR")
+	nNreject = get_num_decision (degImageId, "NR")
+	nSreject = get_num_decision (degImageId, "SR")
+	
+	records = [("SA", nSaccept), ("NA", nNaccept), ("WA", nWaccept), ("WR", nWreject), ("NR", nNreject), ("SR", nSreject)]
+	os.system('echo records=' + str(records))
+	sortedRecords = sorted(records, key=lambda x: x[1])
+	lsum = 0
+	for i in range(0, len(sortedRecords)):
+		if sortedRecords[i][0] == decision:
+			sortedRecords[i] = (decision, sortedRecords[i][1] + 1)
+			#sortedRecords[i][1] = sortedRecords[i][1] + 1 # add the current decision
+			for j in range(0, i+1):
+				lsum += sortedRecords[j][1]
+	percentage = float(lsum) / float(nPlayed + 1)
+	decision_location = percentage
+	os.system('echo decision_location=' + str(decision_location))
+	percentage -= 0.5
+	os.system('echo percentage=' + str(percentage))
+	score = betmoney * percentage
+	os.system('echo score=' + str(score))
+	
+	options = []
+	proportion = []
+	for record in sortedRecords:
+		options.append(record[0])
+		proportion.append(float(record[1])/float(nPlayed + 1))
+	os.system('echo options=' + str(options))
+	os.system('echo proportion=' + str(proportion))
 
-	# numPlayed = get_num_played (degImageId)
-	# numAccepted = get_num_accepted (degImageId)
-
-	# if float(numPlayed) - 1 > 0:
-	# 	if float(numAccepted) / (float(numPlayed) - 1) > 0.5: # accept
-	# 		if decision == 'accept':
-	# 			winlose = True
-	# 		else:
-	# 			winlose = False
-	# 	else: # reject
-	# 		if decision == 'accept':
-	# 			winlose = False
-	# 		else:
-	# 			winlose = True
-	# else: # if this is the first time to be evaluated, just give the victory to the player
-	# 	winlose = True
-
-	# if winlose == True:
-	# 	ret = betmoney
-	# else:
-	# 	ret = -betmoney
-
-	# if decision == 'accept':
-	# 	update_record (degImageId)
-
-	# return ret
-
-	return 1
+	update_record (degImageId, decision)
+	
+	return score, options, proportion, decision_location
 
 def final_score(list):
 	sum = 0
