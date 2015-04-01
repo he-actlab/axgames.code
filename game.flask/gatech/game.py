@@ -51,7 +51,6 @@ def initialize():
 	session['decision_location'] = []
 	session['color'] = []
 	session['bankroll_history'] = []
-	session['lock'] = False
 	session['filepaths'] = []
 	session['degimageid'] = -1
 	session['expired'] = False
@@ -125,7 +124,6 @@ def game():
 			session['stage'] += 1
 			session['bankroll'] += session['score'][len(session['score']) - 1]
 			session['betmoney'] = 0
-			session['lock'] = False
 			session['filepaths'] = draw_image_files()
 			filename = ((session['filepaths'])[2]).split('/')[1]
 			session['degimageid'] = get_image_id(filename)
@@ -148,18 +146,6 @@ def game():
 				session['filepaths'] = draw_image_files()
 				filename = ((session['filepaths'])[2]).split('/')[1]
 				session['degimageid'] = get_image_id(filename)
-		elif session['lock'] == True:
-			if action == 'final':
-				finalNum = final_score(session['score'])
-				decision = "final"
-				final = str(finalNum)
-				if final > 0:
-					winlose = 'Win'
-				else:
-					winlose = 'Lose'
-				session['lock'] = True	
-			else:
-				decision = 'pending'
 		else:
 			if action == 'SA' or action == 'NA' or action == 'WA' or action == 'WR' or action == 'NR' or action == 'SR':
 				if session['betmoney'] == 0:
@@ -180,7 +166,6 @@ def game():
 					for option in options:
 						color.append(getColor(option))
 					session['color'].append(color)
-					session['lock'] = True
 					
 					return render_template('result.html', \
 											stage=range(1,session['stage'] + 1), \
