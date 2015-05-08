@@ -16,6 +16,7 @@ def rgb2png(img, file):
     pngWriter = png.Writer(img[0], img[1])
     pngWriter.write(f, img[2])
     f.close()
+    print "Done conversion"
 pass
 
 def rgb2gray(img):

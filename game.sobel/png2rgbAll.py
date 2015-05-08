@@ -21,3 +21,4 @@ fileList = os.popen('ls ' + inDir).readlines()
 for f in fileList:
 	outFilename = f.strip('\n').split('.rgb')[0] + '.png'
 	os.system('./png2rgb.py ' + command + ' ' + inDir + '/' + f.strip('\n') + ' ' + outDir + '/' + outFilename + ' > /dev/null')
+	print "Conversion done: " + f
