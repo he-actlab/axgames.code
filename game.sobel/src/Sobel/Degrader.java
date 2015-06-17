@@ -110,34 +110,4 @@ public class Degrader {
 			}
 		}
 	}
-	
-//	public double getNRMSE (int[][][] orgImage, int[][][] newImage){
-//		int diff;
-//		long sum = 0 ;
-//		for (int i=0; i<height; i++){
-//			for(int j=0; j<width; j++){
-//				diff = Math.abs(newImage[i][j][0] - orgImage[i][j][0]);
-//				sum += diff * diff;
-//			}
-//		}
-//		double rmse = Math.sqrt(sum / (height * width));
-//		double nrmse = rmse / 255.0;
-//		
-//		return nrmse;
-//	}
-//	
-//	public double getPSNR (int[][][] orgImage, int[][][] newImage) {
-//		int diff;
-//		long sum = 0 ;
-//		for (int i=0; i<height; i++){
-//			for(int j=0; j<width; j++){
-//				diff = Math.abs(newImage[i][j][0] - orgImage[i][j][0]);
-//				sum += diff * diff;
-//			}
-//		}
-//		double mse = sum / (height * width);
-//		double psnr = 10 * Math.log10(255.0 * 255.0 / mse); 
-//		
-//		return psnr;
-//	}
 }
