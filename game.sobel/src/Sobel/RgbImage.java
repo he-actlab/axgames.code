@@ -1,6 +1,8 @@
 package Sobel;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Vector;
 
 public class RgbImage {
 	public int width;
@@ -171,7 +173,8 @@ public class RgbImage {
 		ImageSaver imageSaver = new ImageSaver (rgbImage.width, rgbImage.height, rgbImage.mode, rgbImage.inputFilePath, rgbImage.outDirPath);
 		imageSaver.save("-sobel.rgb", rgbImage.outputImage);
 		
-		Degrader degrader = new Degrader (rgbImage.width, rgbImage.height, rgbImage.outputImage, rgbImage.mode);
-		degrader.degrade(imageSaver);
+		Degrader degrader = new Degrader (rgbImage.width, rgbImage.height, rgbImage.outputImage, rgbImage.mode, 0.01);
+		double[] errors = {0.01, 0.03, 0.05, 0.1, 0.2, 0.3, 0.5};
+		degrader.degrade(errors, imageSaver);
 	}
 }
