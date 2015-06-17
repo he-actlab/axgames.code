@@ -1,3 +1,6 @@
 /bin
 output/
 pngOutput/
+rgbOutput/
+*.class
+*.jar
