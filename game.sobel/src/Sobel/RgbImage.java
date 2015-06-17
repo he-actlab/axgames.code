@@ -1,11 +1,6 @@
 package Sobel;
 
 import java.io.IOException;
-import java.util.Random;
-import java.util.StringTokenizer;
-
-import Sobel.TextFile.Mode;
-
 
 public class RgbImage {
 	public int width;
@@ -174,11 +169,9 @@ public class RgbImage {
 		}
 		
 		ImageSaver imageSaver = new ImageSaver (rgbImage.width, rgbImage.height, rgbImage.mode, rgbImage.inputFilePath, rgbImage.outDirPath);
-		System.out.println("rgbImage.width: " + rgbImage.width);
-		Degrader degrader = new Degrader (rgbImage.width, rgbImage.height, rgbImage.outputImage, rgbImage.mode);
-		
-		degrader.degrade(imageSaver);
-		
 		imageSaver.save("-sobel.rgb", rgbImage.outputImage);
+		
+		Degrader degrader = new Degrader (rgbImage.width, rgbImage.height, rgbImage.outputImage, rgbImage.mode);
+		degrader.degrade(imageSaver);
 	}
 }
