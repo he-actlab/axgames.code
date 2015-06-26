@@ -3,4 +3,4 @@ venv
 test
 flask_session/
 .idea/
-*.rdbt
+*.rdb
