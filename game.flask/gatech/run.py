@@ -20,6 +20,7 @@ elif sysname == 'Darwin':
 
 	logname = os.popen('date +%H%M%S_%m%d%Y').read().strip('\n') + '.log'
 
+	print('foreman start 2>> ' + logname + ' >> ' + logname + ' &')
 	os.system('foreman start 2>> ' + logname + ' >> ' + logname + ' &')
 
 else:

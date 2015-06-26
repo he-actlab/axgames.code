@@ -4,3 +4,4 @@ test
 flask_session/
 .idea/
 *.rdb
+*.log
