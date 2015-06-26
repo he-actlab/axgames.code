@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Consensus</title>
+    <link rel="icon" href="https://research.cc.gatech.edu/act-lab/sites/edu.act-lab/files/ACT-logo-scaled_1.png"
+          type="image/png">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+    <!-- My stylesheet -->
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="navbar-brand" >
+                <img alt="Brand" style="height: 30px; width: 30px; display: inline; padding-right: 5px"
+                     src="https://research.cc.gatech.edu/act-lab/sites/edu.act-lab/files/ACT-logo-scaled_1.png">Consensus
+                - Acceptable
+            </div>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <form action='/logout' class="navbar-form navbar-left">
+                <input id="logoutbutton" type="submit" name="logout" value="Logout" class="btn btn-default"
+                       data-toggle="tooltip" data-placement="bottom" style=" font-size:100%"></input>
+            </form>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+<div class="carousel-inner" role="listbox">
+
+    <!-- Code for main screen -->
+    <div class="item active">
+
+        <!-- Code for images -->
+        <div class="three-images">
+            <div class="container">
+                <!-- <h1 class="text-center">Is this Quality Acceptable?</h1> -->
+                <br>
+
+                <h1 class="text-center">Level {{ stage }}</h1>
+                <br><br>
+
+                <!-- CODE FOR THUMBNAILS WITH CAPTION -->
+                <div class="col-md-12" id="level-aux">
+                    <div class="col-md-6">
+                        <div class="thumbnail" style="width:500px">
+                            <img src="{{ gamedata_home_url + filePaths[1] }}" class="thumb" style="width:400px">
+
+                            <div class="caption">
+                                <p class="text-center">
+                                <center><h3>Original Output</h3></center>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="thumbnail" style="width:500px">
+                            <img src="{{ gamedata_home_url + filePaths[2] }}" class="thumb" style="width:400px">
+
+                            <div class="caption">
+                                <p class="text-center">
+                                <center><h3>Approximate Output</h3></center>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- CODE FOR THUMBNAILS WITH CAPTION ENDS -->
+            </div>
+        </div>
+        <!-- Code for images ends -->
+
+        <!-- CODE FOR BETTING CHIPS -->
+        <div class="chips" id="level-chips">
+            <div class="container" style="width:700px">
+                <h3 class="text-center">How much do you want to bet?</h3>
+
+                <form action='/acceptable' method="post" target="_self">
+                    <div class="col-sm-2">
+                        <center><input type="image" name="5d" src="{{ url_for('static',filename='img/chips/5.png') }}"
+                                       height="80" size="80"></input></center>
+                    </div>
+                    <div class="col-sm-2">
+                        <center><input type="image" name="25d" src="{{ url_for('static',filename='img/chips/25.png') }}"
+                                       height="80" size="80"></input></center>
+                    </div>
+                    <div class="col-sm-2">
+                        <center><input type="image" name="100d"
+                                       src="{{ url_for('static',filename='img/chips/100.png') }}" height="80"
+                                       size="80"></input></center>
+                    </div>
+                    <div class="col-sm-2">
+                        <center><input type="image" name="500d"
+                                       src="{{ url_for('static',filename='img/chips/500.png') }}" height="80"
+                                       size="80"></input></center>
+                    </div>
+                    <div class="col-sm-2">
+                        <center><input type="image" name="1000d"
+                                       src="{{ url_for('static',filename='img/chips/1000.png') }}" height="80"
+                                       size="80"></input></center>
+                    </div>
+                    <div class="col-sm-2">
+                        <center><input type="image" name="5000d"
+                                       src="{{ url_for('static',filename='img/chips/5000.png') }}" height="80"
+                                       size="80"></input></center>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- CODE FOR BETTING CHIPS ENDS-->
+
+        <!-- CODE FOR DISPLAYING BETTING MONEY -->
+        <div class="betting-money" id="level-betting-money">
+            <div class="container">
+                <div class="col-sm-3">
+                </div>
+                <div class="col-sm-3">
+                    <center>
+                        <h3>
+                            <div style="height:30px">Bet:</div>
+                            <textarea rows="1" cols="8" style="background-color:#fcf5d8;height:30px;text-align:right;">${{ bet }}</textarea>
+                        </h3>
+                    </center>
+                </div>
+                <div class="col-sm-3">
+                    <center>
+                        <h3>
+                            <div style="height:30px">Bankroll:</div>
+                            <textarea rows="1" cols="8" style="background-color:#fcf5d8;height:30px;text-align:right;">${{ bankroll }}</textarea>
+                        </h3>
+                    </center>
+                </div>
+                <div class="col-sm-3">
+                </div>
+            </div>
+        </div>
+        <!-- CODE FOR DISPLAYING BETTING MONEY ENDS-->
+
+        <!-- CODE FOR FOUR BUTTONS -->
+        <div class="three-buttons" id="level-six-buttons">
+            <div class="container">
+                <br>
+
+                <form action='/acceptable' method="post" target="_self">
+                    <div class="col-sm-3">
+                        <center><input type="submit" name="SD" value="Strongly Disagree" class="btn"
+                                       data-toggle="tooltip" data-placement="bottom"
+                                       style="background-color:#8B0000;color:white"></input></center>
+                    </div>
+                    <div class="col-sm-3">
+                        <center><input type="submit" name="WD" value="Weakly Disagree" class="btn" data-toggle="tooltip"
+                                       data-placement="bottom" style="background-color:#ffa07a;color:white"></input>
+                        </center>
+                    </div>
+                    <div class="col-sm-3">
+                        <center><input type="submit" name="WA" value="Weakly Agree" class="btn" data-toggle="tooltip"
+                                       data-placement="bottom" style="background-color:#C0D890;color:white"></input>
+                        </center>
+                    </div>
+                    <div class="col-sm-3">
+                        <center><input type="submit" name="SA" value="Strongly Agree" class="btn" data-toggle="tooltip"
+                                       data-placement="bottom" style="background-color:#006400;color:white"></input>
+                        </center>
+                    </div>
+                    <br><br><br>
+
+                    <div class="col-md-12">
+                        <center><input type="submit" name="clear" value="Clear bet" class="btn btn-primary"
+                                       data-toggle="tooltip" data-placement="bottom"></input></center>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- CODE FOR SIX BUTTONS ENDS-->
+
+    </div>
+    <!-- Code for main screen ends -->
+</div>
+
+<!--
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+<div id="wrap">
+    <div class="im">
+        <center>
+            <h1>Is This Quality Acceptable?</h1>
+            <h2 style="font-size:40px;">Stage {{ stage }}</h2>
+            <img src="{{ url_for('static',filename=filePaths[0]) }}" style='width: 260px; max-height: 260px;' hspace="20">
+            <img src="{{ url_for('static',filename=filePaths[1]) }}" style='width: 260px; max-height: 260px; margin=auto' hspace="20">
+            <img src="{{ url_for('static',filename=filePaths[2]) }}" style='width: 260px; max-height: 260px; margin=auto' hspace="20">
+            <br><br>
+            <form method="post" target="_self">
+                <input type="image" name="5d" src="{{ url_for('static',filename='img/chips/5.png') }}" height="80" size="80"></input>
+                <input type="image" name="25d" src="{{ url_for('static',filename='img/chips/25.png') }}" height="80" size="80"></input>
+                <input type="image" name="100d" src="{{ url_for('static',filename='img/chips/100.png') }}" height="80" size="80"></input>
+                <input type="image" name="500d" src="{{ url_for('static',filename='img/chips/500.png') }}" height="80" size="80"></input>
+                <input type="image" name="1000d" src="{{ url_for('static',filename='img/chips/1000.png') }}" height="80" size="80"></input>
+                <input type="image" name="5000d" src="{{ url_for('static',filename='img/chips/5000.png') }}" height="80" size="80"></input>
+            </form>
+            {% if decision != 'finish' %}
+                <h2>Bet: {{ bet }}</h2>
+                <form method="post" target="_self">
+                    {% if decision == 'accept' or decision == 'reject' or decision == 'pending' %}
+                        {% if stage != 10 %}
+                            <input type="submit" name="continue" value="Next Stage" style="background-color:lightblue;font-size:22px;padding:10px"></input>
+                        {% else %}
+                            <input type="submit" name="final" value="Final Score" style="background-color:red;font-size:22px;padding:10px"></input>
+                        {% endif %}
+                    {% elif decision == 'final' %}
+                        <input type="submit" name="finish" value="Finish Game" style="background-color:lightseagreen;font-size:22px;padding:10px"></input>
+                        <input type="submit" name="initialize" value="Restart" style="background-color:lightblue;font-size:22px;padding:10px"></input>
+                    {% else %}
+                          <input type="submit" name="accept" value="Accept" style="background-color:lightgreen;font-size:22px;padding:10px"></input>&nbsp;&nbsp;&nbsp;&nbsp;
+                          <input type="submit" name="reject" value="Reject" style="background-color:Crimson;font-size:22px;padding:10px"></input>
+                          {% if bet != 0 %}
+                            &nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="clear" value="Clear Bet" style="background-color:Gray;font-size:22px;padding:10px"></input>
+                        {% endif %}
+                    {% endif %}
+                </form>
+                <h2>Bankroll: {{ bankroll }}</h2>
+                <h2>Win: {{ win }}</h2>
+            {% endif %}
+            {% if decision %}
+                {% if decision == 'pending' %}
+                    <h1 style="font-size:40px;">Push Next Stage Button!</h1>
+                {% elif decision == 'nobet' %}
+                    <h1 style="font-size:40px;">No betting money!</h1>
+                {% elif decision == 'final' %}
+                    <h1 style="font-size:40px;">Final {{ winlose }}: {{ final }}</h1>
+                {% elif decision == 'finish' %}
+                    <h1 style="font-size:40px;">Total Reward: {{ win }}</h1>
+                {% else %}
+                    <h1 style="font-size:40px;">{{ winlose }}: {{ score[score|length - 1] }}</h1>
+                {% endif %}
+            {% else %}
+                <h1 style="font-size:40px;">   </h1>
+            {% endif %}
+            <h2>DebugMsg: {{ msg }}</h2>
+            <h2>Username: {{ username }}</h2>
+        </center>
+
+    </div>
+</div>
+-->
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

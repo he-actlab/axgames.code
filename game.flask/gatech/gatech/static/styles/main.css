@@ -1,0 +1,20 @@
+.chips img {
+	width: 150px;
+}
+
+.chips img:hover {
+	width: 150px;
+	box-shadow: 0 0 10px #ccc;
+}
+
+#accept {
+	width: 200px;
+}
+
+#reject {
+	width: 200px;
+}
+
+#clear {
+	width: 200px;
+}

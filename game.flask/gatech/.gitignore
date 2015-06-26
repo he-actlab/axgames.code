@@ -1,0 +1,5 @@
+venv
+*.pyc
+test
+flask_session/
+.idea/
