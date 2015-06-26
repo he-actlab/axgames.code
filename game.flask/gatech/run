@@ -1,3 +1,0 @@
-sudo service redis-server restart
-sudo /etc/init.d/nginx restart
-gunicorn gatech:app --log-file=-
