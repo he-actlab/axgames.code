@@ -112,6 +112,9 @@ def login():
 			elif action == "gohome":
 				state = State.gohome
 				break
+			elif action == "back":
+				state = State.gohome
+				break
 
 		os.system('echo ' + str(action))
 		if state == State.login:
