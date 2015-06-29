@@ -66,6 +66,7 @@ def upload_files():
 	imageList = open(imagelist_file_path,'r')
 	questions = read_questions(question_file_path)
 	for imagename in imageList.readlines():
+		os.system('echo imagename = ' + imagename)
 		imagename = imagename.strip('\n').split()[0]
 
 		if db_session.query(Image).filter_by(imagename=imagename).count() != 0:

@@ -93,7 +93,7 @@
 											var error = 100 - value;
 											var dirpath = "{{ url_for('static',filename='img/') }}";
 											if (error == 0) {
-												document.getElementById("image").src = "{{ gamedata_home_url + 'sobelimage/' + imagename + '-sobel.png' }}"
+												document.getElementById("image").src = "{{ gamedata_home_url + '/sobelimage/' + imagename + '-sobel.png' }}"
 											} else {
 												var i;
 												var filename;
@@ -101,12 +101,12 @@
 												for (i=0; i<errors.length - 1; i++) {
 													if (error >= errors[i] && error < errors[i+1]) {
 														filename = "{{ imagename + '_'}}".concat(String(errors[i] / 100.0)).concat(".png");
-														document.getElementById("image").src = "{{ gamedata_home_url + 'degimage/' }}".concat(filename)
+														document.getElementById("image").src = "{{ gamedata_home_url + '/degimage/' }}".concat(filename)
 													}
 												}
 												if (error >= errors[errors.length - 1]) {
 													filename = "{{ imagename + '_'}}".concat(String(errors[errors.length - 1] / 100.0)).concat(".png");
-													document.getElementById("image").src = "{{ gamedata_home_url + 'degimage/' }}".concat(filename)
+													document.getElementById("image").src = "{{ gamedata_home_url + '/degimage/' }}".concat(filename)
 												}
 											}
 											var total_power = {{ power }}

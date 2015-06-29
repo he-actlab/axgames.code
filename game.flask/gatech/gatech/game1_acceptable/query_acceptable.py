@@ -1,5 +1,7 @@
 import os, sys
 
+import time
+
 from gatech import session
 from gatech.database import db_session
 from gatech.models import Image, DegradedImage, Play, PlaySession
@@ -101,8 +103,8 @@ def get_num_decision(degImageId, decision):
 	return record
 
 def update_record(degImageId, decision):
-	os.system('echo update_record start')
 	for result in db_session.query(DegradedImage).filter_by(deg_image_id=degImageId):
+		os.system('echo update_record start')
 		if decision == "SA":
 			newNum = result.num_sagree + 1
 			db_session.query(DegradedImage).filter(DegradedImage.deg_image_id == degImageId).\
@@ -119,6 +121,10 @@ def update_record(degImageId, decision):
 			newNum = result.num_wdisagree + 1
 			db_session.query(DegradedImage).filter(DegradedImage.deg_image_id == degImageId).\
 										update({"num_wdisagree": newNum})
+		os.system('echo newNum = ' + str(newNum))
+		for i in range(0, 10):
+			time.sleep(1)
+		os.system('echo sleep end')
 		db_session.commit()
 
 		# update num_played for degImage

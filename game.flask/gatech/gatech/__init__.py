@@ -15,3 +15,5 @@ app.config.from_object(__name__)
 Session(app)
 FlaskUUID(app)
 Bootstrap(app)
+app.debug = True
+app.secret_key = '\xc9\x93\xd6\x9d\x9b\x99d\xf6\x04\xcf%\xac\xc5\x00\xf0\xb1\x97U\xb4S\x805y'
