@@ -96,11 +96,11 @@
                 {% for i in range(1, stage+1) %}
                     <div id="chart_div{{ i }}" style="width:400px;height:100px;"></div>
                     <div style="width:700px;height:20px">
-                        <span class="label label-success" style="padding: 0px; float: right; width: 200px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">Remaining: {{ power_history[i-1] }}mJ</span>
+                        <span class="label label-success" style="padding: 0px; float: right; width: 200px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">Current Balance: {{ power_history[i-1] }} mJ</span>
                         {% if reward_history[i-1] >= bet_history[i-1] %}
-                            <span class="label label-primary" style="padding: 0px; float: right; width: 200px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">Reward: {{ reward_history[i-1] }}mJ</span>
+                            <span class="label label-primary" style="padding: 0px; float: right; width: 200px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">Current Reward: {{ reward_history[i-1] }} mJ</span>
                         {% else %}
-                            <span class="label label-danger" style="padding: 0px; float: right; width: 200px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">Reward: {{ reward_history[i-1] }}mJ</span>
+                            <span class="label label-danger" style="padding: 0px; float: right; width: 200px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">Current Reward: {{ reward_history[i-1] }} sssmJ</span>
                         {% endif %}
                     </div>
                 {% endfor %}
