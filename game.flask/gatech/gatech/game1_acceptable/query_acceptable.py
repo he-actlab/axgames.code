@@ -91,40 +91,28 @@ def get_num_played(degImageId):
 
 def get_num_decision(degImageId, decision):
 	for result in db_session.query(DegradedImage).filter_by(deg_image_id=degImageId):
-		if decision == "SA":
-			record = result.num_sagree
-		elif decision == "WA":
-			record = result.num_wagree
-		elif decision == "SD":
-			record = result.num_sdisagree
-		elif decision == "WD":
-			record = result.num_wdisagree
+		if decision == "agree":
+			record = result.num_agree
+		elif decision == "disagree":
+			record = result.num_disagree
 		break
 	return record
 
 def update_record(degImageId, decision):
 	for result in db_session.query(DegradedImage).filter_by(deg_image_id=degImageId):
 		os.system('echo update_record start')
-		if decision == "SA":
-			newNum = result.num_sagree + 1
+		if decision == "agree":
+			newNum = result.num_agree + 1
 			db_session.query(DegradedImage).filter(DegradedImage.deg_image_id == degImageId).\
-										update({"num_sagree": newNum})
-		elif decision == "WA":
-			newNum = result.num_wagree + 1
+										update({"num_agree": newNum})
+		elif decision == "disagree":
+			newNum = result.num_disagree + 1
 			db_session.query(DegradedImage).filter(DegradedImage.deg_image_id == degImageId).\
-										update({"num_wagree": newNum})
-		elif decision == "SD":
-			newNum = result.num_sdisagree + 1
-			db_session.query(DegradedImage).filter(DegradedImage.deg_image_id == degImageId).\
-										update({"num_sdisagree": newNum})
-		elif decision == "WD":
-			newNum = result.num_wdisagree + 1
-			db_session.query(DegradedImage).filter(DegradedImage.deg_image_id == degImageId).\
-										update({"num_wdisagree": newNum})
-		os.system('echo newNum = ' + str(newNum))
-		for i in range(0, 10):
-			time.sleep(1)
-		os.system('echo sleep end')
+										update({"num_disagree": newNum})
+		# os.system('echo newNum = ' + str(newNum))
+		# for i in range(0, 10):
+		# 	time.sleep(1)
+		# os.system('echo sleep end')
 		db_session.commit()
 
 		# update num_played for degImage
@@ -150,14 +138,10 @@ def save_play(session_uuid, game_type, image_id, deg_imageid, decision, bet):
 		session_id = result.session_id
 		break
 
-	if decision == "SA":
+	if decision == "agree":
 		selnum = 0
-	elif decision == "WA":
+	elif decision == "disagree":
 		selnum = 1
-	elif decision == "SD":
-		selnum = 2
-	elif decision == "WD":
-		selnum = 3
 
 	p = Play(int(session_id), int(game_type), int(image_id), int(deg_imageid), int(selnum), int(bet), 0, 0, 0, 0, 0)
 	db_session.add(p)

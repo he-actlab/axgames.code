@@ -86,7 +86,30 @@
                 <!-- CODE FOR THUMBNAILS WITH CAPTION ENDS -->
             </div>
         </div>
+        <br>
         <!-- Code for images ends -->
+
+        <!-- CODE FOR DISPLAYING BETTING MONEY -->
+        <div class="betting-money" id="level-betting-money">
+            <center>
+            <div style="width:700px">
+                <center>
+                <div class="col-md-5">
+                    <div style="width:100px;height:60px"><span id="remaining" class="label label-success"
+                                                               style="width:150px;font-size:150%">Current Balance: ${{ bankroll }}</span>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div style="width:60px;height:60px"><span id="investing" class="label label-danger"
+                                                              style="width:150px;font-size:150%">Current Bet: ${{ bet }}</span>
+                    </div>
+                </div>
+                </center>
+            </div>
+            </center>
+        </div>
+        <br><br>
+        <!-- CODE FOR DISPLAYING BETTING MONEY ENDS-->
 
         <!-- CODE FOR BETTING CHIPS -->
         <div class="chips" id="level-chips">
@@ -125,34 +148,8 @@
                 </form>
             </div>
         </div>
+        <br>
         <!-- CODE FOR BETTING CHIPS ENDS-->
-
-        <!-- CODE FOR DISPLAYING BETTING MONEY -->
-        <div class="betting-money" id="level-betting-money">
-            <div class="container">
-                <div class="col-sm-3">
-                </div>
-                <div class="col-sm-3">
-                    <center>
-                        <h3>
-                            <div style="height:30px">Bet:</div>
-                            <textarea rows="1" cols="8" style="background-color:#fcf5d8;height:30px;text-align:right;">${{ bet }}</textarea>
-                        </h3>
-                    </center>
-                </div>
-                <div class="col-sm-3">
-                    <center>
-                        <h3>
-                            <div style="height:30px">Bankroll:</div>
-                            <textarea rows="1" cols="8" style="background-color:#fcf5d8;height:30px;text-align:right;">${{ bankroll }}</textarea>
-                        </h3>
-                    </center>
-                </div>
-                <div class="col-sm-3">
-                </div>
-            </div>
-        </div>
-        <!-- CODE FOR DISPLAYING BETTING MONEY ENDS-->
 
         <!-- CODE FOR FOUR BUTTONS -->
         <div class="three-buttons" id="level-six-buttons">
@@ -160,32 +157,15 @@
                 <br>
 
                 <form action='/acceptable' method="post" target="_self">
-                    <div class="col-sm-3">
-                        <center><input type="submit" name="SD" value="Strongly Disagree" class="btn"
+                    <center><div>
+                        <input type="submit" name="agree" value="Agree" class="btn" data-toggle="tooltip"
+                        data-placement="bottom" style="background-color:#006400;color:white;font-size:150%"></input>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="submit" name="disagree" value="Disagree" class="btn"
                                        data-toggle="tooltip" data-placement="bottom"
-                                       style="background-color:#8B0000;color:white"></input></center>
-                    </div>
-                    <div class="col-sm-3">
-                        <center><input type="submit" name="WD" value="Weakly Disagree" class="btn" data-toggle="tooltip"
-                                       data-placement="bottom" style="background-color:#ffa07a;color:white"></input>
-                        </center>
-                    </div>
-                    <div class="col-sm-3">
-                        <center><input type="submit" name="WA" value="Weakly Agree" class="btn" data-toggle="tooltip"
-                                       data-placement="bottom" style="background-color:#C0D890;color:white"></input>
-                        </center>
-                    </div>
-                    <div class="col-sm-3">
-                        <center><input type="submit" name="SA" value="Strongly Agree" class="btn" data-toggle="tooltip"
-                                       data-placement="bottom" style="background-color:#006400;color:white"></input>
-                        </center>
-                    </div>
-                    <br><br><br>
-
-                    <div class="col-md-12">
-                        <center><input type="submit" name="clear" value="Clear bet" class="btn btn-primary"
-                                       data-toggle="tooltip" data-placement="bottom"></input></center>
-                    </div>
+                                       style="background-color:#8B0000;color:white;font-size:150%"></input>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="submit" name="clear" value="Clear bet" class="btn btn-primary"
+                                       data-toggle="tooltip" data-placement="bottom" style="font-size:150%"></input>
+                    </div></center>
                 </form>
             </div>
         </div>

@@ -47,23 +47,19 @@ class DegradedImage (Base):
 	# image_file = Column(LargeBinary)
 	error = Column(Float)
 	num_played = Column(Integer)
-	num_sagree = Column(Integer)
-	num_wagree = Column(Integer)
-	num_sdisagree = Column(Integer)
-	num_wdisagree = Column(Integer)
+	num_agree = Column(Integer)
+	num_disagree = Column(Integer)
 	org_image_id = Column(Integer, ForeignKey("original_images.image_id"))
 
 	# def __init__(self, filename, image_file, error, num_played, num_sagree, num_wagree, num_sdisagree, num_wdisagree, org_image_id):
-	def __init__(self, imagename, error, num_played, num_sagree, num_wagree, num_sdisagree, num_wdisagree, org_image_id):
+	def __init__(self, imagename, error, num_played, num_agree, num_disagree, org_image_id):
 		self.imagename = imagename
 		# self.filename = filename
 		# self.image_file = image_file
 		self.error = error
 		self.num_played = num_played
-		self.num_sagree = num_sagree
-		self.num_wagree = num_wagree
-		self.num_sdisagree = num_sdisagree
-		self.num_wdisagree = num_wdisagree
+		self.num_agree = num_agree
+		self.num_disagree = num_disagree
 		self.org_image_id = org_image_id
 
 	def __repr__(self):

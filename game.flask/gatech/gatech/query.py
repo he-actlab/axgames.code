@@ -107,8 +107,7 @@ def upload_files():
 			orgImageId = result.image_id
 			break
 
-		# d = DegradedImage(imagename, error, 36, 1, 11, 5, 3, 9, 7, orgImageId)
-		d = DegradedImage(imagename, error, 36, 10, 18, 5, 3, orgImageId)
+		d = DegradedImage(imagename, error, 28, 10, 18, orgImageId)
 		db_session.add(d)
 		db_session.commit()
 

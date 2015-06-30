@@ -9,12 +9,10 @@ def scoring(decision, betmoney, degImageId):
 	os.system('echo degImageId=' + str(degImageId))
 	nPlayed = get_num_played (degImageId)
 	os.system('echo nPlayed=' + str(nPlayed))
-	nSagree = get_num_decision (degImageId, "SA")
-	nWagree = get_num_decision (degImageId, "WA")
-	nSdisagree = get_num_decision (degImageId, "SD")
-	nWdisagree = get_num_decision (degImageId, "WD")
+	nAgree = get_num_decision (degImageId, "agree")
+	nDisagree = get_num_decision (degImageId, "disagree")
 	
-	records = [("SD", nSdisagree), ("WD", nWdisagree), ("WA", nWagree), ("SA", nSagree)]
+	records = [("agree", nAgree), ("disagree", nDisagree)]
 	os.system('echo records=' + str(records))
 	sortedRecords = sorted(records, key=lambda x: x[1])
 	lsum = 0

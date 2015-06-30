@@ -14,20 +14,14 @@ import os, uuid
 from enum import Enum
 
 class Color(Enum):
-	saColor = "#006400"
-	waColor = "#C0D890"
-	wdColor = "#ffa07a"
-	sdColor = "#8B0000"
+	agreeColor = "#006400"
+	disagreeColor = "#8B0000"
 
 def getColor(decision):
-	if decision == "SA":
-		return Color.saColor
-	elif decision == "WA":
-		return Color.waColor
-	elif decision == "WD":
-		return Color.wdColor
-	elif decision == "SD":
-		return Color.sdColor
+	if decision == "agree":
+		return Color.agreeColor
+	elif decision == "disagree":
+		return Color.disagreeColor
 
 @app.route("/acceptable", methods=['POST', 'GET'])
 def acceptable():
@@ -102,7 +96,7 @@ def acceptable():
 			filename = ((session['filepaths'])[2]).split('/')[2]
 			session['degimageid'] = get_degimage_id(filename)
 		else:
-			if action == 'SA' or action == 'WA' or action == 'WD' or action == 'SD':
+			if action == 'agree' or action == 'disagree':
 				if session['betmoney'] == 0:
 					decision = 'nobet'
 				else:
