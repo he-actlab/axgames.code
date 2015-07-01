@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Consensus</title>
+  <link rel="icon" href="https://research.cc.gatech.edu/act-lab/sites/edu.act-lab/files/ACT-logo-scaled_1.png"
+        type="image/png">
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+  <!-- My stylesheet -->
+  <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<nav class="navbar navbar-default">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="navbar-brand">
+        <img alt="Brand" style="height: 30px; width: 30px; display: inline; padding-right: 5px"
+             src="https://research.cc.gatech.edu/act-lab/sites/edu.act-lab/files/ACT-logo-scaled_1.png">Consensus
+      </div>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <form action='/logout' class="navbar-form navbar-left">
+        <input id="logoutbutton" type="submit" name="logout" value="Logout" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" style=" font-size:100%"></input>
+      </form>
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+</nav>
+<div class="carousel-inner" role="listbox">
+  <div class="item active">
+    <div class="three-images">
+      <div class="container">
+        <br><br><br><br>
+
+        <h1 class="text-center">Select a Game</h1>
+        <br><br><br>
+
+        <div class="col-md-12" id="level-aux">
+          <form action='/playgame' method="post" target="_self">
+            <div class="col-sm-4">
+              <div class="thumbnail" style="width:350px">
+                <img src="{{ url_for('static',filename='img/games/acceptable.png') }}" class="thumb"
+                     style="width:300px">
+
+                <div class="caption">
+                  <p class="text-center">
+                  <center><h2><input type="submit" name="acceptable" value="Acceptable" class="btn" data-toggle="tooltip" data-placement="bottom"
+                                     style="background-color:#191970;color:white;font-size:100%"></input>
+                  </h2></center>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="thumbnail" style="width:350px">
+                <img src="{{ url_for('static',filename='img/games/winabatt1.png') }}" class="thumb"
+                     style="width:300px">
+
+                <div class="caption">
+                  <p class="text-center">
+                  <center><h2><input type="submit" name="winabatt" value="WinABatt" class="btn" data-toggle="tooltip" data-placement="bottom"
+                                     style="background-color:#191970;color:white;font-size:100%"></input>
+                  </h2></center>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="thumbnail" style="width:350px">
+                <img src="{{ url_for('static',filename='img/games/qna.png') }}" class="thumb"
+                     style="width:300px">
+
+                <div class="caption">
+                  <p class="text-center">
+                  <center><h2><input type="submit" name="qna" value="QnA" class="btn" data-toggle="tooltip" data-placement="bottom"
+                                     style="background-color:#191970;color:white;font-size:100%"></input>
+                  </h2></center>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
