@@ -51,15 +51,19 @@ def save_play(session_uuid, game_type, imagename, error_rate, bet):
 		session_id = result.session_id
 		break
 
-	os.system('echo save_play 1')
+	cnt = 0
+	for temp in db_session.query(Play).filter_by(session_id=session_id).filter_by(game_type=game_type).filter_by(image_id=get_image_id(imagename)):
+		cnt += 1
+
+	if cnt != 0:
+		return False
+
 	p = Play(int(session_id), int(game_type), int(get_image_id(imagename)), 0, 0, 0, int(error_rate), int(bet), 0, 0, 0)
-	os.system('echo save_play 2')
 	db_session.add(p)
-	os.system('echo save_play 3')
 	db_session.commit()
 
 	os.system('echo save_play end')
-	return 'success'
+	return True
 
 def draw_winabatt_image_file():
 

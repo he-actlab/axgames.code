@@ -1,31 +1,25 @@
 #!/bin/env python
 
-from sqlalchemy import Column, ForeignKey, Integer, String, LargeBinary, Float, Boolean
+from sqlalchemy import Column, ForeignKey, Integer, String, Float
 from sqlalchemy_utils.types.password import PasswordType
 from database import Base
 
-import os
 
-class Image (Base):
+class Image(Base):
 	__tablename__ = 'original_images'
 	image_id = Column(Integer, primary_key=True)
 	imagename = Column(String(300), unique=True)
-	# filename = Column(String(50), unique=True)
-	# image_file = Column(LargeBinary)
-	# sbl_image_file = Column(LargeBinary)
 	num_played_game1 = Column(Integer)
 	num_played_game2 = Column(Integer)
 	num_played_game3 = Column(Integer)
 	selected_error_array_game2 = Column(String(300))
 	question = Column(String(300))
 	correct_answer = Column(String(100))
-	wrong_answers = Column(String(450)) # at most four wrong answers, each of which has up to 100 chars
+	wrong_answers = Column(String(450))  # at most four wrong answers, each of which has up to 100 chars
 	selected_error_array_game3 = Column(String(300))
 
-	# def __init__(self, filename, image_file, sbl_image_file, num_played_game1, num_played_game2, num_played_game3, selected_error_array_game2, \
-	# 			 question, correct_answer, wrong_answers, selected_error_array_game3):
 	def __init__(self, imagename, num_played_game1, num_played_game2, num_played_game3, selected_error_array_game2, \
-			 question, correct_answer, wrong_answers, selected_error_array_game3):
+							 question, correct_answer, wrong_answers, selected_error_array_game3):
 		self.imagename = imagename
 		self.num_played_game1 = num_played_game1
 		self.num_played_game2 = num_played_game2
@@ -39,23 +33,19 @@ class Image (Base):
 	def __repr__(self):
 		return '<OriginalImages %r>' % (self.name)
 
-class DegradedImage (Base):
+
+class DegradedImage(Base):
 	__tablename__ = 'degraded_images'
 	deg_image_id = Column(Integer, primary_key=True)
 	imagename = Column(String(300), unique=True)
-	# filename = Column(String(50), unique=True)
-	# image_file = Column(LargeBinary)
 	error = Column(Float)
 	num_played = Column(Integer)
 	num_agree = Column(Integer)
 	num_disagree = Column(Integer)
 	org_image_id = Column(Integer, ForeignKey("original_images.image_id"))
 
-	# def __init__(self, filename, image_file, error, num_played, num_sagree, num_wagree, num_sdisagree, num_wdisagree, org_image_id):
 	def __init__(self, imagename, error, num_played, num_agree, num_disagree, org_image_id):
 		self.imagename = imagename
-		# self.filename = filename
-		# self.image_file = image_file
 		self.error = error
 		self.num_played = num_played
 		self.num_agree = num_agree
@@ -65,11 +55,12 @@ class DegradedImage (Base):
 	def __repr__(self):
 		return '<DegradedImage %r>' % (self.name)
 
-class User (Base):
+
+class User(Base):
 	__tablename__ = 'users'
 	user_id = Column(Integer, primary_key=True)
 	username = Column(String(50), unique=True)
-	password = Column(PasswordType(schemes=['pbkdf2_sha512','md5_crypt'],deprecated=['md5_crypt'], max_length=50))
+	password = Column(PasswordType(schemes=['pbkdf2_sha512', 'md5_crypt'], deprecated=['md5_crypt'], max_length=50))
 
 	def __init__(self, username, password):
 		self.username = username
@@ -78,8 +69,9 @@ class User (Base):
 	def __repr__(self):
 		return '<User %r>' % (self.name)
 
-class PlaySession (Base):
-	__tablename__ ='session'
+
+class PlaySession(Base):
+	__tablename__ = 'session'
 	session_id = Column(Integer, primary_key=True)
 	session_uuid = Column(String(100), unique=True)
 	user_id = Column(Integer, ForeignKey("users.user_id"))
@@ -91,19 +83,23 @@ class PlaySession (Base):
 	def __repr__(self):
 		return '<PlaySession %r>' % (self.name)
 
-class Play (Base):
+
+class Play(Base):
 	__tablename__ = 'play'
 	play_id = Column(Integer, primary_key=True)
 	session_id = Column(Integer, ForeignKey("session.session_id"))
 	image_id = Column(Integer, ForeignKey("original_images.image_id"))
 	game_type = Column(Integer)
+
 	# Game1
 	deg_image_id = Column(Integer, ForeignKey("degraded_images.deg_image_id"))
 	selection = Column(Integer)
 	bet_game1 = Column(Integer)
+
 	# Game2
 	error_rate_game2 = Column(Integer)
 	bet_game2 = Column(Integer)
+
 	# Game3
 	is_correct = Column(Integer)
 	error_rate_game3 = Column(Integer)
