@@ -93,12 +93,11 @@
 
             <div class="container" style="width:1000px;padding:0px;border:0px" align="left">
                 <br>
-                <h1>{{stage}}</h1>
                 {% for i in range(1, stage+1) %}
                     <!--<div id="chart_div{{ i }}" style="width:400px;height:100px;"></div>-->
                     <div style="width:1000px;height:20px">
                         <div class="badge" style="padding: 0px; float: left; width: 100px; text-align: center; margin-right: 0px; font-size:15px; height: 20px;">Round {{ i }}</div>
-                        <div class="label label-primary" style="background-color:#006400; padding: 0px; float: left; width: 150px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">Averge: {{ reward_history[i-1] }} mJ</div>
+                        <div class="label label-primary" style="background-color:#006400; padding: 0px; float: left; width: 150px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">Average: {{ reward_history[i-1] }} mJ</div>
                         <div class="label label-primary" style="background-color:#006400; padding: 0px; float: left; width: 120px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">You: {{ reward_history[i-1] }} mJ</div>
                         <div class="label label-danger" style="padding: 0px; float: left; width: 120px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">Bet: {{ reward_history[i-1] }} mJ</div>
                         <div style="padding: 0px; float: left; width: 30px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;"><img src="{{ url_for('static',filename='img/arrow.png') }}" style="width: 30px"></div>

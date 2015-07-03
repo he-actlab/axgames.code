@@ -1,6 +1,7 @@
 import os
 
 from query_winabatt import get_selections, update_winbatt_record
+from gatech.conf import
 
 def get_reward (filename, bet, error): # betting money should be in the formula
 
