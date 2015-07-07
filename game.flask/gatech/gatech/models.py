@@ -1,6 +1,6 @@
 #!/bin/env python
 
-from sqlalchemy import Column, ForeignKey, Integer, String, Float
+from sqlalchemy import Column, ForeignKey, Integer, String, Float, DateTime
 from sqlalchemy_utils.types.password import PasswordType
 from database import Base
 
@@ -120,3 +120,41 @@ class Play(Base):
 
 	def __repr__(self):
 		return '<Play %r>' % (self.name)
+
+class ImageGallery(Base):
+	__tablename__ = 'image_gallery'
+	ig_id = Column(Integer, primary_key=True)
+	game_id = Column(Integer)
+	num_assigned = Column(Integer)
+	num_completed = Column(Integer)
+	last_assignment = Column(DateTime)
+	image_set = Column(String(300))
+	done = Column(Integer)
+	played_users = Column(String(300))
+
+	def __init__(self, game_id, num_assigned, num_completed, last_assignment, image_set, done, played_users):
+		self.game_id = game_id
+		self.num_assigned = num_assigned
+		self.num_completed = num_completed
+		self.last_assignment = last_assignment
+		self.image_set = image_set
+		self.done = done
+		self.played_users = played_users
+
+	def __repr(self):
+		return '<ImageGallery %r>' % (self.name)
+
+class PlayGallery(Base):
+	__tablename__ = 'play_gallery'
+	pg_id = Column(Integer, primary_key=True)
+	ig_id = Column(Integer, ForeignKey("image_gallery.ig_id"))
+	session_id = Column(Integer, ForeignKey("session.session_id"))
+	play_id_list = Column(String(300))
+
+	def __init__(self, ig_id, session_id, play_id_list):
+		self.ig_id = ig_id
+		self.session_id = session_id
+		self.play_id_list = play_id_list
+
+	def __repr(self):
+		return '<PlayGallery %r>' % (self.name)

@@ -1,6 +1,7 @@
 import os
 
 from query_qna import get_selections, update_qna_record
+from gatech.conf import drawn_errors
 
 def get_reward (filename, bet, error, isCorrect): # betting money should be in the formula
 
@@ -16,18 +17,33 @@ def get_reward (filename, bet, error, isCorrect): # betting money should be in t
 	max_reward = 2.0 # 2X reward
 
 	groups_pair = []
-	elements_in_group = float(len(selections)) / num_groups
-	for i in range(0, num_groups): # five groups
-		group_sum = 0
-		for j in range(int(i * elements_in_group),int((i+1) * elements_in_group)):
-			group_sum += selections[j]
-		groups_pair.append([i,group_sum])
+
+	total_sum = 0
+	total_cnt = 0
+	for i in range(0, len(selections)):
+		if selections[i] != 0:
+			total_sum += i * selections[i]
+			total_cnt += selections[i]
+			os.system('echo selections[' + str(i) + '] total_sum = [' + str(total_sum) + ']')
+		if i == 0:
+			group_sum = 0
+		elif i in drawn_errors:
+			groups_pair.append([i,group_sum])
+			group_sum = 0
+		else:
+			group_sum += selections[i]
 	groups_pair.sort(key=lambda x: x[1])
+	if total_cnt == 0:
+		average = 25
+	else:
+		average = total_sum / total_cnt
 
 	os.system('echo get_reward: groups_pair ' + str(groups_pair))
-	selected_group = int(error / elements_in_group)
-	rank = num_groups
+	for i in range(0, len(drawn_errors)):
+		if error <= drawn_errors[i]:
+			selected_group = drawn_errors[i]
 	os.system('echo get_reward: selected_group ' + str(selected_group))
+	rank = len(drawn_errors)
 	for i in range(0, len(groups_pair)):
 		if (groups_pair[i])[0] == selected_group:
 			break
@@ -42,4 +58,4 @@ def get_reward (filename, bet, error, isCorrect): # betting money should be in t
 
 	os.system('echo get_reward: reward ' + str(reward))
 	os.system('echo get_reward: selections ' + str(selections))
-	return reward, selections
+	return reward, selections, average

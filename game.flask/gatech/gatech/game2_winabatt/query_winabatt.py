@@ -66,36 +66,10 @@ def save_play(session_uuid, game_type, imagename, error_rate, bet):
 	return True
 
 def draw_winabatt_image_file():
-
 	imagename = ""
-	# os.system('rm -rf gatech/static/img/' + session['sessionid'])
-	# os.system('mkdir gatech/static/img/' + session['sessionid'])
-
-	drawnImageFilename = ''
 	for result in db_session.query(Image).order_by(Image.num_played_game2):
-		# orgImageId = result.image_id
 		imagename = result.imagename
-		# drawnImageFilename = result.filename
-		# drawnImageData = result.image_file
-		# drawnSblImageData = result.sbl_image_file
 		break
-
-	# with open('gatech/static/img/' + session['sessionid'] + '/' + drawnImageFilename, 'wb') as f1:
-	# 	f1.write(drawnImageData)
-	# f1.close()
-	#
-	# drawnSblImageFilename = drawnImageFilename.split('.png')[0] + '-sobel.png'
-	# with open('gatech/static/img/' + session['sessionid'] + '/' + drawnSblImageFilename, 'wb') as f2:
-	# 	f2.write(drawnSblImageData)
-	# f2.close()
-
-	# for degresult in db_session.query(DegradedImage).filter_by(org_image_id=orgImageId):
-	# 	drawnImageFilename = degresult.filename
-	# 	drawnImageData = degresult.image_file
-	# 	with open('gatech/static/img/' + session['sessionid'] + '/' + drawnImageFilename, 'wb') as f2:
-	# 		f2.write(drawnImageData)
-	# 	f2.close()
-
 	return imagename
 
 

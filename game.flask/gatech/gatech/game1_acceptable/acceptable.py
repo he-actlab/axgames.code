@@ -4,7 +4,7 @@ from gatech import app
 from gatech import session
 
 from flask import render_template, request
-from query_acceptable import draw_acceptable_image_files, get_image_id, get_degimage_id, save_play
+from query_acceptable import draw_acceptable_image_files, get_image_id, get_degimage_id, save_play, save_play_gallery
 from core_acceptable import scoring
 from gatech.query import store_session
 from gatech.conf import gamedata_home_url, max_round
@@ -42,7 +42,10 @@ def acceptable():
 		os.system('echo ' + msg)
 		if action == 'start':
 			init_session()
-			session['filepaths'] = draw_acceptable_image_files()
+			# session['filepaths'] = draw_acceptable_image_files()
+			session['ig_id'], session['filePathsList'] = draw_acceptable_image_files()
+			os.system('echo ig_id = ' + str(session['ig_id']))
+			session['filepaths'] = (session['filePathsList'])[session['stage']-1]
 
 			filename = ((session['filepaths'])[0]).split('/')[2]
 			os.system('echo 4 filename = ' + filename)
@@ -64,7 +67,8 @@ def acceptable():
 			session['stage'] = len(session['bankroll_history']) + 1
 			session['bankroll'] += session['score'][len(session['score']) - 1]  # todo - known bug: if players click continue twice quickly, the bankroll will be increase twice
 			session['betmoney'] = 0
-			session['filepaths'] = draw_acceptable_image_files()
+			# session['filepaths'] = draw_acceptable_image_files()
+			session['filepaths'] = (session['filePathsList'])[session['stage']-1]
 
 			filename = ((session['filepaths'])[0]).split('/')[2]
 			os.system('echo 2 filename = ' + filename)
@@ -74,23 +78,28 @@ def acceptable():
 			session['degimageid'] = get_degimage_id(filename)
 			#			return render_template('original.html', \
 			return render_template('play_acceptable.html', \
-														 bankroll=session['bankroll'], \
-														 bet=session['bet'] + session['betmoney'], \
-														 win=session['win'], \
-														 stage=session['stage'], \
-														 decision=decision, \
-														 score=session['score'], \
-														 final=final, \
-														 filePaths=session['filepaths'], \
-														 msg=str(msg), \
-														 sessionid=session['sessionid'], \
-														 gamedata_home_url=gamedata_home_url)
+									 bankroll=session['bankroll'], \
+									 bet=session['bet'] + session['betmoney'], \
+									 win=session['win'], \
+									 stage=session['stage'], \
+									 decision=decision, \
+									 score=session['score'], \
+									 final=final, \
+									 filePaths=session['filepaths'], \
+									 msg=str(msg), \
+									 sessionid=session['sessionid'], \
+									 gamedata_home_url=gamedata_home_url)
 		elif action == 'finish':
+			save_play_gallery(session['ig_id'], session['sessionid'], session['playidlist'])
 			session.clear()
 			return render_template('index.html', state=0)
 		elif action == 'initialize':
+			save_play_gallery(session['ig_id'], session['sessionid'], session['playidlist'])
 			initialize()
-			session['filepaths'] = draw_acceptable_image_files()
+			# session['filepaths'] = draw_acceptable_image_files()
+			session['ig_id'], session['filePathsList'] = draw_acceptable_image_files()
+			os.system('echo ig_id = ' + str(session['ig_id']))
+			session['filepaths'] = (session['filePathsList'])[session['stage']-1]
 
 			filename = ((session['filepaths'])[0]).split('/')[2]
 			os.system('echo 1 filename = ' + filename)
@@ -105,8 +114,9 @@ def acceptable():
 				else:
 					score, options, proportion, decision_location = scoring(action, session['betmoney'], session['degimageid'])
 
-					save_play(session['sessionid'], 0, session['imageid'], session['degimageid'], action, session['betmoney'])
+					play_id = save_play(session['sessionid'], 0, session['imageid'], session['degimageid'], action, session['betmoney'])
 
+					session['playidlist'].append(play_id)
 					session['score'].append(int(score))
 					bankroll = session['bankroll'] + int(score)
 					session['bankroll_history'].append(bankroll)
@@ -119,15 +129,15 @@ def acceptable():
 					session['color'].append(color)
 
 					return render_template('result_acceptable.html', \
-																 stage=range(1, session['stage'] + 1), \
-																 score=session['score'], \
-																 options=session['options'], \
-																 proportion=session['proportion'], \
-																 decision_location=session['decision_location'], \
-																 color=session['color'], \
-																 bankroll_history=session['bankroll_history'], \
-																 gamedata_home_url=gamedata_home_url, \
-																 max_round=max_round)
+											 stage=range(1, session['stage'] + 1), \
+											 score=session['score'], \
+											 options=session['options'], \
+											 proportion=session['proportion'], \
+											 decision_location=session['decision_location'], \
+											 color=session['color'], \
+											 bankroll_history=session['bankroll_history'], \
+											 gamedata_home_url=gamedata_home_url, \
+											 max_round=max_round)
 			elif action == 'clear':
 				session['betmoney'] = 0
 			elif action == '5d':
@@ -146,17 +156,17 @@ def acceptable():
 				session['betmoney'] += money
 			os.system('echo acceptable: filepaths = ' + str(session['filepaths']))
 	return render_template('play_acceptable.html', \
-												 bankroll=session['bankroll'] - session['betmoney'], \
-												 bet=session['bet'] + session['betmoney'], \
-												 win=session['win'], \
-												 stage=session['stage'], \
-												 decision=decision, \
-												 score=session['score'], \
-												 final=final, \
-												 filePaths=session['filepaths'], \
-												 msg=str(msg), \
-												 sessionid=session['sessionid'], \
-												 gamedata_home_url=gamedata_home_url)
+							 bankroll=session['bankroll'] - session['betmoney'], \
+							 bet=session['bet'] + session['betmoney'], \
+							 win=session['win'], \
+							 stage=session['stage'], \
+							 decision=decision, \
+							 score=session['score'], \
+							 final=final, \
+							 filePaths=session['filepaths'], \
+							 msg=str(msg), \
+							 sessionid=session['sessionid'], \
+							 gamedata_home_url=gamedata_home_url)
 
 
 def start_acceptable():
@@ -167,7 +177,10 @@ def start_acceptable():
 	decision = ''
 
 	init_session()
-	session['filepaths'] = draw_acceptable_image_files()
+	# session['filepaths'] = draw_acceptable_image_files()
+	session['ig_id'], session['filePathsList'] = draw_acceptable_image_files()
+	os.system('echo ig_id = ' + str(session['ig_id']))
+	session['filepaths'] = (session['filePathsList'])[session['stage']-1]
 
 	filename = ((session['filepaths'])[0]).split('/')[2]
 	os.system('echo start_acceptable filename = ' + filename)
@@ -184,16 +197,16 @@ def start_acceptable():
 	os.system('echo start_acceptable ' + str(session['filepaths']))
 	os.system('echo start_acceptable end')
 	return render_template('play_acceptable.html', \
-												 bankroll=session['bankroll'] - session['betmoney'], \
-												 bet=session['bet'] + session['betmoney'], \
-												 win=session['win'], \
-												 stage=session['stage'], \
-												 decision=decision, \
-												 score=session['score'], \
-												 final=final, \
-												 filePaths=session['filepaths'], \
-												 msg=str(msg), \
-												 gamedata_home_url=gamedata_home_url)
+							 bankroll=session['bankroll'] - session['betmoney'], \
+							 bet=session['bet'] + session['betmoney'], \
+							 win=session['win'], \
+							 stage=session['stage'], \
+							 decision=decision, \
+							 score=session['score'], \
+							 final=final, \
+							 filePaths=session['filepaths'], \
+							 msg=str(msg), \
+							 gamedata_home_url=gamedata_home_url)
 
 
 def init_session():
@@ -221,9 +234,12 @@ def initialize():
 	session['decision_location'] = []
 	session['color'] = []
 	session['bankroll_history'] = []
-	session['filepaths'] = []
+	# session['filepaths'] = []
+	session['ig_id'] = -1
+	session['filePathsList'] = []
 	session['degimageid'] = -1
 	session['expired'] = False
+	session['playidlist'] = []
 
 	os.system('echo initialize end')
 

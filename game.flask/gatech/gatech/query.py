@@ -59,6 +59,26 @@ def read_questions(question_file_path):
 	return questions
 
 
+#
+# TODO - temporary mechanism (must be improved)
+#
+def initial_consensus(error):
+	os.system('echo error = ' + str(error))
+	if error <= 0.01:
+		return 10, 0
+	elif error <= 0.03:
+		return 9, 1
+	elif error <= 0.05:
+		return 8, 2
+	elif error <= 0.1:
+		return 5, 5
+	elif error <= 0.2:
+		return 2, 8
+	elif error <= 0.4:
+		return 1, 9
+	elif error <= 0.5:
+		return 0, 10
+
 def upload_files():
 	debugMsg = 'uploading files done ...'
 
@@ -109,9 +129,15 @@ def upload_files():
 			orgImageId = result.image_id
 			break
 
-		d = DegradedImage(imagename, error, 2, 1, 1, orgImageId)
+		agree, disagree = initial_consensus(error)
+		d = DegradedImage(imagename, error, agree + disagree, agree, disagree, orgImageId)
 		db_session.add(d)
 		db_session.commit()
+
+	# debug
+	user = User("12", "12")
+	db_session.add(user)
+	db_session.commit()
 
 	return debugMsg
 
@@ -128,73 +154,3 @@ def store_session(username, session_uuid):
 	db_session.commit()
 
 	os.system('echo store_session end')
-
-
-def upload_files_old(orgpath, degpath, sblpath):
-	debugMsg = 'uploading files done ...'
-
-	# check if passed directoreis exist
-	if os.path.isdir(orgpath) == False:
-		return 'Failed: there is no path [' + orgpath + ']'
-	if os.path.isdir(sblpath) == False:
-		return 'Failed: there is no path [' + sblpath + ']'
-	if os.path.isdir(degpath) == False:
-		return 'Failed: there is no path [' + degpath + ']'
-
-	# insert original image file with precisely sobel-filtered image
-	imageList = os.popen('ls ' + orgpath + '|grep .png').readlines()
-	questions = read_questions(orgpath)
-	for image in imageList:
-		imageFilename = image.strip('\n')
-		if db_session.query(Image).filter_by(filename=imageFilename).count() != 0:
-			continue
-		with open(orgpath + '/' + imageFilename, 'rb') as f:
-			imagedata = f.read()
-		f.close()
-		sblImageFilename = imageFilename.split('.png')[0] + '-sobel.png'
-		if os.path.isfile(sblpath + '/' + sblImageFilename) == False:
-			return 'Failed: there is no file [' + sblpath + '/' + sblImageFilename + ']'
-		with open(sblpath + '/' + sblImageFilename, 'rb') as f:
-			sblImagedata = f.read()
-		f.close()
-
-		selected_error_array = ""
-		for i in range(0, 50):
-			selected_error_array = selected_error_array + "0|"
-		selected_error_array = selected_error_array + str('0')
-
-		question = questions[imageFilename][0]
-		correct_answer = questions[imageFilename][1]
-		wrong_answers = questions[imageFilename][2]
-		os.system('echo upload_files: ' + question)
-		os.system('echo upload_files: ' + correct_answer)
-		os.system('echo upload_files: "' + wrong_answers + '"')
-		# i = Image(imageFilename, imagedata, sblImagedata, 6, 0, 0, selected_error_array, question, correct_answer, wrong_answers, selected_error_array)
-		i = Image(imageFilename, imagedata, sblImagedata, 36, 0, 0, selected_error_array, question, correct_answer, wrong_answers, selected_error_array)
-		db_session.add(i)
-		db_session.commit()
-
-	# approximately sobel-filtered image file directory
-	imageList = os.popen('ls ' + degpath).readlines()
-	for image in imageList:
-		imageFilename = image.strip('\n')
-		if db_session.query(DegradedImage).filter_by(filename=imageFilename).count() != 0:
-			continue
-		with open(degpath + '/' + imageFilename, 'rb') as f:
-			imagedata = f.read()
-		f.close()
-		tokens = imageFilename.strip('.png').split('_')
-		error = float(tokens[1])
-		orgImageFileName = tokens[0] + '.png'
-
-		orgImageId = -1
-		for result in db_session.query(Image).filter_by(filename=orgImageFileName):
-			orgImageId = result.image_id
-			break
-
-		# d = DegradedImage(imageFilename, imagedata, error, 36, 1, 11, 5, 3, 9, 7, orgImageId)
-		d = DegradedImage(imageFilename, imagedata, error, 36, 10, 18, 5, 3, orgImageId)
-		db_session.add(d)
-		db_session.commit()
-
-	return debugMsg

@@ -13,7 +13,7 @@ from database import init_db
 from database import clean_db
 from query import upload_files, upload_files_old, add_user, doLogin
 
-import os
+import os, time
 from enum import Enum
 
 @app.route("/selectgame", methods=['POST', 'GET'])

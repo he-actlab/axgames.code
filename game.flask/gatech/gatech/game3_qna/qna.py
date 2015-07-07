@@ -44,31 +44,36 @@ def qna():
 
 				session['power'] -= int(bet)
 
-				reward, selections = get_reward(session['imagename'] + ".png", int(bet), int(error_rate), session['correct_answer'] == selected_answer)
-
+				reward, selections, average = get_reward(session['imagename'] + ".png", int(bet), int(error_rate), session['correct_answer'] == selected_answer)
 				if save_play(session['sessionid'], 2, session['imagename'], error_rate, bet, session['correct_answer'] == selected_answer) == True:
 					session['power'] += reward
 					session['power_history'].append(session['power'])
+					session['error_history'].append(error_rate)
 					session['bet_history'].append(float(bet))
 					session['reward_history'].append(reward)
 					session['selections_history'].append(selections)
+					session['average'].append(average)
 
 					os.system('echo qna: stage ' + str(session['stage']))
 					os.system('echo qna: power_history ' + str(session['power_history']))
+					os.system('echo winabatt: error_history ' + str(session['error_history']))
 					os.system('echo qna: bet_history ' + str(session['bet_history']))
 					os.system('echo qna: reward_history ' + str(session['reward_history']))
 					os.system('echo qna: selections_history ' + str(session['selections_history']))
+					os.system('echo winabatt: average ' + str(session['average']))
 				return render_template('result_qna.html',
-															 imagename=session['imagename'], \
-															 power=session['power'], \
-															 stage=session['stage'], \
-															 power_history=session['power_history'], \
-															 bet_history=session['bet_history'], \
-															 reward_history=session['reward_history'], \
-															 selections_history=session['selections_history'], \
-															 sessionid=session['sessionid'], \
-															 gamedata_home_url=gamedata_home_url, \
-															 max_round=max_round)
+										 imagename=session['imagename'], \
+										 power=session['power'], \
+										 stage=session['stage'], \
+										 power_history=session['power_history'], \
+										 error_history=session['error_history'], \
+										 bet_history=session['bet_history'], \
+										 reward_history=session['reward_history'], \
+										 selections_history=session['selections_history'], \
+										 sessionid=session['sessionid'], \
+										 gamedata_home_url=gamedata_home_url, \
+										 max_round=max_round, \
+									   	 average=session['average'])
 
 			elif action == 'continue':
 				os.system('echo continue')
@@ -114,9 +119,11 @@ def initialize():
 	session['power'] = 200.0
 	session['stage'] = 1
 	session['power_history'] = []
+	session['error_history'] = []
 	session['bet_history'] = []
 	session['reward_history'] = []
 	session['selections_history'] = []
+	session['average'] = []
 
 
 def start_qna():
