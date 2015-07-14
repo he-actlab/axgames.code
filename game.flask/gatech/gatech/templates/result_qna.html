@@ -97,20 +97,28 @@
 
             <div class="container" style="width:1000px;padding:0px;border:0px" align="left">
                 <br>
+                <div style="width:1200px;height:20px">
+                    <div class="badge" style="background-color:#ffffff; padding: 0px; float: left; width: 100px; text-align: center; margin-right: 0px; font-size:20px; height: 25px;">T</div>
+                    <div class="label label-default" style="padding: 0px; float: left; width: 130px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Average</div>
+                    <div class="label label-success" style="padding: 0px; float: left; width: 120px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">You</div>
+                    <div style="padding: 0px; float: left; width: 30px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;"></div>
+                    <div class="label label-danger" style="padding: 0px; float: left; width: 100px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Bet</div>
+                    <div class="label label-danger" style="padding: 0px; float: left; width: 230px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Wrong Answer Penalty</div>
+                    <div class="label label-primary" style="padding: 0px; float: left; width: 130px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Winning</div>
+                    <div class="label label-default" style="padding: 0px; float: left; width: 130px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Balance</div>
+                </div>
+                <br><br>
                 {% for i in range(1, stage+1) %}
                     <!--<div id="chart_div{{ i }}" style="width:400px;height:100px;"></div>-->
-                    <div style="width:1000px;height:20px">
+                    <div style="width:1200px;height:20px">
                         <div class="badge" style="padding: 0px; float: left; width: 100px; text-align: center; margin-right: 0px; font-size:15px; height: 20px;">Round {{ i }}</div>
-                        <div class="label label-primary" style="background-color:#006400; padding: 0px; float: left; width: 150px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">Average: {{ average[i-1] }}%</div>
-                        <div class="label label-primary" style="background-color:#006400; padding: 0px; float: left; width: 120px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">You: {{ error_history[i-1] }}%</div>
-                        <div class="label label-danger" style="padding: 0px; float: left; width: 120px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">Bet: {{ bet_history[i-1] }} mJ</div>
+                        <div class="label label-default" style="padding: 0px; float: left; width: 130px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">{{ average[i-1] }}%</div>
+                        <div class="label label-success" style="padding: 0px; float: left; width: 120px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">{{ error_history[i-1] }}%</div>
                         <div style="padding: 0px; float: left; width: 30px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;"><img src="{{ url_for('static',filename='img/arrow.png') }}" style="width: 30px"></div>
-                        {% if reward_history[i-1] >= bet_history[i-1] %}
-                            <div class="label label-primary" style="padding: 0px; float: left; width: 200px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">Current Reward: {{ reward_history[i-1] }} mJ</div>
-                        {% else %}
-                            <div class="label label-danger" style="padding: 0px; float: left; width: 200px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">Current Reward: {{ reward_history[i-1] }} mJ</div>
-                        {% endif %}
-                        <div class="label label-success" style="padding: 0px; float: left; width: 200px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">Current Balance: {{ power_history[i-1] }} mJ</div>
+                        <div class="label label-danger" style="padding: 0px; float: left; width: 100px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">{{ bet_history[i-1] }} mJ</div>
+                        <div class="label label-danger" style="padding: 0px; float: left; width: 230px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">{{ penalty[i-1] }} mJ</div>
+                        <div class="label label-primary" style="padding: 0px; float: left; width: 130px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">{{ reward_history[i-1] }} mJ</div>
+                        <div class="label label-default" style="padding: 0px; float: left; width: 130px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">{{ power_history[i-1] }} mJ</div>
                     </div>
                     <br>
                 {% endfor %}
@@ -120,7 +128,7 @@
             <form action='/qna' method="post" target=_self>
                 {% if stage < max_round %}
                     <div class="container">
-                        <center><input type="submit" name="continue" value="Next Stage" class="btn" data-toggle="tooltip"
+                        <center><input type="submit" name="continue" value="Next Round" class="btn" data-toggle="tooltip"
                                        data-placement="bottom"
                                        style="background-color:#4d4d4d;color:white;font-size:20px"></input></center>
                     </div>

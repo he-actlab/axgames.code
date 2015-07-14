@@ -17,9 +17,11 @@ class Image(Base):
 	correct_answer = Column(String(100))
 	wrong_answers = Column(String(450))  # at most four wrong answers, each of which has up to 100 chars
 	selected_error_array_game3 = Column(String(300))
+	game2_history = Column(String(500))
+	game3_history = Column(String(500))
 
 	def __init__(self, imagename, num_played_game1, num_played_game2, num_played_game3, selected_error_array_game2, \
-							 question, correct_answer, wrong_answers, selected_error_array_game3):
+							 question, correct_answer, wrong_answers, selected_error_array_game3, game2_history, game3_history):
 		self.imagename = imagename
 		self.num_played_game1 = num_played_game1
 		self.num_played_game2 = num_played_game2
@@ -29,6 +31,8 @@ class Image(Base):
 		self.correct_answer = correct_answer
 		self.wrong_answers = wrong_answers
 		self.selected_error_array_game3 = selected_error_array_game3
+		self.game2_history = game2_history
+		self.game3_history = game3_history
 
 	def __repr__(self):
 		return '<OriginalImages %r>' % (self.name)
@@ -69,7 +73,6 @@ class User(Base):
 	def __repr__(self):
 		return '<User %r>' % (self.name)
 
-
 class PlaySession(Base):
 	__tablename__ = 'session'
 	session_id = Column(Integer, primary_key=True)
@@ -105,11 +108,11 @@ class Play(Base):
 	error_rate_game3 = Column(Integer)
 	bet_game3 = Column(Integer)
 
-	def __init__(self, session_id, game_type, image_id, deg_imageid, selection, bet_game1, error_rate_game2, bet_game2, is_correct, error_rate_game3, bet_game3):
+	def __init__(self, session_id, game_type, image_id, deg_image_id, selection, bet_game1, error_rate_game2, bet_game2, is_correct, error_rate_game3, bet_game3):
 		self.session_id = session_id
 		self.game_type = game_type
 		self.image_id = image_id
-		self.deg_imageid = deg_imageid
+		self.deg_image_id = deg_image_id
 		self.selection = selection
 		self.bet_game1 = bet_game1
 		self.error_rate_game2 = error_rate_game2
@@ -129,17 +132,21 @@ class ImageGallery(Base):
 	num_completed = Column(Integer)
 	last_assignment = Column(DateTime)
 	image_set = Column(String(300))
+	deg_image_set = Column(String(300))
 	done = Column(Integer)
 	played_users = Column(String(300))
+	agreed = Column(Integer)
 
-	def __init__(self, game_id, num_assigned, num_completed, last_assignment, image_set, done, played_users):
+	def __init__(self, game_id, num_assigned, num_completed, last_assignment, image_set, deg_image_set, done, played_users, agreed):
 		self.game_id = game_id
 		self.num_assigned = num_assigned
 		self.num_completed = num_completed
 		self.last_assignment = last_assignment
 		self.image_set = image_set
+		self.deg_image_set = deg_image_set
 		self.done = done
 		self.played_users = played_users
+		self.agreed = agreed
 
 	def __repr(self):
 		return '<ImageGallery %r>' % (self.name)
@@ -147,14 +154,31 @@ class ImageGallery(Base):
 class PlayGallery(Base):
 	__tablename__ = 'play_gallery'
 	pg_id = Column(Integer, primary_key=True)
+	play_user_id = Column(Integer, ForeignKey("users.user_id"))
 	ig_id = Column(Integer, ForeignKey("image_gallery.ig_id"))
 	session_id = Column(Integer, ForeignKey("session.session_id"))
 	play_id_list = Column(String(300))
 
-	def __init__(self, ig_id, session_id, play_id_list):
+	def __init__(self, play_user_id, ig_id, session_id, play_id_list):
+		self.play_user_id = play_user_id
 		self.ig_id = ig_id
 		self.session_id = session_id
 		self.play_id_list = play_id_list
 
 	def __repr(self):
 		return '<PlayGallery %r>' % (self.name)
+
+class BadPlayGallery(Base):
+	__tablename__ = 'bad_pg_records'
+	bpg_id = Column(Integer, primary_key=True)
+	pg_id = Column(Integer, ForeignKey("play_gallery.pg_id"))
+	good_fleiss_kappa = Column(String(100))
+	bad_fleiss_kappa = Column(String(100))
+
+	def __init__(self, pg_id, good_fleiss_kappa, bad_fleiss_kappa):
+		self.pg_id = pg_id
+		self.good_fleiss_kappa = good_fleiss_kappa
+		self.bad_fleiss_kappa = bad_fleiss_kappa
+
+	def __repr__(self):
+		return '<BadPlayGallery %r>' % (self.name)

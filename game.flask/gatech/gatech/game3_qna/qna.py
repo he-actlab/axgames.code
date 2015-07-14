@@ -5,8 +5,8 @@ from gatech import session
 
 from flask import render_template, request
 from query_qna import draw_qna_image_file, get_qna, save_play
-from core_qna import get_reward
-from gatech.conf import gamedata_home_url, max_round
+from core_qna import get_reward, get_winning
+from gatech.conf import gamedata_home_url, max_round, GAME3_INIT_ENERGY, GAME3_WRONG_ANSWER_PENALTY
 from gatech.query import store_session
 
 import os, uuid
@@ -24,13 +24,13 @@ def qna():
 				session['imagename'] = draw_qna_image_file()
 				session['question'], session['correct_answer'], session['answers'] = get_qna(session['filename'] + '.png')
 				return render_template('play_qna.html',
-															 imagename=session['imagename'], \
-															 power=session['power'], \
-															 stage=session['stage'], \
-															 question=session['question'], \
-															 answers=session['answers'], \
-															 sessionid=session['sessionid'], \
-															 gamedata_home_url=gamedata_home_url)
+										 imagename=session['imagename'], \
+										 power=session['power'], \
+										 stage=session['stage'], \
+										 question=session['question'], \
+										 answers=session['answers'], \
+										 sessionid=session['sessionid'], \
+										 gamedata_home_url=gamedata_home_url)
 
 			elif "bet" in action:
 				selected_answer = request.form['answer_radiobutton']
@@ -44,23 +44,27 @@ def qna():
 
 				session['power'] -= int(bet)
 
-				reward, selections, average = get_reward(session['imagename'] + ".png", int(bet), int(error_rate), session['correct_answer'] == selected_answer)
+				# reward, selections, average = get_reward(session['imagename'] + ".png", int(bet), int(error_rate), session['correct_answer'] == selected_answer)
+				reward, average = get_winning(session['imagename'] + ".png", int(error_rate))
+				penalty = GAME3_WRONG_ANSWER_PENALTY if session['correct_answer'] != selected_answer else 0
 				if save_play(session['sessionid'], 2, session['imagename'], error_rate, bet, session['correct_answer'] == selected_answer) == True:
-					session['power'] += reward
+					session['power'] += reward - penalty
 					session['power_history'].append(session['power'])
 					session['error_history'].append(error_rate)
 					session['bet_history'].append(float(bet))
 					session['reward_history'].append(reward)
-					session['selections_history'].append(selections)
-					session['average'].append(average)
+					# session['selections_history'].append(selections)
+					session['average_history'].append(average)
+					session['penalty_history'].append(penalty)
 
 					os.system('echo qna: stage ' + str(session['stage']))
 					os.system('echo qna: power_history ' + str(session['power_history']))
-					os.system('echo winabatt: error_history ' + str(session['error_history']))
+					os.system('echo qna: error_history ' + str(session['error_history']))
 					os.system('echo qna: bet_history ' + str(session['bet_history']))
 					os.system('echo qna: reward_history ' + str(session['reward_history']))
-					os.system('echo qna: selections_history ' + str(session['selections_history']))
-					os.system('echo winabatt: average ' + str(session['average']))
+					# os.system('echo qna: selections_history ' + str(session['selections_history']))
+					os.system('echo qna: average ' + str(session['average_history']))
+					os.system('echo qna: penalty ' + str(session['penalty_history']))
 				return render_template('result_qna.html',
 										 imagename=session['imagename'], \
 										 power=session['power'], \
@@ -69,11 +73,12 @@ def qna():
 										 error_history=session['error_history'], \
 										 bet_history=session['bet_history'], \
 										 reward_history=session['reward_history'], \
-										 selections_history=session['selections_history'], \
+										 # selections_history=session['selections_history'], \
 										 sessionid=session['sessionid'], \
 										 gamedata_home_url=gamedata_home_url, \
 										 max_round=max_round, \
-									   	 average=session['average'])
+									   	 average=session['average_history'], \
+									   	 penalty=session['penalty_history'])
 
 			elif action == 'continue':
 				os.system('echo continue')
@@ -81,26 +86,26 @@ def qna():
 				session['imagename'] = draw_qna_image_file()
 				session['question'], session['correct_answer'], session['answers'] = get_qna(session['imagename'] + '.png')
 				return render_template('play_qna.html', \
-															 imagename=session['imagename'], \
-															 power=session['power'], \
-															 stage=session['stage'], \
-															 question=session['question'], \
-															 answers=session['answers'], \
-															 sessionid=session['sessionid'], \
-															 gamedata_home_url=gamedata_home_url)
+										 imagename=session['imagename'], \
+										 power=session['power'], \
+										 stage=session['stage'], \
+										 question=session['question'], \
+										 answers=session['answers'], \
+										 sessionid=session['sessionid'], \
+										 gamedata_home_url=gamedata_home_url)
 
 			elif action == 'initialize':
 				initialize()
 				session['imagename'] = draw_qna_image_file()
 				session['question'], session['correct_answer'], session['answers'] = get_qna(session['filename'] + '.png')
 				return render_template('play_qna.html',
-															 imagename=session['imagename'], \
-															 power=session['power'], \
-															 stage=session['stage'], \
-															 question=session['question'], \
-															 answers=session['answers'], \
-															 sessionid=session['sessionid'], \
-															 gamedata_home_url=gamedata_home_url)
+										 imagename=session['imagename'], \
+										 power=session['power'], \
+										 stage=session['stage'], \
+										 question=session['question'], \
+										 answers=session['answers'], \
+										 sessionid=session['sessionid'], \
+										 gamedata_home_url=gamedata_home_url)
 
 			elif action == 'finish':
 				session.clear()
@@ -116,31 +121,28 @@ def init_session():
 
 
 def initialize():
-	session['power'] = 200.0
+	session['power'] = GAME3_INIT_ENERGY
 	session['stage'] = 1
 	session['power_history'] = []
 	session['error_history'] = []
 	session['bet_history'] = []
 	session['reward_history'] = []
 	session['selections_history'] = []
-	session['average'] = []
-
+	session['average_history'] = []
+	session['penalty_history'] = []
 
 def start_qna():
 	init_session()
 
-	os.system('echo start_qna: 1')
 	session['imagename'] = draw_qna_image_file()
-	os.system('echo start_qna: 2')
 	session['question'], session['correct_answer'], session['answers'] = get_qna(session['imagename'] + '.png')
-	os.system('echo start_qna: 3')
 
 	os.system('echo start_qna: ' + session['imagename'])
 	return render_template('play_qna.html',
-												 imagename=session['imagename'], \
-												 power=session['power'], \
-												 stage=session['stage'], \
-												 question=session['question'], \
-												 answers=session['answers'], \
-												 sessionid=session['sessionid'], \
-												 gamedata_home_url=gamedata_home_url)
+							 imagename=session['imagename'], \
+							 power=session['power'], \
+							 stage=session['stage'], \
+							 question=session['question'], \
+							 answers=session['answers'], \
+							 sessionid=session['sessionid'], \
+							 gamedata_home_url=gamedata_home_url)

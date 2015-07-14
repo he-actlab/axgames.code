@@ -5,41 +5,37 @@ from query_acceptable import get_num_played, get_num_decision, update_record
 # todo: we need a real scoring algorithm
 # update_todo: we need to incorporate the six level answers from strong accept to strong reject
 def scoring(decision, betmoney, degImageId):
-	os.system('echo degImageId=' + str(degImageId))
+	os.system('echo acceptable scoring start')
+
 	nPlayed = get_num_played(degImageId)
-	os.system('echo nPlayed=' + str(nPlayed))
 	nAgree = get_num_decision(degImageId, "agree")
 	nDisagree = get_num_decision(degImageId, "disagree")
 
 	records = [("agree", nAgree), ("disagree", nDisagree)]
-	os.system('echo records=' + str(records))
-	# sortedRecords = sorted(records, key=lambda x: x[1])
-	sortedRecords = records  # disable sorting
 	lsum = 0
-	for i in range(0, len(sortedRecords)):
-		if sortedRecords[i][0] == decision:
-			sortedRecords[i] = (decision, sortedRecords[i][1] + 1)
-			# sortedRecords[i][1] = sortedRecords[i][1] + 1 # add the current decision
+	for i in range(0, len(records)):
+		if records[i][0] == decision:
+			records[i] = (decision, records[i][1] + 1)
 			for j in range(0, i + 1):
-				lsum += sortedRecords[j][1]
+				lsum += records[j][1]
+			break
 	percentage = float(lsum) / float(nPlayed + 1)
 	decision_location = percentage
-	os.system('echo decision_location=' + str(decision_location))
-	percentage -= 0.5
-	os.system('echo percentage=' + str(percentage))
-	score = betmoney * percentage
-	os.system('echo score=' + str(score))
+	if percentage >= 0.5: # y = -7.8x + 8.9
+		c = (-7.8) * percentage + 8.9
+	else:
+		c = 2 * percentage
+	score = betmoney * c
 
 	options = []
 	proportion = []
-	for record in sortedRecords:
+	for record in records:
 		options.append(record[0])
 		proportion.append(float(record[1]) / float(nPlayed + 1))
-	os.system('echo options=' + str(options))
-	os.system('echo proportion=' + str(proportion))
 
 	update_record(degImageId, decision)
 
+	os.system('echo acceptable scoring end')
 	return score, options, proportion, decision_location
 
 

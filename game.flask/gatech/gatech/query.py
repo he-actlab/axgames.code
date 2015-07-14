@@ -2,7 +2,7 @@ import os, random
 
 from gatech.database import db_session
 from gatech.models import Image, DegradedImage, User, PlaySession
-from conf import imagelist_file_path, question_file_path, degimagelist_file_path
+from conf import imagelist_file_path, question_file_path, degimagelist_file_path, ERROR_MAX
 
 
 def doLogin(username, password):
@@ -95,9 +95,14 @@ def upload_files():
 			continue
 
 		selected_error_array = ""
-		for i in range(0, 50):
+		for i in range(0, ERROR_MAX):
 			selected_error_array = selected_error_array + "0|"
 		selected_error_array = selected_error_array + str('0')
+
+		history = ""
+		for i in range(0, ERROR_MAX-1):
+			history = history + "0,0|"
+		history = history + str('0,0')
 
 		question = questions[imagename][0]
 		os.system('echo upload_files: ' + question)
@@ -108,8 +113,7 @@ def upload_files():
 		wrong_answers = questions[imagename][2]
 		os.system('echo upload_files: "' + wrong_answers + '"')
 
-		# i = Image(imagename, 6, 0, 0, selected_error_array, question, correct_answer, wrong_answers, selected_error_array)
-		i = Image(imagename, 2, 0, 0, selected_error_array, question, correct_answer, wrong_answers, selected_error_array)
+		i = Image(imagename, 2, 0, 0, selected_error_array, question, correct_answer, wrong_answers, selected_error_array, history, history)
 		db_session.add(i)
 		db_session.commit()
 
@@ -135,19 +139,19 @@ def upload_files():
 		db_session.commit()
 
 	# debug
-	user = User("12", "12")
-	db_session.add(user)
+	for i in range(0, 100):
+		user = User(str(i), str(i))
+		db_session.add(user)
 	db_session.commit()
 
 	return debugMsg
 
+def get_user_id (username):
+	result = db_session.query(User).filter_by(username=username).first()
+	return result.user_id
 
-def store_session(username, session_uuid):
+def store_session(user_id, session_uuid):
 	os.system('echo store_session start')
-
-	for result in db_session.query(User).filter_by(username=username):
-		user_id = result.user_id
-		break
 
 	s = PlaySession(session_uuid, user_id)
 	db_session.add(s)

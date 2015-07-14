@@ -112,11 +112,11 @@
 											var total_power = {{ power }}
 											var power_consumption = calPowerConsumption(error)
 											total_power = total_power - power_consumption
-											if (total_power > 250) {
+											if (total_power > 125) {
 												document.getElementById("battery").src = dirpath.concat("batteries/4.png");
-											} else if (total_power >= 200) {
-												document.getElementById("battery").src = dirpath.concat("batteries/3.png");
 											} else if (total_power >= 100) {
+												document.getElementById("battery").src = dirpath.concat("batteries/3.png");
+											} else if (total_power >= 75) {
 												document.getElementById("battery").src = dirpath.concat("batteries/2.png");
 											} else {
 												document.getElementById("battery").src = dirpath.concat("batteries/1.png");

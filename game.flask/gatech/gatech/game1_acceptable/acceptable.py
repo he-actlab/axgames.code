@@ -28,13 +28,10 @@ def getColor(decision):
 
 @app.route("/acceptable", methods=['POST', 'GET'])
 def acceptable():
-	os.system('echo acceptable start')
-
 	msg = ''
 	money = 0
 	final = 0
 	decision = ''
-
 	if request.method == "POST":
 		action = request.form.keys()[0]
 		action = action.split('.')[0]
@@ -42,44 +39,25 @@ def acceptable():
 		os.system('echo ' + msg)
 		if action == 'start':
 			init_session()
-			# session['filepaths'] = draw_acceptable_image_files()
-			session['ig_id'], session['filePathsList'] = draw_acceptable_image_files()
-			os.system('echo ig_id = ' + str(session['ig_id']))
+			session['ig_id'], session['filePathsList'] = draw_acceptable_image_files(session['userid'])
 			session['filepaths'] = (session['filePathsList'])[session['stage']-1]
-
-			filename = ((session['filepaths'])[0]).split('/')[2]
-			os.system('echo 4 filename = ' + filename)
-			session['imageid'] = get_image_id(filename)
-
-			filename = ((session['filepaths'])[2]).split('/')[2]
-			session['degimageid'] = get_degimage_id(filename)
+			session['imageid'] = get_image_id(((session['filepaths'])[0]).split('/')[2])
+			session['degimageid'] = get_degimage_id(((session['filepaths'])[2]).split('/')[2])
 		elif action == 'startbet':
-			filename = ((session['filepaths'])[0]).split('/')[2]
-			os.system('echo 3 filename = ' + filename)
-			session['imageid'] = get_image_id(filename)
-
-			filename = ((session['filepaths'])[2]).split('/')[2]
-			session['degimageid'] = get_degimage_id(filename)
+			session['imageid'] = get_image_id(((session['filepaths'])[0]).split('/')[2])
+			session['degimageid'] = get_degimage_id(((session['filepaths'])[2]).split('/')[2])
 		elif session['expired'] == True:
 			decision = "finish"
 		elif action == 'continue':
-			os.system('echo continue')
 			session['stage'] = len(session['bankroll_history']) + 1
-			session['bankroll'] += session['score'][len(session['score']) - 1]  # todo - known bug: if players click continue twice quickly, the bankroll will be increase twice
+			session['bankroll'] += session['score'][len(session['score']) - 1] - session['betmoney'] # todo - known bug: if players click continue twice quickly, the bankroll will be increased twice
 			session['betmoney'] = 0
-			# session['filepaths'] = draw_acceptable_image_files()
 			session['filepaths'] = (session['filePathsList'])[session['stage']-1]
-
-			filename = ((session['filepaths'])[0]).split('/')[2]
-			os.system('echo 2 filename = ' + filename)
-			session['imageid'] = get_image_id(filename)
-
-			filename = ((session['filepaths'])[2]).split('/')[2]
-			session['degimageid'] = get_degimage_id(filename)
-			#			return render_template('original.html', \
+			session['imageid'] = get_image_id(((session['filepaths'])[0]).split('/')[2])
+			session['degimageid'] = get_degimage_id(((session['filepaths'])[2]).split('/')[2])
 			return render_template('play_acceptable.html', \
 									 bankroll=session['bankroll'], \
-									 bet=session['bet'] + session['betmoney'], \
+									 bet=session['betmoney'], \
 									 win=session['win'], \
 									 stage=session['stage'], \
 									 decision=decision, \
@@ -90,23 +68,16 @@ def acceptable():
 									 sessionid=session['sessionid'], \
 									 gamedata_home_url=gamedata_home_url)
 		elif action == 'finish':
-			save_play_gallery(session['ig_id'], session['sessionid'], session['playidlist'])
+			save_play_gallery(session['userid'], session['ig_id'], session['sessionid'], session['playidlist'])
 			session.clear()
 			return render_template('index.html', state=0)
 		elif action == 'initialize':
-			save_play_gallery(session['ig_id'], session['sessionid'], session['playidlist'])
+			save_play_gallery(session['userid'], session['ig_id'], session['sessionid'], session['playidlist'])
 			initialize()
-			# session['filepaths'] = draw_acceptable_image_files()
-			session['ig_id'], session['filePathsList'] = draw_acceptable_image_files()
-			os.system('echo ig_id = ' + str(session['ig_id']))
+			session['ig_id'], session['filePathsList'] = draw_acceptable_image_files(session['userid'])
 			session['filepaths'] = (session['filePathsList'])[session['stage']-1]
-
-			filename = ((session['filepaths'])[0]).split('/')[2]
-			os.system('echo 1 filename = ' + filename)
-			session['imageid'] = get_image_id(filename)
-
-			filename = ((session['filepaths'])[2]).split('/')[2]
-			session['degimageid'] = get_degimage_id(filename)
+			session['imageid'] = get_image_id(((session['filepaths'])[0]).split('/')[2])
+			session['degimageid'] = get_degimage_id(((session['filepaths'])[2]).split('/')[2])
 		else:
 			if action == 'agree' or action == 'disagree':
 				if session['betmoney'] == 0:
@@ -118,11 +89,11 @@ def acceptable():
 
 					session['playidlist'].append(play_id)
 					session['score'].append(int(score))
-					bankroll = session['bankroll'] + int(score)
-					session['bankroll_history'].append(bankroll)
+					session['bankroll_history'].append(session['bankroll'] + int(score) - session['betmoney'])
 					session['options'].append(options)
 					session['proportion'].append(proportion)
 					session['decision_location'].append(decision_location)
+					session['bet_history'].append(session['betmoney'])
 					color = []
 					for option in options:
 						color.append(getColor(option))
@@ -137,7 +108,8 @@ def acceptable():
 											 color=session['color'], \
 											 bankroll_history=session['bankroll_history'], \
 											 gamedata_home_url=gamedata_home_url, \
-											 max_round=max_round)
+											 max_round=max_round, \
+										     bet_history=session['bet_history'])
 			elif action == 'clear':
 				session['betmoney'] = 0
 			elif action == '5d':
@@ -157,7 +129,7 @@ def acceptable():
 			os.system('echo acceptable: filepaths = ' + str(session['filepaths']))
 	return render_template('play_acceptable.html', \
 							 bankroll=session['bankroll'] - session['betmoney'], \
-							 bet=session['bet'] + session['betmoney'], \
+							 bet=session['betmoney'], \
 							 win=session['win'], \
 							 stage=session['stage'], \
 							 decision=decision, \
@@ -177,28 +149,13 @@ def start_acceptable():
 	decision = ''
 
 	init_session()
-	# session['filepaths'] = draw_acceptable_image_files()
-	session['ig_id'], session['filePathsList'] = draw_acceptable_image_files()
-	os.system('echo ig_id = ' + str(session['ig_id']))
+	session['ig_id'], session['filePathsList'] = draw_acceptable_image_files(session['userid'])
 	session['filepaths'] = (session['filePathsList'])[session['stage']-1]
-
-	filename = ((session['filepaths'])[0]).split('/')[2]
-	os.system('echo start_acceptable filename = ' + filename)
-	session['imageid'] = get_image_id(filename)
-	os.system('echo start_acceptable 2 ' + str(session['imageid']))
-
-	filename = ((session['filepaths'])[2]).split('/')[2]
-	session['degimageid'] = get_degimage_id(filename)
-	os.system('echo start_acceptable 3 ' + str(session['degimageid']))
-
-	for item in session['filepaths']:
-		os.system('echo item = ' + item)
-
-	os.system('echo start_acceptable ' + str(session['filepaths']))
-	os.system('echo start_acceptable end')
+	session['imageid'] = get_image_id(((session['filepaths'])[0]).split('/')[2])
+	session['degimageid'] = get_degimage_id(((session['filepaths'])[2]).split('/')[2])
 	return render_template('play_acceptable.html', \
 							 bankroll=session['bankroll'] - session['betmoney'], \
-							 bet=session['bet'] + session['betmoney'], \
+							 bet=session['betmoney'], \
 							 win=session['win'], \
 							 stage=session['stage'], \
 							 decision=decision, \
@@ -210,38 +167,28 @@ def start_acceptable():
 
 
 def init_session():
-	os.system('echo init_session start')
-
 	uid = uuid.uuid4()
 	session['sessionid'] = str(uid)
 	store_session(session['userid'], session['sessionid'])
 	session['win'] = 0.0
 	initialize()
 
-	os.system('echo init_session end')
-
-
 def initialize():
-	os.system('echo initialize start')
-
-	session['bankroll'] = 10000
-	session['bet'] = 0
+	session['bankroll'] = 5000
 	session['stage'] = 1
 	session['betmoney'] = 0
 	session['score'] = []
 	session['options'] = []
 	session['proportion'] = []
-	session['decision_location'] = []
 	session['color'] = []
-	session['bankroll_history'] = []
-	# session['filepaths'] = []
 	session['ig_id'] = -1
 	session['filePathsList'] = []
 	session['degimageid'] = -1
 	session['expired'] = False
 	session['playidlist'] = []
-
-	os.system('echo initialize end')
+	session['decision_location'] = []
+	session['bankroll_history'] = []
+	session['bet_history'] = []
 
 #
 # if __name__ == '__main__':

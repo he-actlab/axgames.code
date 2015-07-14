@@ -11,7 +11,7 @@ from game3_qna.qna import start_qna
 from database import db_session
 from database import init_db
 from database import clean_db
-from query import upload_files, upload_files_old, add_user, doLogin
+from query import upload_files, add_user, doLogin, get_user_id
 
 import os, time
 from enum import Enum
@@ -54,18 +54,6 @@ def reset():
 @app.route('/upload')
 def upload():
 	status = upload_files()
-	return status
-
-@app.route('/upload_old', methods = ['POST', 'GET'])
-def upload_old():
-	orgpath = ''
-	degpath = ''
-	sobelpath = ''
-	if request.method == "GET":
-		orgpath = request.args.get('orgpath', '')
-		degpath = request.args.get('degpath', '')
-		sobelpath = request.args.get('sobelpath', '')
-	status = upload_files_old(orgpath, degpath, sobelpath)
 	return status
 
 @app.route('/initdb')
@@ -123,7 +111,7 @@ def login():
 			password = request.form['password']
 			processed_password = password.lower()
 			if doLogin(processed_username,processed_password):
-				session['userid'] = processed_username
+				session['userid'] = get_user_id(processed_username)
 				return render_template('index.html',state=State.login_success)
 			else:
 				return render_template('index.html',state=State.incorrect_password)

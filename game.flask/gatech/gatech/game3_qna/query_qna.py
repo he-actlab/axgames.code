@@ -3,6 +3,7 @@ import os, random
 from gatech import session
 from gatech.database import db_session
 from gatech.models import Image, PlaySession, Play
+from gatech.conf import ERROR_MAX
 
 def get_selections(imagename):
 
@@ -17,6 +18,43 @@ def get_selections(imagename):
 		selections.append(int(tokens[i].encode("ascii")))
 	return selections
 
+def get_history(imagename):
+	imagename = imagename.split('.')[0]
+
+	result = db_session.query(Image).filter_by(imagename=imagename).first()
+	tokens = result.game3_history.split('|')
+	history = []
+	for token in tokens:
+		pair = token.strip('[').strip(']').split(',')
+		nAgree = pair[0]
+		nPlayed = pair[1]
+		history.append([int(nAgree), int(nPlayed)])
+
+	os.system('echo get_history end')
+
+	return history
+
+def update_history(imagename, error):
+	oldHistory = db_session.query(Image).filter_by(imagename=imagename).first().game3_history
+
+	newHistory = ""
+	e = 1
+	histories = oldHistory.split('|')
+	for h in histories:
+		tokens = h.split(',')
+		if e <= error:
+			numAgree = int(tokens[0]) + 1
+		else:
+			numAgree = int(tokens[0])
+		numPlayed = int(tokens[1]) + 1
+		newHistory += str(numAgree) + ',' + str(numPlayed)
+		if e != ERROR_MAX:
+			newHistory += '|'
+		e += 1
+
+	db_session.query(Image).filter(Image.imagename == imagename).update({"game3_history": newHistory})
+	db_session.commit()
+
 def update_qna_record (imagename, selection, selections):
 
 	imagename = imagename.split('.')[0]
@@ -28,13 +66,13 @@ def update_qna_record (imagename, selection, selections):
 		newSelections = newSelections + str(selections[i]) + "|"
 	newSelections = newSelections + str(selections[len(selections)-1])
 
-	for result in db_session.query(Image).filter_by(imagename=imagename):
-		num_played_game3 = result.num_played_game3
-		db_session.query(Image).filter(Image.imagename == imagename).update({"selected_error_array_game3": newSelections})
-		db_session.query(Image).filter(Image.imagename == imagename).update({"num_played_game3": num_played_game3 + 1})
-		os.system('echo update_qna_record: here3 ')
-		db_session.commit()
-		break
+	result = db_session.query(Image).filter_by(imagename=imagename).first()
+	num_played_game3 = result.num_played_game3
+	db_session.query(Image).filter(Image.imagename == imagename).update({"selected_error_array_game3": newSelections})
+	db_session.query(Image).filter(Image.imagename == imagename).update({"num_played_game3": num_played_game3 + 1})
+	db_session.commit()
+
+	update_history(imagename, selection)
 
 def get_image_id(imagename):
 	os.system('echo get_image_id ' + imagename)
@@ -63,7 +101,7 @@ def save_play(session_uuid, game_type, imagename, error_rate, bet, incorrect):
 		os.system('echo save_play false')
 		return False
 
-	p = Play(int(session_id), int(game_type), int(get_image_id(imagename)), 0, 0, 0, 0, 0, int(incnum), int(error_rate), int(bet))
+	p = Play(int(session_id), int(game_type), int(get_image_id(imagename)), 1, 0, 0, 0, 0, int(incnum), int(error_rate), int(bet))
 	db_session.add(p)
 	db_session.commit()
 

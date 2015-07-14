@@ -1,15 +1,32 @@
 import os
 
-from query_winabatt import get_selections, update_winbatt_record
-from gatech.conf import drawn_errors
+from query_winabatt import get_selections, update_winbatt_record, get_history
+from gatech.conf import drawn_errors, GAME2_DEFAULT_WINNING, GAME2_MAX_WINNING_PROPORTION
+
+def find_first_disagree_error(history):
+	for i in range(0, len(history)):
+		if float(history[i][1]) == 0.0:
+			continue
+		if float(history[i][0]) / float(history[i][1]) < 0.5:
+			return i
+	return len(history) - 1
+
+def get_winning(filename, error):
+	os.system('echo get_winning start')
+	history = get_history(filename)
+	firstDisagreeError = find_first_disagree_error(history)
+	winning= GAME2_DEFAULT_WINNING * (GAME2_MAX_WINNING_PROPORTION + abs(firstDisagreeError - error) * ((-GAME2_MAX_WINNING_PROPORTION))/50.0)
+	os.system('echo get_winning end')
+
+	update_winbatt_record (filename, error, get_selections(filename))
+
+	return winning, firstDisagreeError
 
 def get_reward (filename, bet, error): # betting money should be in the formula
 
 	os.system('echo get_reward start')
 
 	selections = get_selections(filename)
-
-	os.system('echo get_reward 1')
 
 	num_groups = 5
 	reward = 30
