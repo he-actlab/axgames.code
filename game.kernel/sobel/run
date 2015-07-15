@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-$GAME_SOBEL/png2rgb.py png2rb $GAME_SOBEL/baboon.png $GAME_SOBEL/baboon.rgb
+$GAME_SOBEL/png2rgb.py png2rgb $GAME_SOBEL/baboon.png $GAME_SOBEL/baboon.rgb
 java -cp $GAME_SOBEL/sobel.jar Sobel.RgbImage $GAME_SOBEL/baboon.rgb $GAME_SOBEL/output nrmse
 echo "Sobel done ... (nrmse)"
 java -cp $GAME_SOBEL/sobel.jar Sobel.RgbImage $GAME_SOBEL/baboon.rgb $GAME_SOBEL/output psnr

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="emboss" default="build">
+
+  <target name="build" depends="clean">
+    <mkdir dir="build"/>
+    <javac srcdir="src"
+           destdir="build"
+           optimize="true"
+           debug="true"
+           deprecation="true">
+    </javac>
+    <jar jarfile="emboss.jar" basedir="build"/>
+  </target>
+
+  <target name="clean">
+        <delete dir="build"/>
+        <delete file="emboss.jar"/>
+  </target>
+
+</project>

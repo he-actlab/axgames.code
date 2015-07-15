@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+$GAME_EMBOSS/png2rgb.py png2rgb $GAME_EMBOSS/baboon.png $GAME_EMBOSS/baboon.rgb
+java -cp $GAME_EMBOSS/emboss.jar Emboss.RgbImage $GAME_EMBOSS/baboon.rgb $GAME_EMBOSS/output nrmse
+echo "Emboss done ... (nrmse)"
+java -cp $GAME_EMBOSS/emboss.jar Emboss.RgbImage $GAME_EMBOSS/baboon.rgb $GAME_EMBOSS/output psnr
+echo "Emboss done ... (psnr)"
+$GAME_EMBOSS/png2rgbAll.py rgb2png output/nrmse pngOutput/nrmse
+echo "Rgb2Png done ... (nrmse)"
+$GAME_EMBOSS/png2rgbAll.py rgb2png output/psnr pngOutput/psnr
+echo "Rgb2Png done ... (psnr)"
