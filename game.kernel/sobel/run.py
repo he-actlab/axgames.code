@@ -18,8 +18,8 @@ for filename in os.popen('ls images | grep png').readlines():
 	
 	print "png2rgb.py done ... (png2rgb)"
 
-	os.system('mkdir ' + basedir + '/rgboutput/' + name)
-	os.system('mkdir ' + basedir + '/rgboutput/' + name + '/nrmse')
+	os.system('rm -rf ' + basedir + '/rgboutput/' + name + ' ; mkdir ' + basedir + '/rgboutput/' + name)
+	os.system('rm -rf ' + basedir + '/rgboutput/' + name + '/nrmse ; mkdir ' + basedir + '/rgboutput/' + name + '/nrmse')
 	#os.system('mkdir ' + basedir + '/rgboutput/' + name + '/psnr')
 	
 	os.system('java -cp ' + basedir + '/sobel.jar Sobel.RgbImage ' + basedir + '/images/' + rgbfilename + ' ' + basedir + '/rgboutput/' + name + ' nrmse')
@@ -28,8 +28,8 @@ for filename in os.popen('ls images | grep png').readlines():
 	#os.system('java -cp ' + basedir + '/sobel.jar Sobel.RgbImage ' + basedir + '/images/' + rgbfilename + ' ' + basedir + '/rgboutput/' + name + ' psnr')
 	#print "Sobel done ... (psnr)"
 	
-	os.system('mkdir ' + basedir + '/pngoutput/' + name)
-	os.system('mkdir ' + basedir + '/pngoutput/' + name + '/nrmse')
+	os.system('rm -rf ' + basedir + '/pngoutput/' + name + ' ; mkdir ' + basedir + '/pngoutput/' + name)
+	os.system('rm -rf ' + basedir + '/pngoutput/' + name + '/nrmse ; mkdir ' + basedir + '/pngoutput/' + name + '/nrmse')
 	#os.system('mkdir ' + basedir + '/pngoutput/' + name + '/psnr')
 	
 	os.system(basedir + '/png2rgbAll.py rgb2png ' + basedir + '/rgboutput/' + name + '/nrmse ' + basedir + '/pngoutput/' + name + '/nrmse')

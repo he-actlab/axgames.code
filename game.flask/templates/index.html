@@ -1,0 +1,181 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Consensus</title>
+		<link rel="icon" href="https://research.cc.gatech.edu/act-lab/sites/edu.act-lab/files/ACT-logo-scaled_1.png" type="image/png">
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+	</head>
+	
+	<body>
+		<nav class="navbar navbar-default">
+		  <div class="container">
+			<div class="navbar-header">
+			  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span> 
+			  </button>
+			  <div class="navbar-brand">
+			  	<img alt="Brand" style="height: 30px; width: 30px; display: inline; padding-right: 5px" src="https://research.cc.gatech.edu/act-lab/sites/edu.act-lab/files/ACT-logo-scaled_1.png">Consensus
+			  </div>
+			</div>
+			</div>
+		  </div>
+		</nav>
+	
+		<div class="row">
+		  <div class="col-xs-6">
+		  	<div class="panel panel-default">
+				<div class="panel-heading"><b>Register</b></div>
+		  		<div class="panel-body">
+		    		<h4>Three games</h4>
+					<!--
+						class State(Enum):
+							default = 0
+							login = 1
+							login_success = 2
+							register = 3
+							create = 4
+							mismatch = 5
+							create_success = 6
+							gohome = 7
+							incorrect_password = 8
+							duplicate_id = 9
+					-->
+					{% if state == 0 %}
+						<form action="/login" method="post">
+							<input type="text" name="username" placeholder="Username">
+							<input type="password" name="password" placeholder="Password">
+							<button type="submit" name="login">Login</button>
+							<br><br>
+							<h5 style="display: inline">New user</h5>&nbsp;&nbsp;&nbsp;<button type="submit" name="register">Register</button>
+							<br><br>
+						</form>
+					{% elif state == 2 %}
+						<h4>Login successful!</h4>
+						<form action='/selectgame' method="post" target=_self>
+							<input type="submit" name="start" value="Play Game!"></input>
+						</form>
+					{% elif state == 3 %}
+						<form action="/login" method="post">
+							<input type="text" name="username" placeholder="Username">
+							<input type="password" name="password" placeholder="Password">
+							<input type="password" name="repeat_password" placeholder="Repeat Password">
+							<button type="submit" name="create">Create Account</button>
+							<button type="submit" name="back">Go Back</button>
+							<br><br>
+						</form>
+					{% elif state == 5 %}
+						<h4>Password Mismatch!</h4>
+						<form action="/login" method="post">
+							<input type="text" name="username" placeholder="Username">
+							<input type="password" name="password" placeholder="Password">
+							<input type="password" name="repeat_password" placeholder="Repeat Password">
+							<button type="submit" name="create">Create Account</button>
+							<br><br>
+						</form>
+					{% elif state == 6 %}
+						<h4>Account Successfully Created!</h4>
+						<form action="/login" method="post">
+							<button type="submit" name="gohome">Go home</button>
+						</form>
+					{% elif state == 8 %}
+						<h4>Incorrect Password!</h4>
+						<form action="/login" method="post">
+							<input type="text" name="username" placeholder="Username">
+							<input type="password" name="password" placeholder="Password">
+							<button type="submit" name="login">Login</button>
+							<br><br>
+							<h5 style="display: inline">New user</h5>&nbsp;&nbsp;&nbsp;<button type="submit" name="register">Register</button>
+							<br><br>
+						</form>
+					{% elif state == 9 %}
+						<h4>Already exist the username!</h4>
+						<form action="/login" method="post">
+							<input type="text" name="username" placeholder="Username">
+							<input type="password" name="password" placeholder="Password">
+							<input type="password" name="repeat_password" placeholder="Repeat Password">
+							<button type="submit" name="create">Create Account</button>
+							<br><br>
+						</form>
+					{% endif %}
+		  		</div>
+			</div>
+		</div>
+		  	<div class="col-xs-6">
+				<div class="panel panel-default">
+					<div class="panel-heading"><b>Consent</b></div>
+		  			<div class="panel-body">
+ 						<center><h4>CONSENT DOCUMENT FOR ENROLLING ADULT PARTICIPANTS IN A RESEARCH STUDY</h4></center>
+ 						<center>Georgia Institute of Technology</center>
+ 						<center>Project Title:  Playing a Game to Measure Acceptable Quality Loss from Approximate Computing</center><br>
+ 						Investigators: <i>Hadi Esmaeilzadeh, Jongse Park</i><br>
+ 						Protocol and Consent Title: <i>Main23/03/15v1</i><br><br>
+ 						<b>You are being asked to be a volunteer in a research study.</b><br><br>
+ 
+ 						<b><u>Purpose:</u></b><br>
+ 						The purpose of this study is to evaluate how much quality degradation due to an approximate computing kernel (Edge Detection: Sobel filter) is acceptable by application users. We expect to enroll up to 100 people in this study.<br><br>
+
+						<b><u>Exclusion/Inclusion Criteria:</u></b><br>
+						This game is very intuitive and does not require any expertise in any academic domains. However, since the subjects should be able to understand the instructions and play the game, people who cannot read and understand English are not eligible for this study. A person who is under 18 is not eligible.<br><br>
+ 
+						<b><u>Procedures:</u></b><br>
+						The game has been implemented as a web game so every subject can just access using easily downloadable web browsers such as Google Chrome, Firefox, and MS Internet explorer. 
+						<br><br>
+						Then you will need to read and understand the instructions provided by the first page of the game. When you click the “start” button, the game will be started. 
+						<br><br>
+						Each game has 10 stages and for each stage, you will see two images, one of which is an edge-detected image without any error in the left and another one of which is an edge-detected image with a certain amount of error. You should guess what would be the agreed opinion on whether the quality degradation on this image is acceptable: “Accept” or “Reject”. If you are confident with your call, you can bet more money and otherwise you can bet the minimum amount of betting money. Note that the bankroll and betting money are virtual. When you chose the same answer with majority, you will be rewarded and otherwise you will lost the betted money. <br><br>
+
+						<b><u>Risks or Discomforts:</u></b><br> 
+						The risks involved are no greater than those involved in daily activities such as playing other web games.<br><br>
+ 
+						<b><u>Benefits:</u></b><br> 
+						You are not likely to benefit in any way from joining this study. We hope that what we learn will someday help improve the research in approximate computing.<br><br>
+ 
+						<b><u>Compensation to You: </u></b><br> 
+						None.<br><br>
+ 
+						<b><u>Confidentiality:</u></b><br>
+						The following procedures will be followed to keep your personal information confidential in this study:  The data collected about you will be kept private to the extent allowed by law.  To protect your privacy, your records will be kept under a code number rather than by name.  Your records will be kept in locked files and only study staff will be allowed to look at them.  Your name and any other fact that might point to you will not appear when results of this study are presented or published.  Your privacy will be protected to the extent allowed by law.  To make sure that this research is being carried out in the proper way, the Georgia Institute of Technology IRB may review study records.  The Office of Human Research Protections may also look over study records during required reviews.<br><br>
+ 
+ 
+						<b><u>Costs to You: </u></b><br>
+						There are no costs to you, other than your time, for being in this study.<br><br>
+
+						 
+						<b><u>In Case of Injury/Harm:</u></b><br>
+						If you are injured as a result of being in this study, please contact the Principal Investigator (Hadi Esmaeilzadeh), at telephone (206) 658-3952.  Neither the Principal Investigator nor Georgia Institute of Technology has made provision for payment of costs associated with any injury resulting from participation in this study.<br><br>
+						 
+						<b><u>Participant Rights:</u></b><br>
+						<ul>
+							<li>Your participation in this study is voluntary. You do not have to be in this study if you don't want to be.</li>
+							<li>You have the right to change your mind and leave the study at any time without giving any reason and without penalty.</li>
+							<li>Any new information that may make you change your mind about being in this study will be given to you.</li>
+						</ul>
+
+						<b><u>Questions about the Study:</u></b><br>
+						<ul>
+							<li>If you have any questions about the study, you may contact Hadi Esmaeilzadeh at telephone (206) 658-3952 or hadi@ cc.gatech.edu.</li>
+						</ul>
+
+						<b><u>Questions about Your Rights as a Research Participant:</u></b><br>
+
+						If you have any questions about your rights as a research participant, you may contact <br><br>
+
+						<center>Ms. Melanie Clark, Georgia Institute of Technology</center>
+						<center>Office of Research Integrity Assurance, at (404) 894-6942.</center><br>
+						 
+						 If you complete the study, it means that you have read -- or have had read to you -- the information contained in this letter and would like to be a volunteer in this research study.
+
+		  			</div>
+				</div>
+		  	</div>
+		</div>
+	</body>
+</html>
