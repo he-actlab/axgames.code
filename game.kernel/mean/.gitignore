@@ -5,3 +5,5 @@ rgbOutput/
 *.class
 *.jar
 /build
+.classpath
+.project
