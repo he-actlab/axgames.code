@@ -52,27 +52,26 @@
             <div class="container">
                 <center>
                     <div class="col-md-12">
+
                         <span style="padding: 0px; padding-right: 360px; padding-bottom: 100px; float: right; width: 100px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;"><img
                                 id="battery" src="{{ url_for('static',filename='img/batteries/3.png') }}" class="thumb"
                                 style="width:50px"></span>
                         <center><h1 class="text-center">Round {{ stage }}</h1></center>
+                        <span style="padding: 0px; padding-right: 210px; padding-top: 30px; padding-bottom: 40px; float: right; width: 100px; text-align: center; margin-left: 0px; font-size:15px; height: 20px; border: 1px">
+                            <div style="width:100px; height:60px"><span id="remaining" class="label label-success" style="width:150px;font-size:160%">Current Balance: ${{ power }}</span>
+                            </div>
+                        </span>
                     </div>
                     <div class="col-md-12">
                         <img id="image" src="{{ gamedata_home_url + '/sobelimage/' + imagename + '-sobel.png' }}"
                              class="thumb" style="width:500px">
 
-                        <h3>How much do you bet that this picture is good enough?</h3><br>
+                        <h3>How much would you spend to get a good-enough quality for this picture?</h3>
+                        <h3>Slide to improve it!</h3><br>
 
                         <div style="width:700px">
-                            <div class="col-md-5">
-                                <div style="width:100px;height:60px"><span id="remaining" class="label label-success"
-                                                                           style="width:150px;font-size:150%">Current Balance: {{ power }} mJ</span>
-                                </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div style="width:60px;height:60px"><span id="investing" class="label label-danger"
-                                                                          style="width:150px;font-size:150%">Current Bet: 0 mJ</span>
-                                </div>
+                            <div style="display:inline;width:60px;height:60px;"><span id="investing" class="label label-danger"
+                                                                      style="width:150px;font-size:150%">Current Cost: $0</span>
                             </div>
                         </div>
                         <br><br>
@@ -81,7 +80,7 @@
                         <br><br>
 
                         <form action='/winabatt' method="post" target="_self">
-                            <center><input id="betbutton" type="submit" name="bet" value="Bet" class="btn btn-primary"
+                            <center><input id="betbutton" type="submit" name="bet" value="Spend" class="btn btn-primary"
                                            data-toggle="tooltip" data-placement="bottom"
                                            style=" font-size:150%"></input></center>
                         </form>
@@ -126,8 +125,8 @@
 												document.getElementById("battery").src = dirpath.concat("batteries/1.png");
 											}
 											document.getElementById("betbutton").name = "bet_".concat(String(power_consumption)).concat("_").concat(String(error));
-											document.getElementById("remaining").innerHTML = "Current Balance: ".concat(String(total_power)).concat(" mJ");
-											document.getElementById("investing").innerHTML = "Current Bet: ".concat(String(power_consumption)).concat(" mJ");
+											document.getElementById("remaining").innerHTML = "Current Balance: $".concat(String(total_power));
+											document.getElementById("investing").innerHTML = "Current Cost: $".concat(String(power_consumption));
 											return 'Current quality: ' + (100 - error) + '%';
 										}
 									});

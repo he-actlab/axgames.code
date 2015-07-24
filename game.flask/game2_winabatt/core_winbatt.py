@@ -9,7 +9,7 @@ def find_first_disagree_error(history):
 			continue
 		if float(history[i][0]) / float(history[i][1]) < 0.5:
 			return i
-	return len(history) - 1
+	return len(history) / 2
 
 def get_winning(filename, error):
 	os.system('echo get_winning start')

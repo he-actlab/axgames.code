@@ -37,10 +37,10 @@ def winabatt():
 			reward, average = get_winning(session['imagename'] + ".png", int(error_rate))
 			if save_play(session['sessionid'], 1, session['imagename'], error_rate, bet, reward) == True:
 				session['power'] += reward
-				session['power_history'].append(session['power'])
+				session['power_history'].append(float(int(100.0 * session['power'])) / 100.0)
 				session['error_history'].append(error_rate)
 				session['bet_history'].append(float(bet))
-				session['reward_history'].append(reward)
+				session['reward_history'].append(float(int(100.0 * reward)) / 100.0)
 				# session['selections_history'].append(selections)
 				session['average_history'].append(average)
 

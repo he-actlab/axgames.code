@@ -1,11 +1,13 @@
 #!/usr/bin/python
 
 import os, sys
+from multiprocessing import Process
 
 basedir = os.environ['GAME_SOBEL']
 
-for filename in os.popen('ls images | grep png').readlines():
 
+
+def runSobel(filename):
 	print
 	print 'Working on ' + filename
 	print 
@@ -40,3 +42,21 @@ for filename in os.popen('ls images | grep png').readlines():
 	
 	os.system('rm -rf ' + basedir + '/rgboutput/' + name)
 	os.system('rm ' + basedir + '/images/' + rgbfilename)
+
+def main():
+	newfiles = []
+	files = os.popen('ls images | grep png').readlines()
+	PARALLEL_WIDTH = 8
+	for f in files:
+		print f.strip('\n')
+		newfiles.append(f.strip('\n'))
+
+	for chunk in range(0, (len(newfiles) / PARALLEL_WIDTH) + 1):
+		pool = [Process(target=runSobel, args=(str(newfiles[i + chunk * PARALLEL_WIDTH]),)) for i in range(min(PARALLEL_WIDTH * (chunk+1), len(newfiles)) - PARALLEL_WIDTH * chunk)]
+		for i in range(min(PARALLEL_WIDTH * (chunk + 1), len(newfiles)) - PARALLEL_WIDTH * chunk):
+			pool[i].start()
+		for p in pool:
+			p.join()
+
+if __name__ == '__main__':	
+	main()

@@ -29,7 +29,7 @@
             </button>
             <div class="navbar-brand">
                 <img alt="Brand" style="height: 30px; width: 30px; display: inline; padding-right: 5px"
-                     src="https://research.cc.gatech.edu/act-lab/sites/edu.act-lab/files/ACT-logo-scaled_1.png">Consensus - Acceptable
+                     src="https://research.cc.gatech.edu/act-lab/sites/edu.act-lab/files/ACT-logo-scaled_1.png">Consensus - Pollice Verso
             </div>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -53,42 +53,39 @@
         <center>
             <h1>Score Board</h1>
 
-            <div class="container">
+            <div class="container" style="width:1240px">
                 <!-- <div style="width:830px">
                         <span class="badge" style="padding: 0px; float: left; width: 100px; text-align: center; margin-right: 10px; font-size:15px; height: 20px;">Stage </span>
                         <span class="label label-default" style="padding: 0px; float: right; width: 100px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">Bankroll</span>
                   </div> -->
                 <br>
 
-                <div style="width:1300px">
-                    <span class="label label-default"
-                          style="padding: 0px; float: right; width: 180px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Current Balance</span>
+                <div style="width:1200px;">
+                    <span class="label label-success"
+                          style="background-color: white; color: black; padding: 0px; float: right; width: 120px; text-align: center; margin-left: 10px; font-size:20px; height: 15px;">Current<br> Balance</span>
+                    <span class="label label-default" style="padding: 0px; float: right; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">&nbsp;</span>
                     <span class="label label-primary"
-                          style="padding: 0px; float: right; width: 150px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Your Winning</span>
+                          style="background-color: white; color: black; padding: 0px; float: right; width: 120px; text-align: center; margin-left: 10px; font-size:20px; height: 15px;">Your<br> Winning</span>
+                    <span class="label label-default" style="padding: 0px; float: right; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">&nbsp;</span>
                     <span class="label label-danger"
-                          style="padding: 0px; float: right; width: 100px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;"><b>Your Bet</b></span>
+                          style="background-color: white; color: black; padding: 0px; float: right; width: 100px; text-align: center; margin-left: 10px; font-size:20px; height: 15px;"><b>Your<br> Bet</b></span>
+                    <span class="label label-default" style="padding: 0px; float: right; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">&nbsp;</span>
                     <span class="label label-default"
-                          style="padding: 0px; float: right; width: 180px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Original Balance</span>
+                          style="background-color: white; color: black; padding: 0px; float: right; width: 120px; text-align: center; margin-left: 10px; font-size:20px; height: 15px;">Original<br> Balance</span>
                     <span class="label label-default"
-                          style="padding: 0px; float: right; width: 300px; text-align: center; margin-left: 10px; margin-right: 120px; font-size:20px; height: 25px;">Others' Choices of Quality</span>
-
+                          style="background-color: white; color: black; padding: 0px; float: right; width: 300px; text-align: center; margin-left: 10px; margin-right: 120px; font-size:20px; height: 15px;">Others'<br> Choices of Quality</span>
                 </div>
-                <br><br>
+                <br><br><br>
                 {% for i in stage %}
-                <div class="container" style="width:855px;padding:0px;border:0px" align="right">
-                    <div class="col-sm-2" style="width:135px;padding:0px;border: 0px solid black;">&nbsp;</div>
-                    <div class="col-sm-2" style="width:{{ 500 * decision_location[i-1] }}px;padding:0px;border: 0px solid black;">
-                        <!--<span class="glyphicon glyphicon-arrow-down" style="margin:0px;font-size:25px"></span>-->
-                    </div>
-                    <div class="col-sm-2" style="width:{{ 500 * (1.0 - decision_location[i-1]) }}px;padding:0px;border: 0px solid black;">&nbsp;</div>
-                    <div class="col-sm-2" style="width:220px;padding:0px;border: 0px solid black;">&nbsp;</div>
-                </div>
-                <div style="width:1300px">
-                    <span class="badge" style="padding: 0px; float: left; width: 100px; text-align: center; margin-right: 10px; font-size:15px; height: 20px;">Round {{ i }}</span>
-                    <span class="label label-default" style="padding: 0px; float: right; width: 180px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ bankroll_history[i-1] }}</span>
-                    <span class="label label-primary" style="padding: 0px; float: right; width: 150px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ score[i-1] }}</span>
+                <div style="width:1200px">
+                    <span class="badge" style="background-color: white; color: black; padding: 0px; float: left; width: 100px; text-align: center; margin-right: 10px; font-size:18px; height: 20px;">Round {{ i }}</span>
+                    <span class="label label-success" style="padding: 0px; float: right; width: 120px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ bankroll_history[i-1] }}</span>
+                    <span class="label label-default" style="padding: 0px; float: right; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">=</span>
+                    <span class="label label-primary" style="padding: 0px; float: right; width: 120px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ score[i-1] }}</span>
+                    <span class="label label-default" style="padding: 0px; float: right; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">+</span>
                     <span class="label label-danger" style="padding: 0px; float: right; width: 100px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ bet_history[i-1] }}</span>
-                    <span class="label label-default" style="padding: 0px; float: right; width: 180px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ bankroll_history[i-1] }}</span>
+                    <span class="label label-default" style="padding: 0px; float: right; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">-</span>
+                    <span class="label label-default" style="padding: 0px; float: right; width: 120px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ bankroll_history[i-1] }}</span>
 
                     <div class="progress" style="width:500px;" id="prgbar">
                         <div class="progress-bar progress-bar-striped"

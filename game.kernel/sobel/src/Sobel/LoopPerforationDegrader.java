@@ -11,14 +11,16 @@ public class LoopPerforationDegrader {
 	public int[][][] image;
 	public String mode;
 	public double errorRange;
+	public String path;
 	
-	LoopPerforationDegrader(int width, int height, int[][][] orgImage, String mode, double errorRange) {
+	LoopPerforationDegrader(int width, int height, int[][][] orgImage, String mode, double errorRange, String path) {
 		System.out.println("width: " + width);
 		this.width = width;
 		this.height = height;
 		initImage(orgImage);
 		this.mode = mode;
 		this.errorRange = errorRange;
+		this.path = path;
 	}
 	
 	public void initImage(int[][][] orgImage) {
@@ -63,35 +65,60 @@ public class LoopPerforationDegrader {
 		int numFound = 0;
 		long sum = 0;
 		HashMap<String, Integer> diffMap = new HashMap<String, Integer>();
+		long TIMEOUT = 10 * 60 * 1000; // 10 minutes
+		boolean afterTimeout = false;
 		
 		int count = 0; //debug
 		
+		int mean, meansum = 0;
+		int max = -1;
+		int min = 256;
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				meansum += image[i][j][0];
+				if (image[i][j][0] > max)
+					max = image[i][j][0];
+				if (image[i][j][0] < min)
+					min = image[i][j][0];
+			}
+		}
+		mean = meansum / (height * width);
+		
 		if (mode.equalsIgnoreCase("nrmse")) {
 			double nrmse;
+			long start = System.currentTimeMillis();
 			do {
 				count++;
 				
 				h = (int)(r.nextDouble() * height);
 				w = (int)(r.nextDouble() * width);
 				
-				if (w == width-1) 
-					newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h][w-1][0];
-				else if (w == 0) 
-					newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h][w+1][0];
-				else if (h == height-1) 
-					newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h-1][w][0];
-				else if (h == 0) 
-					newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h+1][w][0];
-				else {
-					double rd = r.nextDouble();
-					if (rd < 0.25)
+				if (System.currentTimeMillis() - start <= TIMEOUT || afterTimeout == true) {
+					if (w == width-1) 
 						newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h][w-1][0];
-					else if (rd >= 0.25 && rd < 0.5)
+					else if (w == 0) 
 						newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h][w+1][0];
-					else if (rd >= 0.5 && rd < 0.75)
+					else if (h == height-1) 
 						newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h-1][w][0];
-					else
+					else if (h == 0) 
 						newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h+1][w][0];
+					else {
+						double rd = r.nextDouble();
+						if (rd < 0.25)
+							newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h][w-1][0];
+						else if (rd >= 0.25 && rd < 0.5)
+							newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h][w+1][0];
+						else if (rd >= 0.5 && rd < 0.75)
+							newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h-1][w][0];
+						else
+							newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h+1][w][0];
+					}
+				} else {
+					afterTimeout = true;
+					if (image[h][w][0] < 128)
+						newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = r.nextInt(128) + 128;
+					else
+						newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = r.nextInt(128);
 				}
 				
 				diff = Math.abs(newImage[h][w][0] - image[h][w][0]);
@@ -102,11 +129,12 @@ public class LoopPerforationDegrader {
 				} 
 				diffMap.put(key, diff);
 				sum += diff * diff;
-				nrmse = Math.sqrt(sum / (height * width)) / 255.0;
+				nrmse = Math.sqrt(sum / (height * width)) / (max - min);
 				
 				if (nrmse > errors[errIdx] && nrmse < errors[errIdx] + errorRange) {
+					start = System.currentTimeMillis();
 					imageSaver.save("_" + errors[errIdx] + ".rgb", newImage);
-					System.out.println("NRMSE: " + nrmse + "\tCount: " + count);
+					System.out.println("File[" + path + "]    NRMSE: " + nrmse + "\tCount: " + count);
 					errIdx++;
 					numFound++;
 					long sum2 = 0;
@@ -116,8 +144,8 @@ public class LoopPerforationDegrader {
 							sum2 += diff * diff;
 						}
 					}
-					System.out.println("sum2: " + sum2);
-					System.out.println("Real NRMSE: " + Math.sqrt(sum2 / (height * width)) / 255.0);
+//					System.out.println("sum2: " + sum2);
+//					System.out.println("Real NRMSE: " + Math.sqrt(sum2 / (height * width)) / (max - min));
 					if (numFound == errors.length)
 						find = true;
 				}
