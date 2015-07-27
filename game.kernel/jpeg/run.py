@@ -3,11 +3,11 @@
 import os, sys
 from multiprocessing import Process
 
-basedir = os.environ['GAME_SOBEL']
+basedir = os.environ['GAME_JPEG']
 
 
 
-def runSobel(filename):
+def runJpeg(filename):
 	print
 	print 'Working on ' + filename
 	print 
@@ -24,11 +24,11 @@ def runSobel(filename):
 	os.system('rm -rf ' + basedir + '/rgboutput/' + name + '/nrmse ; mkdir ' + basedir + '/rgboutput/' + name + '/nrmse')
 	#os.system('mkdir ' + basedir + '/rgboutput/' + name + '/psnr')
 	
-	os.system('java -cp ' + basedir + '/jpeg.jar Sobel.RgbImage ' + basedir + '/images/' + rgbfilename + ' ' + basedir + '/rgboutput/' + name + ' nrmse')
+	os.system('java -cp ' + basedir + '/jpeg.jar Jpeg.RgbImage ' + basedir + '/images/' + rgbfilename + ' ' + basedir + '/rgboutput/' + name + ' nrmse')
 	print "jpeg done ... (nrmse)"
 	
-	#os.system('java -cp ' + basedir + '/jpeg.jar Sobel.RgbImage ' + basedir + '/images/' + rgbfilename + ' ' + basedir + '/rgboutput/' + name + ' psnr')
-	#print "Sobel done ... (psnr)"
+	#os.system('java -cp ' + basedir + '/jpeg.jar Jpeg.RgbImage ' + basedir + '/images/' + rgbfilename + ' ' + basedir + '/rgboutput/' + name + ' psnr')
+	#print "Jpeg done ... (psnr)"
 	
 	os.system('rm -rf ' + basedir + '/pngoutput/' + name + ' ; mkdir ' + basedir + '/pngoutput/' + name)
 	os.system('rm -rf ' + basedir + '/pngoutput/' + name + '/nrmse ; mkdir ' + basedir + '/pngoutput/' + name + '/nrmse')
@@ -52,7 +52,7 @@ def main():
 		newfiles.append(f.strip('\n'))
 
 	for chunk in range(0, (len(newfiles) / PARALLEL_WIDTH) + 1):
-		pool = [Process(target=runSobel, args=(str(newfiles[i + chunk * PARALLEL_WIDTH]),)) for i in range(min(PARALLEL_WIDTH * (chunk+1), len(newfiles)) - PARALLEL_WIDTH * chunk)]
+		pool = [Process(target=runJpeg, args=(str(newfiles[i + chunk * PARALLEL_WIDTH]),)) for i in range(min(PARALLEL_WIDTH * (chunk+1), len(newfiles)) - PARALLEL_WIDTH * chunk)]
 		for i in range(min(PARALLEL_WIDTH * (chunk + 1), len(newfiles)) - PARALLEL_WIDTH * chunk):
 			pool[i].start()
 		for p in pool:
