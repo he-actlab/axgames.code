@@ -1,0 +1,9 @@
+/bin
+output/
+pngOutput/
+rgbOutput/
+*.class
+*.jar
+/build
+.classpath
+.project

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="jpeg" default="build">
+
+  <target name="build" depends="clean">
+    <mkdir dir="build"/>
+    <javac srcdir="src"
+           destdir="build"
+           optimize="true"
+           debug="true"
+           deprecation="true">
+    </javac>
+    <jar jarfile="jpeg.jar" basedir="build"/>
+  </target>
+
+  <target name="clean">
+        <delete dir="build"/>
+        <delete file="jpeg.jar"/>
+  </target>
+
+</project>

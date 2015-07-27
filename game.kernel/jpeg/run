@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+$GAME_JPEG/png2rgb.py png2rgb $GAME_JPEG/baboon.png $GAME_JPEG/baboon.rgb
+java -cp $GAME_JPEG/jpeg.jar Jpeg.RgbImage $GAME_JPEG/baboon.rgb $GAME_JPEG/output nrmse
+echo "Jpeg done ... (nrmse)"
+#java -cp $GAME_JPEG/jpeg.jar Jpeg.RgbImage $GAME_JPEG/baboon.rgb $GAME_JPEG/output psnr
+#echo "Jpeg done ... (psnr)"
+$GAME_JPEG/png2rgbAll.py rgb2png output/nrmse pngOutput/nrmse
+echo "Rgb2Png done ... (nrmse)"
+#$GAME_JPEG/png2rgbAll.py rgb2png output/psnr pngOutput/psnr
+#echo "Rgb2Png done ... (psnr)"
