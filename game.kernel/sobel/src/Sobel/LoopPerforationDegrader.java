@@ -60,13 +60,12 @@ public class LoopPerforationDegrader {
 		}
 		
 		boolean find = false;
-		int h, w, diff, val;
+		int diff, val;
 		int errIdx = 0;
 		int numFound = 0;
 		long sum = 0;
+		double lasterror = 0.0;
 		HashMap<String, Integer> diffMap = new HashMap<String, Integer>();
-		long TIMEOUT = 10 * 60 * 1000; // 10 minutes
-		boolean afterTimeout = false;
 		
 		int count = 0; //debug
 		
@@ -86,96 +85,51 @@ public class LoopPerforationDegrader {
 		
 		if (mode.equalsIgnoreCase("nrmse")) {
 			double nrmse;
-			long start = System.currentTimeMillis();
-			do {
-				count++;
-				
-				h = (int)(r.nextDouble() * height);
-				w = (int)(r.nextDouble() * width);
-				
-				if (System.currentTimeMillis() - start <= TIMEOUT || afterTimeout == true) {
-					if (w == width-1) 
-						newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h][w-1][0];
-					else if (w == 0) 
-						newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h][w+1][0];
-					else if (h == height-1) 
-						newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h-1][w][0];
-					else if (h == 0) 
-						newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h+1][w][0];
-					else {
-						double rd = r.nextDouble();
-						if (rd < 0.25)
-							newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h][w-1][0];
-						else if (rd >= 0.25 && rd < 0.5)
-							newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h][w+1][0];
-						else if (rd >= 0.5 && rd < 0.75)
-							newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h-1][w][0];
-						else
-							newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h+1][w][0];
+			for (int jump = 2; jump < width; jump++){
+				System.out.println("jump = " + jump);
+				for (int h = 0; h < height; h++) {
+					for (int w = 0; w < width; w += jump) {
+						for (int k = 1; k < jump; k++) {
+							if (w + k >= width)
+								continue;
+							count++;
+							newImage[h][w + k][0] = newImage[h][w + k][1] = newImage[h][w + k][2] = image[h][w][0];
+							diff = Math.abs(newImage[h][w][0] - image[h][w][0]);
+							String key = String.valueOf(h) + 'x' + String.valueOf(w); 
+							if (diffMap.containsKey(key)) {
+								val = diffMap.get(key);
+								sum -= val * val;
+							} 
+							diffMap.put(key, diff);
+							sum += diff * diff;
+							nrmse = Math.sqrt(sum / (height * width)) / (max - min);
+							System.out.println("NRMSE: " + nrmse);
+							if (nrmse > errors[errIdx] && nrmse < errors[errIdx] + errorRange) {
+								imageSaver.save("_" + errors[errIdx] + ".rgb", newImage);
+								System.out.println("File[" + path + "]    NRMSE: " + nrmse + "\tCount: " + count);
+								lasterror = errors[errIdx];
+								errIdx++;
+								numFound++;
+								if (numFound == errors.length) {
+									find = true;
+									break;
+								}
+							}
+						}							
+						if (find == true)
+							break;
 					}
-				} else {
-					afterTimeout = true;
-					if (image[h][w][0] < 128)
-						newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = r.nextInt(128) + 128;
-					else
-						newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = r.nextInt(128);
+					if(find == true)
+						break;
 				}
-				
-				diff = Math.abs(newImage[h][w][0] - image[h][w][0]);
-				String key = String.valueOf(h) + 'x' + String.valueOf(w); 
-				if (diffMap.containsKey(key)) {
-					val = diffMap.get(key);
-					sum -= val * val;
-				} 
-				diffMap.put(key, diff);
-				sum += diff * diff;
-				nrmse = Math.sqrt(sum / (height * width)) / (max - min);
-				
-				if (nrmse > errors[errIdx] && nrmse < errors[errIdx] + errorRange) {
-					start = System.currentTimeMillis();
-					imageSaver.save("_" + errors[errIdx] + ".rgb", newImage);
-					System.out.println("File[" + path + "]    NRMSE: " + nrmse + "\tCount: " + count);
-					errIdx++;
-					numFound++;
-					long sum2 = 0;
-					for (int i=0; i < height; i++){
-						for (int j=0; j < width; j++){
-							diff = Math.abs(newImage[i][j][0] - image[i][j][0]);
-							sum2 += diff * diff;
-						}
-					}
-//					System.out.println("sum2: " + sum2);
-//					System.out.println("Real NRMSE: " + Math.sqrt(sum2 / (height * width)) / (max - min));
-					if (numFound == errors.length)
-						find = true;
-				}
-			} while (!find);	
+				if(find == true)
+					break;
+			}
+			for (int i = (int)(lasterror * 100); i < (int)(errors[errors.length-1] * 100); i++) {
+				imageSaver.save("_" + errors[i] + ".rgb", newImage);
+			}	
 		} 
-		else if (mode.equalsIgnoreCase("psnr")) {
-			double mse, psnr;
-			do {
-				count++;
-				
-				h = (int)(r.nextDouble() * height);
-				w = (int)(r.nextDouble() * width);
-				
-				newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = r.nextInt(255);
-				
-				diff = Math.abs(newImage[h][w][0] - image[h][w][0]);
-				sum += diff * diff;
-				mse = sum / (height * width);
-				psnr = 10 * Math.log10(255.0 * 255.0 / mse); 
-				
-				if (psnr > errors[errIdx] && psnr < errors[errIdx] + errorRange) {
-					imageSaver.save("_" + errors[errIdx] + ".rgb", newImage);
-					System.out.println("NRMSE: " + psnr + "\tCount: " + count);
-					errIdx++;
-					numFound++;
-					if (numFound == errors.length)
-						find = true;
-				}
-			} while (!find);	
-		} else {
+		else {
 			System.out.println("Error: Unknown mode!");
 			System.exit(0);
 		}
