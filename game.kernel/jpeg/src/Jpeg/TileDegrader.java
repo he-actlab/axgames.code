@@ -141,7 +141,7 @@ public class TileDegrader {
 				String key = String.valueOf(h) + 'x' + String.valueOf(w); 
 				if (diffMap.containsKey(key)) {
 					val = diffMap.get(key);
-					if (val < diff || r.nextDouble() > 0.1) {
+					if (val < diff || r.nextDouble() > 0.05) {
 						sum -= val * val;
 						diffMap.put(key, diff);
 						sum += diff * diff;
