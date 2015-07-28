@@ -65,29 +65,23 @@ public class TileDegrader {
 		int numFound = 0;
 		long sum = 0;
 		HashMap<String, Integer> diffMap = new HashMap<String, Integer>();
-		long TIMEOUT = 1 * 60 * 1000; // 10 minutes
-		boolean afterTimeout = false;
 		int orgValue;
 		
 		int count = 0; //debug
 		
-		int mean, meansum = 0;
 		int max = -1;
 		int min = 256;
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
-				meansum += image[i][j][0];
 				if (image[i][j][0] > max)
 					max = image[i][j][0];
 				if (image[i][j][0] < min)
 					min = image[i][j][0];
 			}
 		}
-		mean = meansum / (height * width);
 		
 		if (mode.equalsIgnoreCase("nrmse")) {
 			double nrmse;
-			long start = System.currentTimeMillis();
 			do {
 				count++;
 				
@@ -96,39 +90,31 @@ public class TileDegrader {
 				
 				orgValue = newImage[h][w][0];
 				
-				if (System.currentTimeMillis() - start <= TIMEOUT && afterTimeout == false) {
-					if (w == width-1) 
+				if (w == width-1) 
+					newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h][w-1][0];
+				else if (w == 0) 
+					newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h][w+1][0];
+				else if (h == height-1) 
+					newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h-1][w][0];
+				else if (h == 0) 
+					newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h+1][w][0];
+				else {
+					double rd = r.nextDouble();
+					if (rd < 0.25)
 						newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h][w-1][0];
-					else if (w == 0) 
+					else if (rd >= 0.25 && rd < 0.5)
 						newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h][w+1][0];
-					else if (h == height-1) 
+					else if (rd >= 0.5 && rd < 0.75)
 						newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h-1][w][0];
-					else if (h == 0) 
-						newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h+1][w][0];
-					else {
-						double rd = r.nextDouble();
-						if (rd < 0.25)
-							newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h][w-1][0];
-						else if (rd >= 0.25 && rd < 0.5)
-							newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h][w+1][0];
-						else if (rd >= 0.5 && rd < 0.75)
-							newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h-1][w][0];
-						else
-							newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h+1][w][0];
-					}
-				} else {
-					afterTimeout = true;
-					if (image[h][w][0] < 128)
-						newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = r.nextInt(128) + 128;
 					else
-						newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = r.nextInt(128);
+						newImage[h][w][0] = newImage[h][w][1] = newImage[h][w][2] = newImage[h+1][w][0];
 				}
 				
 				diff = Math.abs(newImage[h][w][0] - image[h][w][0]);
 				String key = String.valueOf(h) + 'x' + String.valueOf(w); 
 				if (diffMap.containsKey(key)) {
 					val = diffMap.get(key);
-					if (val < diff) {
+					if (val < diff || r.nextDouble() > 0.05) {
 						sum -= val * val;
 						diffMap.put(key, diff);
 						sum += diff * diff;
