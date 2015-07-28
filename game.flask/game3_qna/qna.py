@@ -48,10 +48,11 @@ def qna():
 				reward, average = get_winning(session['imagename'] + ".png", int(error_rate))
 				penalty = GAME3_WRONG_ANSWER_PENALTY if session['correct_answer'] != selected_answer else 0
 				if save_play(session['sessionid'], 2, session['imagename'], error_rate, bet, session['correct_answer'] == selected_answer, reward - penalty) == True:
+					session['old_power_history'].append(session['power'] + int(bet))
 					session['power'] += reward - penalty
 					session['power_history'].append(session['power'])
 					session['error_history'].append(error_rate)
-					session['bet_history'].append(float(bet))
+					session['bet_history'].append(bet)
 					session['reward_history'].append(reward)
 					# session['selections_history'].append(selections)
 					session['average_history'].append(average)
@@ -69,6 +70,7 @@ def qna():
 										 imagename=session['imagename'], \
 										 power=session['power'], \
 										 stage=session['stage'], \
+									   	 old_power_history=session['old_power_history'], \
 										 power_history=session['power_history'], \
 										 error_history=session['error_history'], \
 										 bet_history=session['bet_history'], \
@@ -123,6 +125,7 @@ def init_session():
 def initialize():
 	session['power'] = GAME3_INIT_ENERGY
 	session['stage'] = 1
+	session['old_power_history'] = []
 	session['power_history'] = []
 	session['error_history'] = []
 	session['bet_history'] = []

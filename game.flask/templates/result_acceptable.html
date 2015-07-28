@@ -85,16 +85,16 @@
                     <span class="label label-default" style="padding: 0px; float: right; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">+</span>
                     <span class="label label-danger" style="padding: 0px; float: right; width: 100px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ bet_history[i-1] }}</span>
                     <span class="label label-default" style="padding: 0px; float: right; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">-</span>
-                    <span class="label label-default" style="padding: 0px; float: right; width: 120px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ bankroll_history[i-1] }}</span>
+                    <span class="label label-default" style="padding: 0px; float: right; width: 120px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ old_bankroll_history[i-1] }}</span>
 
                     <div class="progress" style="width:500px;" id="prgbar">
                         <div class="progress-bar progress-bar-striped"
                              style="background-color:{{ color[i-1][0] }}; width: {{ proportion[i-1][0] * 100 }}%; font-size:15px; height: 20px;"> {%
-                            if proportion[i-1][0] >= 0.2 %} Good enough: {{ (((proportion[i-1][0] * 10000)|int)/100)|float }}% {% endif %}
+                            if proportion[i-1][0] >= 0.3 %} Good enough: {{ (((proportion[i-1][0] * 10000)|int)/100)|float }}% {% endif %}
                         </div>
                         <div class="progress-bar progress-bar-striped"
                              style="background-color:{{ color[i-1][1] }}; width: {{ proportion[i-1][1] * 100 }}%; font-size:15px; height: 20px;"> {%
-                            if proportion[i-1][1] >= 0.2 %} Unacceptable: {{ (((proportion[i-1][1] * 10000)|int)/100)|float }}% {% endif %}
+                            if proportion[i-1][1] >= 0.3 %} Unacceptable: {{ (((proportion[i-1][1] * 10000)|int)/100)|float }}% {% endif %}
                         </div>
                     </div>
                 </div>

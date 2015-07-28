@@ -12,6 +12,7 @@ from database import db_session
 from database import init_db
 from database import clean_db
 from query import upload_files, add_user, doLogin, get_user_id
+from conf import max_round, GAME1_INIT_BALANCE, KERNEL_NAME
 
 import os, time
 from enum import Enum
@@ -114,31 +115,46 @@ def login():
 			processed_password = password.lower()
 			if doLogin(processed_username,processed_password):
 				session['userid'] = get_user_id(processed_username)
-				return render_template('index.html',state=State.login_success)
+				renderState = State.login_success
 			else:
-				return render_template('index.html',state=State.incorrect_password)
+				renderState = State.incorrect_password
 
 		elif state == State.register:
-			return render_template('index.html',state=State.register)
+			renderState = State.register
 		elif state == State.create:
 			username = request.form['username'].lower()
 			password = request.form['password'].lower()
 			repeat_password = request.form['repeat_password'].lower()
 			if password != repeat_password:
-				return render_template('index.html',state=State.mismatch)
-			if add_user(username, password):
-				return render_template('index.html',state=State.create_success)
+				renderState = State.mismatch
 			else:
-				return render_template('index.html',state=State.duplicate_id)
+				if add_user(username, password):
+					renderState = State.create_success
+				else:
+					renderState = State.duplicate_id
 		elif state == State.gohome:
-			return render_template('index.html',state=State.default)
+			renderState = State.default
+
+		return render_template('index.html', \
+							   state=renderState, \
+							   max_round=max_round, \
+							   GAME1_INIT_BALANCE=GAME1_INIT_BALANCE, \
+							   KERNEL_NAME=KERNEL_NAME)
 
 @app.route("/logout")
 def logout():
 	os.system('echo logout')
 	session.clear()
-	return render_template('index.html',state=State.default)
+	return render_template('index.html', \
+						   state=State.default, \
+						   max_round=max_round, \
+						   GAME1_INIT_BALANCE=GAME1_INIT_BALANCE, \
+						   KERNEL_NAME=KERNEL_NAME)
 
 @app.route('/')
 def index():
-	return render_template('index.html',state=State.default)
+	return render_template('index.html', \
+						   state=State.default, \
+						   max_round=max_round, \
+						   GAME1_INIT_BALANCE=GAME1_INIT_BALANCE, \
+						   KERNEL_NAME=KERNEL_NAME)

@@ -57,45 +57,46 @@
                                 id="battery" src="{{ url_for('static',filename='img/batteries/3.png') }}" class="thumb"
                                 style="width:50px"></span>
                         <center><h1 class="text-center">Round {{ stage }}</h1></center>
+                        <span style="padding: 0px; padding-right: 210px; padding-top: 30px; padding-bottom: 40px; float: right; width: 100px; text-align: center; margin-left: 0px; font-size:15px; height: 20px; border: 1px">
+                            <div style="width:100px; height:60px"><span id="remaining" class="label label-success" style="width:150px;font-size:160%">Current Balance: ${{ power }}</span>
+                            </div>
+                        </span>
                     </div>
                     <div class="col-md-12">
                         <img id="image" src="{{ gamedata_home_url + '/sobelimage/' + imagename + '-sobel.png' }}"
                              class="thumb" style="width:500px"><br><br>
 
-                        <div style="width:700px">
-                            <div class="col-md-5">
-                                <div style="width:100px;height:60px"><span id="remaining" class="label label-success"
-                                                                           style="width:150px;font-size:150%">Current Balance: {{ power }} mJ</span>
-                                </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div style="width:60px;height:60px"><span id="investing" class="label label-danger"
-                                                                          style="width:150px;font-size:150%">Current Bet: 0 mJ</span>
-                                </div>
-                            </div>
-                        </div>
-                        <br><br>
-
                         <div>
+                            <h2><i>How much would you spend to <b>answer</b> for the following question?</i></h2>
+                            <br>
                             <h3>{{ question }}</h3>
                         </div>
                         <form action='/qna' method="post" target="_self">
                             <div class="radio">
                                 {% for answer in answers %}
-                                <label style="font-size:150%"><input type="radio" name="answer_radiobutton"
-                                                                     value="{{ answer }}" checked>{{ answer }}</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    {% if answer == answers[0] %}
+                                        <label style="font-size:150%"><input type="radio" name="answer_radiobutton"
+                                                                         value="{{ answer }}" checked>{{ answer }}</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    {% else %}
+                                        <label style="font-size:150%"><input type="radio" name="answer_radiobutton"
+                                                                         value="{{ answer }}">{{ answer }}</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    {% endif %}
                                 {% endfor %}
+                            </div>
+                            <br><br>
+                            <div style="width:700px">
+                                <div style="display:inline;width:60px;height:60px;"><span id="investing" class="label label-danger"
+                                                                          style="width:150px;font-size:150%">Current Cost: $0</span>
+                                </div>
                             </div>
                             <br>
                             <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="50"
                                    data-slider-max="100" data-slider-step="1" data-slider-value="50"
                                    style="width:500px"/>
                             <br><br>
-
-                            <center><input id="betbutton" type="submit" name="bet" value="Bet" class="btn btn-primary"
-                                           data-toggle="tooltip" data-placement="bottom"
-                                           style=" font-size:150%"></input></center>
+                            <center><input id="betbutton" type="submit" name="bet" value="Spend" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" style=" font-size:150%"></input></center>
                         </form>
+
                         <script>
 									var errors = [1,  2,  3,  4,  5,  6,  7,  8,  9,  10,
 									              11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
@@ -137,9 +138,9 @@
 												document.getElementById("battery").src = dirpath.concat("batteries/1.png");
 											}
 											document.getElementById("betbutton").name = "bet_".concat(String(power_consumption)).concat("_").concat(String(error));
-											document.getElementById("remaining").innerHTML = "Current Balance: ".concat(String(total_power)).concat(" mJ");
-											document.getElementById("investing").innerHTML = "Current Bet: ".concat(String(power_consumption)).concat(" mJ");
-                                                return 'Current quality: ' + (100 - error) + '%';
+											document.getElementById("remaining").innerHTML = "Current Balance: $".concat(String(total_power));
+											document.getElementById("investing").innerHTML = "Current Cost: $".concat(String(power_consumption));
+                                            return 'Current quality: ' + (100 - error) + '%';
 										}
 									});
 

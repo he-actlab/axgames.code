@@ -1,4 +1,9 @@
 #
+#
+#
+KERNEL_NAME = 'sobel'
+
+#
 # The list of image file names. It only has prefix without "_sobel" or error rate such as "_0.01".
 #
 imagelist_file_path = 'gatech/data/imagelist.txt'
@@ -60,14 +65,19 @@ ERROR_MAX = 50
 #
 #
 #
-GAME2_INIT_ENERGY = 100.0
+GAME1_INIT_BALANCE = 5000
+
+#
+#
+#
+GAME2_INIT_ENERGY = 100
 GAME2_DEFAULT_WINNING = 30
 GAME2_MAX_WINNING_PROPORTION = 1.5
 
 #
 #
 #
-GAME3_INIT_ENERGY = 100.0
+GAME3_INIT_ENERGY = 100
 GAME3_DEFAULT_WINNING = 30
 GAME3_MAX_WINNING_PROPORTION = 1.5
 GAME3_WRONG_ANSWER_PENALTY = 20

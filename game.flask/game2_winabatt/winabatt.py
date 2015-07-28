@@ -26,6 +26,7 @@ def winabatt():
 		elif "bet" in action:
 			os.system('echo userid: ' + str(session['userid']))
 			os.system('echo sessionid: ' + str(session['sessionid']))
+			os.system('echo action: ' + str(action))
 			tokens = action.split("_")
 			bet = tokens[1]
 			error_rate = tokens[2]
@@ -36,11 +37,14 @@ def winabatt():
 			# reward, selections, average = get_reward(session['imagename'] + ".png", int(bet), int(error_rate))
 			reward, average = get_winning(session['imagename'] + ".png", int(error_rate))
 			if save_play(session['sessionid'], 1, session['imagename'], error_rate, bet, reward) == True:
+				os.system('echo power ' + str(session['power']))
+				os.system('echo bet ' + bet)
+				session['old_power_history'].append(session['power'] + int(bet))
 				session['power'] += reward
-				session['power_history'].append(float(int(100.0 * session['power'])) / 100.0)
+				session['power_history'].append(session['power'])
 				session['error_history'].append(error_rate)
-				session['bet_history'].append(float(bet))
-				session['reward_history'].append(float(int(100.0 * reward)) / 100.0)
+				session['bet_history'].append(bet)
+				session['reward_history'].append(reward)
 				# session['selections_history'].append(selections)
 				session['average_history'].append(average)
 
@@ -52,29 +56,30 @@ def winabatt():
 				# os.system('echo winabatt: selections_history ' + str(session['selections_history']))
 				os.system('echo winabatt: average ' + str(session['average_history']))
 			return render_template('result_winabatt.html',
-														 imagename=session['imagename'], \
-														 power=session['power'], \
-														 stage=session['stage'], \
-														 power_history=session['power_history'], \
-								   						 error_history=session['error_history'], \
-														 bet_history=session['bet_history'], \
-														 reward_history=session['reward_history'], \
-														 # selections_history=session['selections_history'], \
-														 sessionid=session['sessionid'], \
-														 gamedata_home_url=gamedata_home_url, \
-														 max_round=max_round, \
-								   						 average=session['average_history'])
+									 imagename=session['imagename'], \
+									 power=session['power'], \
+									 stage=session['stage'], \
+									 power_history=session['power_history'], \
+									 old_power_history=session['old_power_history'], \
+									 error_history=session['error_history'], \
+									 bet_history=session['bet_history'], \
+									 reward_history=session['reward_history'], \
+									 # selections_history=session['selections_history'], \
+									 sessionid=session['sessionid'], \
+									 gamedata_home_url=gamedata_home_url, \
+									 max_round=max_round, \
+									 average=session['average_history'])
 
 		elif action == 'continue':
 			os.system('echo continue')
 			session['stage'] = len(session['power_history']) + 1
 			session['imagename'] = draw_winabatt_image_file()
 			return render_template('play_winabatt.html', \
-														 imagename=session['imagename'], \
-														 power=session['power'], \
-														 stage=session['stage'], \
-														 sessionid=session['sessionid'], \
-														 gamedata_home_url=gamedata_home_url)
+									 imagename=session['imagename'], \
+									 power=session['power'], \
+									 stage=session['stage'], \
+									 sessionid=session['sessionid'], \
+									 gamedata_home_url=gamedata_home_url)
 
 		elif action == 'initialize':
 			initialize()
@@ -85,11 +90,11 @@ def winabatt():
 			return render_template('index.html', state=0)
 
 		return render_template('play_winabatt.html',
-													 imagename=session['imagename'], \
-													 power=session['power'], \
-													 stage=session['stage'], \
-													 sessionid=session['sessionid'], \
-													 gamedata_home_url=gamedata_home_url)
+								 imagename=session['imagename'], \
+								 power=session['power'], \
+								 stage=session['stage'], \
+								 sessionid=session['sessionid'], \
+								 gamedata_home_url=gamedata_home_url)
 
 
 def init_session():
@@ -104,6 +109,7 @@ def initialize():
 	session['power'] = GAME2_INIT_ENERGY
 	session['stage'] = 1
 	session['power_history'] = []
+	session['old_power_history'] = []
 	session['error_history'] = []
 	session['bet_history'] = []
 	session['reward_history'] = []

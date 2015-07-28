@@ -89,6 +89,7 @@ def acceptable():
 
 					session['playidlist'].append(play_id)
 					session['score'].append(int(score))
+					session['old_bankroll_history'].append(session['bankroll'])
 					session['bankroll_history'].append(session['bankroll'] + int(score) - session['betmoney'])
 					session['options'].append(options)
 					session['proportion'].append(proportion)
@@ -106,6 +107,7 @@ def acceptable():
 											 proportion=session['proportion'], \
 											 decision_location=session['decision_location'], \
 											 color=session['color'], \
+										   	 old_bankroll_history=session['old_bankroll_history'], \
 											 bankroll_history=session['bankroll_history'], \
 											 gamedata_home_url=gamedata_home_url, \
 											 max_round=max_round, \
@@ -187,6 +189,7 @@ def initialize():
 	session['expired'] = False
 	session['playidlist'] = []
 	session['decision_location'] = []
+	session['old_bankroll_history'] = []
 	session['bankroll_history'] = []
 	session['bet_history'] = []
 

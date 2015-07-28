@@ -1,4 +1,4 @@
-import os
+import os, random
 
 from query_qna import get_selections, update_qna_record, get_history
 from gatech.conf import drawn_errors, GAME3_DEFAULT_WINNING, GAME3_MAX_WINNING_PROPORTION, GAME3_WRONG_ANSWER_PENALTY
@@ -9,18 +9,18 @@ def find_first_disagree_error(history):
 			continue
 		if float(history[i][0]) / float(history[i][1]) < 0.5:
 			return i
-	return len(history) - 1
+	return len(history) / 2
 
 def get_winning(filename, error):
 	os.system('echo get_winning start')
 
 	history = get_history(filename)
 	firstDisagreeError = find_first_disagree_error(history)
-	winning= GAME3_DEFAULT_WINNING * (GAME3_MAX_WINNING_PROPORTION + abs(firstDisagreeError - error) * ((-GAME3_MAX_WINNING_PROPORTION))/50.0)
+	winning= GAME3_DEFAULT_WINNING * (GAME3_MAX_WINNING_PROPORTION + random.random() * 0.5) * (1.0 - abs(firstDisagreeError - error) / 50.0)
 
 	update_qna_record (filename, error, get_selections(filename))
 
-	return winning, firstDisagreeError
+	return int(winning), firstDisagreeError
 
 def get_reward(filename, bet, error, isCorrect): # betting money should be in the formula
 

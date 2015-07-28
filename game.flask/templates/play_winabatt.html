@@ -58,7 +58,7 @@
                                 style="width:50px"></span>
                         <center><h1 class="text-center">Round {{ stage }}</h1></center>
                         <span style="padding: 0px; padding-right: 210px; padding-top: 30px; padding-bottom: 40px; float: right; width: 100px; text-align: center; margin-left: 0px; font-size:15px; height: 20px; border: 1px">
-                            <div style="width:100px; height:60px"><span id="remaining" class="label label-success" style="width:150px;font-size:160%">Current Balance: ${{ power }}</span>
+                            <div style="width:100px; height:60px"><span id="remaining" class="label label-success" style="width:150px;font-size:160%">Current Balance: ${{ '%.2f' % power }}</span>
                             </div>
                         </span>
                     </div>
@@ -66,15 +66,16 @@
                         <img id="image" src="{{ gamedata_home_url + '/sobelimage/' + imagename + '-sobel.png' }}"
                              class="thumb" style="width:500px">
 
-                        <h3>How much would you spend to get a good-enough quality for this picture?</h3>
-                        <h3>Slide to improve it!</h3><br>
+                        <h2><i>How much would you spend for <b>good-enough</b> quality of this picture?</i></h2>
+                        <br>
+                        <h3>Slide to improve it!</h3><br><br>
 
                         <div style="width:700px">
                             <div style="display:inline;width:60px;height:60px;"><span id="investing" class="label label-danger"
                                                                       style="width:150px;font-size:150%">Current Cost: $0</span>
                             </div>
                         </div>
-                        <br><br>
+                        <br>
                         <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="50"
                                data-slider-max="100" data-slider-step="1" data-slider-value="50" style="width:500px"/>
                         <br><br>

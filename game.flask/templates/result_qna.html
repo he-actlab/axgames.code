@@ -18,58 +18,6 @@
     <link rel="stylesheet" href="main.css">
 
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript">
-        google.load('visualization', '1', {packages: ['corechart', 'bar']});
-        google.setOnLoadCallback(drawBasic);
-
-        function drawBasic() {
-
-              var i;
-
-              for (i = 1; i <= {{ stage }}; i++) {
-
-                  var data = new google.visualization.DataTable();
-                  data.addColumn('number', 'Error rate');
-                  data.addColumn('number', 'Selections');
-
-                  var j, selection;
-                  var max = 0;
-                  var list = {{ selections_history }};
-                  for (j = 0; j <50; j++) {
-                    data.addRow([j,list[i-1][j]]);
-                    if (list[i-1][j] > max) {
-                        max = list[i-1][j];
-                    }
-                  }
-                  max = ((max / 15) + 1) * 15;
-
-                  var options = {
-
-                    title: 'Round '.concat(String(i)),
-                    legend: 'none',
-                    width: 1000,
-                    hAxis: {
-                      title: 'Error rate'
-                    },
-                    vAxis: {
-                      title: 'Selections',
-                      minValue: 0,
-                      maxValue: max
-                    }
-                  };
-
-                  var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'.concat(String(i))));
-
-                  chart.draw(data, options);
-              }
-        }
-
-
-
-
-
-
-    </script>
 </head>
 <body>
 <nav class="navbar navbar-default">
@@ -84,17 +32,16 @@
             </button>
             <div class="navbar-brand">
                 <img alt="Brand" style="height: 30px; width: 30px; display: inline; padding-right: 5px"
-                     src="https://research.cc.gatech.edu/act-lab/sites/edu.act-lab/files/ACT-logo-scaled_1.png">Consensus
-                - QnA
+                     src="https://research.cc.gatech.edu/act-lab/sites/edu.act-lab/files/ACT-logo-scaled_1.png">Consensus - QnA
             </div>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <form action='/selectgame' method="post" target=_self class="navbar-form navbar-left">
-                <input type="submit" name="start" value="select game" class="btn btn-default"
+                <input type="submit" name="start" value="Select Game" class="btn btn-default"
                        data-toggle="tooltip" data-placement="bottom" style=" font-size:100%"></input>
             </form>
             <form action='/logout' method="post" target=_self class="navbar-form navbar-left">
-                <input type="submit" name="logout" value="logout" class="btn btn-default"
+                <input type="submit" name="logout" value="Logout" class="btn btn-default"
                        data-toggle="tooltip" data-placement="bottom" style=" font-size:100%"></input>
             </form>
         </div>
@@ -102,58 +49,48 @@
 </nav>
 
 
-<div class="carousel-inner" role="listbox">
+<div class="carousel-inner" role="listbox" style="overflow-x:auto;overflow-y:auto;">
     <div class="item active">
         <center>
             <h1>Score Board</h1>
 
-            <div class="container" style="width:1000px;padding:0px;border:0px" align="left">
+            <div class="container" style="width:1250px;padding:0px;border:0px;" align="left">
                 <br>
 
-                <div style="width:1200px;height:20px">
-                    <div class="badge"
-                         style="background-color:#ffffff; padding: 0px; float: left; width: 100px; text-align: center; margin-right: 0px; font-size:20px; height: 25px;">T
-                    </div>
-                    <div class="label label-default" style="padding: 0px; float: left; width: 130px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Average
-                    </div>
-                    <div class="label label-success" style="padding: 0px; float: left; width: 120px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">You</div>
+                <div style="width:1300px;height:20px">
+                    <div class="badge" style="background-color:#ffffff; padding: 0px; float: left; width: 100px; text-align: center; margin-right: 0px; font-size:20px; height: 25px;">T</div>
+                    <div class="label label-default" style="background-color: white; color: black; padding: 0px; float: left; width: 150px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Others' Choices<br> of Quality</div>
+                    <div class="label label-success" style="background-color: white; color: black; padding: 0px; float: left; width: 150px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Your Choice<br> of Quality</div>
                     <div style="padding: 0px; float: left; width: 30px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;"></div>
-                    <div class="label label-danger" style="padding: 0px; float: left; width: 100px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Bet</div>
-                    <div class="label label-danger" style="padding: 0px; float: left; width: 230px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Wrong
-                        Answer Penalty
-                    </div>
-                    <div class="label label-primary" style="padding: 0px; float: left; width: 130px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Winning
-                    </div>
-                    <div class="label label-default" style="padding: 0px; float: left; width: 130px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Balance
-                    </div>
+                    <div class="label label-default" style="background-color: white; color: black; padding: 0px; float: left; width: 130px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Original<br> Balance</div>
+                    <div class="label label-default" style="padding: 0px; float: left; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">&nbsp;</div>
+                    <div class="label label-danger" style="background-color: white; color: black; padding: 0px; float: left; width: 100px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Your<br> Cost</div>
+                    <div class="label label-default" style="padding: 0px; float: left; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">&nbsp;</div>
+                    <div class="label label-danger" style="background-color: white; color: black; padding: 0px; float: left; width: 140px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Wrong Answer<br> Penalty </div>
+                    <div class="label label-default" style="padding: 0px; float: left; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">&nbsp;</div>
+                    <div class="label label-primary" style="background-color: white; color: black; padding: 0px; float: left; width: 130px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Your<br> Winning</div>
+                    <div class="label label-default" style="padding: 0px; float: left; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">&nbsp;</div>
+                    <div class="label label-default" style="background-color: white; color: black; padding: 0px; float: left; width: 130px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Current<br> Balance</div>
                 </div>
                 <br><br>
                 {% for i in range(1, stage+1) %}
-                <!--<div id="chart_div{{ i }}" style="width:400px;height:100px;"></div>-->
-                <div style="width:1200px;height:20px">
-                    <div class="badge" style="padding: 0px; float: left; width: 100px; text-align: center; margin-right: 0px; font-size:15px; height: 20px;">Round {{ i }}</div>
-                    <div class="label label-default" style="padding: 0px; float: left; width: 130px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">{{
-                        average[i-1] }}%
+                    <!--<div id="chart_div{{ i }}" style="width:400px;height:100px;"></div>-->
+                    <div style="width:1300px;height:20px">
+                        <div class="badge" style="background-color: white; color: black; padding: 0px; float: left; width: 100px; text-align: center; margin-right: 0px; font-size:18px; height: 20px;">Round {{ i }}</div>
+                        <div class="label label-default" style="padding: 0px; float: left; width: 150px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">{{ average[i-1] }}%</div>
+                        <div class="label label-success" style="padding: 0px; float: left; width: 150px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">{{ error_history[i-1] }}% </div>
+                        <div style="padding: 0px; float: left; width: 30px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;"></div>
+                        <div class="label label-default" style="padding: 0px; float: left; width: 130px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ old_power_history[i-1] }}</div>
+                        <div class="label label-default" style="padding: 0px; float: left; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">-</div>
+                        <div class="label label-danger" style="padding: 0px; float: left; width: 100px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ bet_history[i-1] }} </div>
+                        <div class="label label-default" style="padding: 0px; float: left; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">-</div>
+                        <div class="label label-danger" style="padding: 0px; float: left; width: 140px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ penalty[i-1] }}</div>
+                        <div class="label label-default" style="padding: 0px; float: left; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">+</div>
+                        <div class="label label-primary" style="padding: 0px; float: left; width: 130px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ reward_history[i-1] }}</div>
+                        <div class="label label-default" style="padding: 0px; float: left; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">=</div>
+                        <div class="label label-success" style="padding: 0px; float: left; width: 130px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ power_history[i-1] }}</div>
                     </div>
-                    <div class="label label-success" style="padding: 0px; float: left; width: 120px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">{{
-                        error_history[i-1] }}%
-                    </div>
-                    <div style="padding: 0px; float: left; width: 30px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;"><img
-                            src="{{ url_for('static',filename='img/arrow.png') }}" style="width: 30px"></div>
-                    <div class="label label-danger" style="padding: 0px; float: left; width: 100px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">{{
-                        bet_history[i-1] }} mJ
-                    </div>
-                    <div class="label label-danger" style="padding: 0px; float: left; width: 230px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">{{
-                        penalty[i-1] }} mJ
-                    </div>
-                    <div class="label label-primary" style="padding: 0px; float: left; width: 130px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">{{
-                        reward_history[i-1] }} mJ
-                    </div>
-                    <div class="label label-default" style="padding: 0px; float: left; width: 130px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">{{
-                        power_history[i-1] }} mJ
-                    </div>
-                </div>
-                <br>
+                    <br>
                 {% endfor %}
             </div>
             <br><br>
@@ -177,8 +114,9 @@
                     </center>
                 </div>
                 {% endif %}
+            </form>
+            <br><br><br>
         </center>
-        </form>
     </div>
 </div>
 </body>

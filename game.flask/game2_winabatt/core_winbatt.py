@@ -15,12 +15,12 @@ def get_winning(filename, error):
 	os.system('echo get_winning start')
 	history = get_history(filename)
 	firstDisagreeError = find_first_disagree_error(history)
-	winning= GAME2_DEFAULT_WINNING * GAME2_MAX_WINNING_PROPORTION + (random.random() * 0.5) * (1.0 - abs(firstDisagreeError - error) / 50.0)
+	winning= GAME2_DEFAULT_WINNING * (GAME2_MAX_WINNING_PROPORTION + (random.random() * 0.5)) * (1.0 - abs(firstDisagreeError - error) / 50.0)
 	os.system('echo get_winning end')
 
 	update_winbatt_record (filename, error, get_selections(filename))
 
-	return winning, firstDisagreeError
+	return int(winning), firstDisagreeError
 
 def get_reward (filename, bet, error): # betting money should be in the formula
 
