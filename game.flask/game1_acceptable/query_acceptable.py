@@ -213,16 +213,26 @@ def create_new_gallery(userId):
 	orgImageIdSetStr = ''
 	degImageIdSetStr = ''
 
-	for result in db_session.query(Image).order_by(Image.num_played_game1):
-		orgImageIdSetStr += str(result.image_id)
-		filePaths, degImageId = get_file_paths(result.imagename, result.image_id)
-		filePathsList.append(filePaths)
-		degImageIdSetStr += str(degImageId)
-		length -= 1
-		if length == 0:
-			break
-		orgImageIdSetStr += '|'
-		degImageIdSetStr += '|'
+	minNumPlayed = db_session.query(Image).order_by(Image.num_played_game1).first().num_played_game1
+	while length != 0:
+		images = []
+		for result in db_session.query(Image).filter_by(num_played_game1=minNumPlayed):
+			images.append((result.image_id, result.imagename))
+		os.system('echo images = "' + str(images) + '"')
+		random.shuffle(images)
+		os.system('echo shuffled_images = "' + str(images) + '"')
+
+		for result in set(images):
+			orgImageIdSetStr += str(result[0])
+			filePaths, degImageId = get_file_paths(result[1], result[0])
+			filePathsList.append(filePaths)
+			degImageIdSetStr += str(degImageId)
+
+			if length == 0:
+				break
+			orgImageIdSetStr += '|'
+			degImageIdSetStr += '|'
+			length -= 1
 
 	ig = ImageGallery (GAME1, 1, 0, datetime.now(), orgImageIdSetStr, degImageIdSetStr, 0, str(userId), 0)
 	db_session.add(ig)

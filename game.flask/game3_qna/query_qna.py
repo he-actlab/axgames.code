@@ -109,11 +109,17 @@ def save_play(session_uuid, game_type, imagename, error_rate, bet, incorrect, wi
 	return True
 
 def draw_qna_image_file():
+	minNumPlayed = db_session.query(Image).order_by(Image.num_played_game3).first().num_played_game3
+	images = []
+	for result in db_session.query(Image).filter_by(num_played_game3=minNumPlayed):
+		images.append((result.image_id, result.imagename))
+	random.shuffle(images)
 	imagename = ""
-	for result in db_session.query(Image).order_by(Image.num_played_game3):
-		imagename = result.imagename
+	for image in images:
+		imagename = image[1]
 		break
 	return imagename
+
 
 def get_qna(imagename):
 
