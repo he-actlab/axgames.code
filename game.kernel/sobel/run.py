@@ -57,6 +57,9 @@ def main():
 			pool[i].start()
 		for p in pool:
 			p.join()
+	print
+	print "DONE!"
+
 
 if __name__ == '__main__':	
 	main()
