@@ -171,7 +171,7 @@ public class TileDegrader {
 						}
 					}
 //					System.out.println("sum2: " + sum2);
-					System.out.println("Real NRMSE: " + Math.sqrt(sum2 / (height * width)) / (max - min));
+//					System.out.println("Real NRMSE: " + Math.sqrt(sum2 / (height * width)) / (max - min));
 					if (numFound == errors.length)
 						find = true;
 				}
