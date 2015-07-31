@@ -40,9 +40,8 @@
                 <input type="submit" name="start" value="Select Game" class="btn btn-default"
                        data-toggle="tooltip" data-placement="bottom" style=" font-size:100%"></input>
             </form>
-            <form action='/logout' method="post" target=_self  class="navbar-form navbar-left">
-                <input type="submit" name="logout" value="Logout" class="btn btn-default"
-                       data-toggle="tooltip" data-placement="bottom" style=" font-size:100%"></input>
+            <form action='/logout' class="navbar-form navbar-left">
+                <input id="logoutbutton" type="submit" name="logout" value="Logout" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" style=" font-size:100%"></input>
             </form>
         </div>
     </div>
@@ -57,22 +56,15 @@
         <div class="three-images">
             <div class="container">
                 <!-- <h1 class="text-center">Is this Quality Acceptable?</h1> -->
-                <br>
-
                 <div class="col-md-12" style="display:inline; width: 1100px">
-                    <h1 class="text-center" style="padding-left: 0px; padding-right: 800px; font-size:280%">Round {{ stage }}</h1>
-                    <span style="padding: 0px; padding-right: 350px; padding-bottom: 50px; float: right; width: 100px; text-align: center; margin-left: 0px; font-size:15px; height: 20px; border: 1px">
-                        <div style="display:inline; width:100px; height:60px"><span class="label label-success" style="width:150px;font-size:160%">Current Balance: ${{ bankroll }}</span>
-                        </div>
-                    </span>
+                    <h1 class="text-center" style="padding-left: 0px; padding-right: 900px; font-size:200%">Round {{ stage }}</h1>
                 </div>
-                <br><br>
 
                 <!-- CODE FOR THUMBNAILS WITH CAPTION -->
                 <div class="col-md-12" id="level-aux">
                     <div class="col-md-6">
                         <div class="thumbnail" style="width:500px">
-                            <img src="{{ gamedata_home_url + filePaths[1] }}" class="thumb" style="width:400px">
+                            <img src="{{ gamedata_home_url + filePaths[1] }}" class="thumb" style="width:400px; height:250px">
 
                             <div class="caption">
                                 <p class="text-center">
@@ -83,7 +75,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="thumbnail" style="width:500px">
-                            <img src="{{ gamedata_home_url + filePaths[2] }}" class="thumb" style="width:400px">
+                            <img src="{{ gamedata_home_url + filePaths[2] }}" class="thumb" style="width:400px; height:250px">
 
                             <div class="caption">
                                 <p class="text-center">
@@ -102,12 +94,14 @@
         <!-- CODE FOR DISPLAYING BETTING MONEY -->
         <div class="betting-money" id="level-betting-money">
             <center>
-            <div style="width:500px">
+            <div style="width:800px">
                 <center>
                     <form action='/acceptable' method="post" target="_self">
-                        <input type="submit" name="agree" value="Current Bet: ${{ bet }}" class="btn" data-toggle="tooltip" data-placement="bottom" style="display: inline; background-color:#ff1515; color: white; font-size:160%; font-weight: bold;" disabled/>
+                        <input type="submit" name="agree" value="Current Balance: ${{ bankroll }}" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" style="display: inline; font-size:130%; font-weight: bold;" disabled/>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="submit" name="clear" value="Clear bet" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" style="display: inline; font-size:150%; height: 45px; "></input>
+                        <input type="submit" name="agree" value="Current Bet: ${{ bet }}" class="btn" data-toggle="tooltip" data-placement="bottom" style="display: inline; background-color:#ff1515; color: white; font-size:130%; font-weight: bold;" disabled/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="submit" name="clear" value="Clear bet" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" style="display: inline; font-size:130%; height: 45px; "></input>
                     </form>
                 </center>
             </div><br>
@@ -121,36 +115,36 @@
                 <form action='/acceptable' method="post" target="_self">
                     <div class="col-sm-2">
                         <center><input type="image" name="5d" src="{{ url_for('static',filename='img/chips/5.png') }}"
-                                       height="80" size="80"></input></center>
+                                       height="60" size="80"></input></center>
                     </div>
                     <div class="col-sm-2">
                         <center><input type="image" name="25d" src="{{ url_for('static',filename='img/chips/25.png') }}"
-                                       height="80" size="80"></input></center>
+                                       height="60" size="80"></input></center>
                     </div>
                     <div class="col-sm-2">
                         <center><input type="image" name="100d"
-                                       src="{{ url_for('static',filename='img/chips/100.png') }}" height="80"
+                                       src="{{ url_for('static',filename='img/chips/100.png') }}" height="60"
                                        size="80"></input></center>
                     </div>
                     <div class="col-sm-2">
                         <center><input type="image" name="500d"
-                                       src="{{ url_for('static',filename='img/chips/500.png') }}" height="80"
+                                       src="{{ url_for('static',filename='img/chips/500.png') }}" height="60"
                                        size="80"></input></center>
                     </div>
                     <div class="col-sm-2">
                         <center><input type="image" name="1000d"
-                                       src="{{ url_for('static',filename='img/chips/1000.png') }}" height="80"
+                                       src="{{ url_for('static',filename='img/chips/1000.png') }}" height="60"
                                        size="80"></input></center>
                     </div>
                     <div class="col-sm-2">
                         <center><input type="image" name="5000d"
-                                       src="{{ url_for('static',filename='img/chips/5000.png') }}" height="80"
+                                       src="{{ url_for('static',filename='img/chips/5000.png') }}" height="60"
                                        size="80"></input></center>
                     </div>
                 </form>
             </div>
             <div>
-                <h2 class="text-center">How much do you want to <i>bet</i> that this approximation is </h2>
+                <h3 class="text-center">How much do you want to <i>bet</i> that this approximation is </h3>
             </div>
         </div>
         <!-- CODE FOR BETTING CHIPS ENDS-->
@@ -161,11 +155,11 @@
                 <form action='/acceptable' method="post" target="_self">
                     <center><div>
                         <input type="submit" name="agree" value="Good Enough" class="btn" data-toggle="tooltip"
-                        data-placement="bottom" style="background-color:#006400;color:white;font-size:150%"></input>
+                        data-placement="bottom" style="background-color:#006400;color:white;font-size:120%"></input>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <input type="submit" name="disagree" value="Unacceptable" class="btn"
                                        data-toggle="tooltip" data-placement="bottom"
-                                       style="background-color:#8B0000;color:white;font-size:150%"></input>
+                                       style="background-color:#8B0000;color:white;font-size:120%"></input>
                         &nbsp;&nbsp;
                         <input type="submit" name="disagree" value="?" class="btn"
                                        data-toggle="tooltip" data-placement="bottom"

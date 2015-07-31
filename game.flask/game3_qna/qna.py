@@ -52,11 +52,11 @@ def qna():
 					session['power'] += reward - penalty
 					session['power_history'].append(session['power'])
 					session['error_history'].append(error_rate)
-					session['bet_history'].append(bet)
+					session['bet_history'].append(int(bet))
 					session['reward_history'].append(reward)
 					# session['selections_history'].append(selections)
 					session['average_history'].append(average)
-					session['penalty_history'].append(penalty)
+					session['penalty_history'].append(int(penalty))
 
 					os.system('echo qna: stage ' + str(session['stage']))
 					os.system('echo qna: power_history ' + str(session['power_history']))

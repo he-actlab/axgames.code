@@ -10,18 +10,23 @@ def scoring(decision, betmoney, degImageId):
 	nPlayed = get_num_played(degImageId)
 	nAgree = get_num_decision(degImageId, "agree")
 	nDisagree = get_num_decision(degImageId, "disagree")
+	os.system('echo decision = ' + str(decision))
+	os.system('echo nPlayed = ' + str(nPlayed))
+	os.system('echo nAgree = ' + str(nAgree))
+	os.system('echo nDisagree = ' + str(nDisagree))
 
 	records = [("agree", nAgree), ("disagree", nDisagree)]
 	lsum = 0
 	for i in range(0, len(records)):
+		os.system('echo records[i][0] = ' + str(records[i][0]))
 		if records[i][0] == decision:
 			records[i] = (decision, records[i][1] + 1)
-			for j in range(0, i + 1):
-				lsum += records[j][1]
+			lsum = records[i][1]
 			break
 
 	minWinningRate = 1.1
 	maxWinningRate = 5.0
+	os.system('echo lSum = ' + str(lsum))
 	percentage = float(lsum) / float(nPlayed + 1)
 	decision_location = percentage
 	#
@@ -35,8 +40,12 @@ def scoring(decision, betmoney, degImageId):
 	#
 	if percentage >= 0.5:
 		slope = (minWinningRate - maxWinningRate) / (1.0 - 0.5)
+		os.system('echo slope = ' + str(slope))
 		yIntercept = minWinningRate - slope
+		os.system('echo yIntercept = ' + str(yIntercept))
+		os.system('echo percentage = ' + str(percentage))
 		c = slope * percentage + yIntercept
+		os.system('echo c = ' + str(c))
 	else:
 		c = 2 * percentage
 	score = betmoney * c

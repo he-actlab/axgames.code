@@ -1,4 +1,4 @@
-import os, sys
+import os, sys, random
 
 from gatech import session
 from gatech.database import db_session
@@ -105,9 +105,15 @@ def save_play(session_uuid, game_type, imagename, error_rate, bet, winning):
 	return True
 
 def draw_winabatt_image_file():
+	minNumPlayed = db_session.query(Image).order_by(Image.num_played_game2).first().num_played_game2
+	images = []
+	for result in db_session.query(Image).filter_by(num_played_game2=minNumPlayed):
+		images.append((result.image_id, result.imagename))
+	random.shuffle(images)
 	imagename = ""
-	result = db_session.query(Image).order_by(Image.num_played_game2).first()
-	imagename = result.imagename
+	for image in images:
+		imagename = image[1]
+		break
 	return imagename
 
 

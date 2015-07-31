@@ -65,19 +65,20 @@ def read_questions(question_file_path):
 def initial_consensus(error):
 	os.system('echo error = ' + str(error))
 	if error <= 0.01:
-		return 10, 0
+		agree = 95 + random.randint(0,5)
 	elif error <= 0.03:
-		return 9, 1
+		agree = 85 + random.randint(0,10)
 	elif error <= 0.05:
-		return 8, 2
+		agree = 75 + random.randint(0,10)
 	elif error <= 0.1:
-		return 5, 5
+		agree = 45 + random.randint(0,10)
 	elif error <= 0.2:
-		return 2, 8
+		agree = 15 + random.randint(0,10)
 	elif error <= 0.4:
-		return 1, 9
+		agree = 5 + random.randint(0,10)
 	elif error <= 0.5:
-		return 0, 10
+		agree = 0 + random.randint(0,5)
+	return agree, 100 - agree
 
 def upload_files():
 	debugMsg = 'uploading files done ...'
@@ -134,7 +135,7 @@ def upload_files():
 			break
 
 		agree, disagree = initial_consensus(error)
-		d = DegradedImage(imagename, error, agree + disagree, agree, disagree, orgImageId)
+		d = DegradedImage(imagename, error, agree + disagree, agree, disagree, agree, disagree, orgImageId)
 		db_session.add(d)
 		db_session.commit()
 

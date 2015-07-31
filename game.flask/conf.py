@@ -39,7 +39,7 @@ drawn_errors = [1, 3, 5, 7, 10, 15, 20, 30, 40, 50] # should be ordered
 #
 # Number of rounds in a game. This decides how many images should be grouped
 #
-max_round = 3
+max_round = 10
 
 #
 # Number of people that are initially assigned the same gallery
@@ -55,7 +55,7 @@ wait_minutes_for_newplayer = 30
 #
 # threshold for rejecting the agreement
 #
-fleiss_kappa_threshold = 0.5
+fleiss_kappa_threshold = 0.3
 
 #
 #
@@ -65,8 +65,8 @@ ERROR_MAX = 50
 #
 #
 #
-GAME1_INIT_BALANCE = 5000
-
+GAME1_INIT_BALANCE = 1000
+GAME1_GALLERY_ASSIGN_INTERVAL = 1
 #
 #
 #

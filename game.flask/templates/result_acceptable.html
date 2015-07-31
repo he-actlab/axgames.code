@@ -60,15 +60,12 @@
                   </div> -->
                 <br>
 
-                <div style="width:1200px;">
+                <div style="width:1100px;">
                     <span class="label label-success"
                           style="background-color: white; color: black; padding: 0px; float: right; width: 120px; text-align: center; margin-left: 10px; font-size:20px; height: 15px;">Current<br> Balance</span>
                     <span class="label label-default" style="padding: 0px; float: right; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">&nbsp;</span>
                     <span class="label label-primary"
                           style="background-color: white; color: black; padding: 0px; float: right; width: 120px; text-align: center; margin-left: 10px; font-size:20px; height: 15px;">Your<br> Winning</span>
-                    <span class="label label-default" style="padding: 0px; float: right; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">&nbsp;</span>
-                    <span class="label label-danger"
-                          style="background-color: white; color: black; padding: 0px; float: right; width: 100px; text-align: center; margin-left: 10px; font-size:20px; height: 15px;"><b>Your<br> Bet</b></span>
                     <span class="label label-default" style="padding: 0px; float: right; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">&nbsp;</span>
                     <span class="label label-default"
                           style="background-color: white; color: black; padding: 0px; float: right; width: 120px; text-align: center; margin-left: 10px; font-size:20px; height: 15px;">Original<br> Balance</span>
@@ -77,14 +74,17 @@
                 </div>
                 <br><br><br>
                 {% for i in stage %}
-                <div style="width:1200px">
+                <div style="width:1100px">
                     <span class="badge" style="background-color: white; color: black; padding: 0px; float: left; width: 100px; text-align: center; margin-right: 10px; font-size:18px; height: 20px;">Round {{ i }}</span>
                     <span class="label label-success" style="padding: 0px; float: right; width: 120px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ bankroll_history[i-1] }}</span>
                     <span class="label label-default" style="padding: 0px; float: right; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">=</span>
-                    <span class="label label-primary" style="padding: 0px; float: right; width: 120px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ score[i-1] }}</span>
-                    <span class="label label-default" style="padding: 0px; float: right; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">+</span>
-                    <span class="label label-danger" style="padding: 0px; float: right; width: 100px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ bet_history[i-1] }}</span>
-                    <span class="label label-default" style="padding: 0px; float: right; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">-</span>
+                    {% if score[i-1] - bet_history[i-1] > 0 %}
+                        <span class="label label-primary" style="padding: 0px; float: right; width: 120px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ score[i-1] - bet_history[i-1] }}</span>
+                        <span class="label label-default" style="padding: 0px; float: right; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">+</span>
+                    {% else %}
+                        <span class="label label-danger" style="padding: 0px; float: right; width: 120px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ bet_history[i-1] - score[i-1] }}</span>
+                        <span class="label label-default" style="padding: 0px; float: right; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">-</span>
+                    {% endif %}
                     <span class="label label-default" style="padding: 0px; float: right; width: 120px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ old_bankroll_history[i-1] }}</span>
 
                     <div class="progress" style="width:500px;" id="prgbar">

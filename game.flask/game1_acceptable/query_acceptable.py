@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from gatech import session
 from gatech.database import db_session
 from gatech.models import Image, DegradedImage, Play, PlaySession, ImageGallery, PlayGallery, BadPlayGallery
-from gatech.conf import drawn_errors, max_round, num_people_gallery, GAME1, wait_minutes_for_newplayer, fleiss_kappa_threshold, ERROR_MAX
+from gatech.conf import drawn_errors, max_round, num_people_gallery, GAME1, wait_minutes_for_newplayer, fleiss_kappa_threshold, ERROR_MAX, GAME1_GALLERY_ASSIGN_INTERVAL
 from gatech.analysis.fleiss import fleiss_kappa
 from gatech.analysis.combination import get_combination
 
@@ -191,12 +191,16 @@ def assign_newplayer_to_available_gallery(userId):
 	# Step 3: Try to find an image gallery that hasn't been assigned enough yet
 	#
 	for result in db_session.query(ImageGallery).filter_by(game_id=GAME1).order_by(ImageGallery.num_assigned):
-		# if this play has already played this gallery, skip it
+		# if this player has already played this gallery, skip it
 		playedUsers = result.played_users.split('|')
 		if str(userId) in playedUsers:
 			continue
 		os.system('echo result.num_assigned = ' + str(result.num_assigned))
 		os.system('echo num_people_gallery = ' + str(num_people_gallery))
+		waitedTime = datetime.now() - result.last_assignment
+		os.system('echo waitedTime => ' + str(waitedTime))
+		if waitedTime < timedelta(minutes=GAME1_GALLERY_ASSIGN_INTERVAL):
+			continue
 		if result.num_assigned < num_people_gallery:
 			filePathsList = assign_newplayer(userId, result.ig_id, result.deg_image_set, result.num_assigned, result.played_users, False)
 			return True, result.ig_id, filePathsList
@@ -213,16 +217,27 @@ def create_new_gallery(userId):
 	orgImageIdSetStr = ''
 	degImageIdSetStr = ''
 
-	for result in db_session.query(Image).order_by(Image.num_played_game1):
-		orgImageIdSetStr += str(result.image_id)
-		filePaths, degImageId = get_file_paths(result.imagename, result.image_id)
-		filePathsList.append(filePaths)
-		degImageIdSetStr += str(degImageId)
-		length -= 1
-		if length == 0:
-			break
-		orgImageIdSetStr += '|'
-		degImageIdSetStr += '|'
+	minNumPlayed = db_session.query(Image).order_by(Image.num_played_game1).first().num_played_game1
+	while length != 0:
+		images = []
+		for result in db_session.query(Image).filter_by(num_played_game1=minNumPlayed):
+			images.append((result.image_id, result.imagename))
+		os.system('echo images = "' + str(images) + '"')
+		random.shuffle(images)
+		os.system('echo shuffled_images = "' + str(images) + '"')
+
+		for result in images:
+			orgImageIdSetStr += str(result[0])
+			filePaths, degImageId = get_file_paths(result[1], result[0])
+			filePathsList.append(filePaths)
+			degImageIdSetStr += str(degImageId)
+
+			if length == 0:
+				break
+			orgImageIdSetStr += '|'
+			degImageIdSetStr += '|'
+			length -= 1
+		minNumPlayed += 1
 
 	ig = ImageGallery (GAME1, 1, 0, datetime.now(), orgImageIdSetStr, degImageIdSetStr, 0, str(userId), 0)
 	db_session.add(ig)

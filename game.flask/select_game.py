@@ -14,7 +14,7 @@ from database import clean_db
 from query import upload_files, add_user, doLogin, get_user_id
 from conf import max_round, GAME1_INIT_BALANCE, KERNEL_NAME
 
-import os, time
+import os, time, threading
 from enum import Enum
 
 @app.route("/selectgame", methods=['POST', 'GET'])
@@ -50,14 +50,15 @@ def playgame():
 def reset():
 	clean_database()
 	initialize_database()
-	status = upload()
-	os.system('echo reset: ' + status)
-	return status
+	upload_thread = threading.Thread(target=upload_files, args='')
+	upload_thread.start()
+	return "reset start"
 
 @app.route('/upload')
 def upload():
-	status = upload_files()
-	return status
+	upload_thread = threading.Thread(target=upload_files, args='')
+	upload_thread.start()
+	return "upload_files start"
 
 @app.route('/initdb')
 def initialize_database():

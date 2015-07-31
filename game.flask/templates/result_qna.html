@@ -54,7 +54,7 @@
         <center>
             <h1>Score Board</h1>
 
-            <div class="container" style="width:1250px;padding:0px;border:0px;" align="left">
+            <div class="container" style="width:1000px;padding:0px;border:0px;" align="left">
                 <br>
 
                 <div style="width:1300px;height:20px">
@@ -64,11 +64,7 @@
                     <div style="padding: 0px; float: left; width: 30px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;"></div>
                     <div class="label label-default" style="background-color: white; color: black; padding: 0px; float: left; width: 130px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Original<br> Balance</div>
                     <div class="label label-default" style="padding: 0px; float: left; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">&nbsp;</div>
-                    <div class="label label-danger" style="background-color: white; color: black; padding: 0px; float: left; width: 100px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Your<br> Cost</div>
-                    <div class="label label-default" style="padding: 0px; float: left; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">&nbsp;</div>
-                    <div class="label label-danger" style="background-color: white; color: black; padding: 0px; float: left; width: 140px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Wrong Answer<br> Penalty </div>
-                    <div class="label label-default" style="padding: 0px; float: left; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">&nbsp;</div>
-                    <div class="label label-primary" style="background-color: white; color: black; padding: 0px; float: left; width: 130px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Your<br> Winning</div>
+                    <div class="label label-primary" style="background-color: white; color: black; padding: 0px; float: left; width: 120px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Your<br> Winning</div>
                     <div class="label label-default" style="padding: 0px; float: left; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">&nbsp;</div>
                     <div class="label label-default" style="background-color: white; color: black; padding: 0px; float: left; width: 130px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Current<br> Balance</div>
                 </div>
@@ -81,12 +77,13 @@
                         <div class="label label-success" style="padding: 0px; float: left; width: 150px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">{{ error_history[i-1] }}% </div>
                         <div style="padding: 0px; float: left; width: 30px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;"></div>
                         <div class="label label-default" style="padding: 0px; float: left; width: 130px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ old_power_history[i-1] }}</div>
-                        <div class="label label-default" style="padding: 0px; float: left; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">-</div>
-                        <div class="label label-danger" style="padding: 0px; float: left; width: 100px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ bet_history[i-1] }} </div>
-                        <div class="label label-default" style="padding: 0px; float: left; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">-</div>
-                        <div class="label label-danger" style="padding: 0px; float: left; width: 140px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ penalty[i-1] }}</div>
-                        <div class="label label-default" style="padding: 0px; float: left; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">+</div>
-                        <div class="label label-primary" style="padding: 0px; float: left; width: 130px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ reward_history[i-1] }}</div>
+                        {% if reward_history[i-1] - bet_history[i-1] - penalty[i-1] > 0 %}
+                            <div class="label label-default" style="padding: 0px; float: left; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">+</div>
+                            <div class="label label-primary" style="padding: 0px; float: left; width: 120px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ reward_history[i-1] - bet_history[i-1] - penalty[i-1] }}</div>
+                        {% else %}
+                            <div class="label label-default" style="padding: 0px; float: left; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">-</div>
+                            <div class="label label-danger" style="padding: 0px; float: left; width: 120px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ bet_history[i-1] + penalty[i-1] - reward_history[i-1] }}</div>
+                        {% endif %}
                         <div class="label label-default" style="padding: 0px; float: left; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">=</div>
                         <div class="label label-success" style="padding: 0px; float: left; width: 130px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ power_history[i-1] }}</div>
                     </div>
