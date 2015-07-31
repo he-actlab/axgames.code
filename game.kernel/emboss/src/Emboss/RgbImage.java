@@ -93,7 +93,7 @@ public class RgbImage {
 		double p8 = ( double)luminance(window[2][1]);	
 		double p9 = ( double)luminance(window[2][2]);	
 		
-		return -p1 - p2 - p3 + p6 + p8 + p9;
+		return -p1 - p2 - p3 + p6 + p8 + p9 + 128;
 	}
 
 	public  int luminance(int[] rgb) {
