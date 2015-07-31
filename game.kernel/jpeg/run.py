@@ -46,7 +46,7 @@ def runJpeg(filename):
 def main():
 	newfiles = []
 	files = os.popen('ls images | grep png').readlines()
-	PARALLEL_WIDTH = 8
+	PARALLEL_WIDTH = 3
 	for f in files:
 		print f.strip('\n')
 		newfiles.append(f.strip('\n'))
