@@ -3,9 +3,9 @@
 $GAME_MEAN/png2rgb.py png2rgb $GAME_MEAN/baboon.png $GAME_MEAN/baboon.rgb
 java -cp $GAME_MEAN/mean.jar Mean.RgbImage $GAME_MEAN/baboon.rgb $GAME_MEAN/output nrmse
 echo "Mean done ... (nrmse)"
-java -cp $GAME_MEAN/mean.jar Mean.RgbImage $GAME_MEAN/baboon.rgb $GAME_MEAN/output psnr
-echo "Mean done ... (psnr)"
+#java -cp $GAME_MEAN/mean.jar Mean.RgbImage $GAME_MEAN/baboon.rgb $GAME_MEAN/output psnr
+#echo "Mean done ... (psnr)"
 $GAME_MEAN/png2rgbAll.py rgb2png output/nrmse pngOutput/nrmse
 echo "Rgb2Png done ... (nrmse)"
-$GAME_MEAN/png2rgbAll.py rgb2png output/psnr pngOutput/psnr
-echo "Rgb2Png done ... (psnr)"
+#$GAME_MEAN/png2rgbAll.py rgb2png output/psnr pngOutput/psnr
+#echo "Rgb2Png done ... (psnr)"
