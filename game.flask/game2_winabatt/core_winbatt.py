@@ -9,13 +9,20 @@ def find_first_disagree_error(history):
 			continue
 		if float(history[i][0]) / float(history[i][1]) < 0.5:
 			return i
-	return len(history) / 2
+	if random.random() > 0.5:
+		ret = (len(history) / 2) + random.randint(0,10)
+	else:
+		ret = (len(history) / 2) - random.randint(0,10)
+	return ret
 
 def get_winning(filename, error):
 	os.system('echo get_winning start')
 	history = get_history(filename)
 	firstDisagreeError = find_first_disagree_error(history)
-	winning= GAME2_DEFAULT_WINNING * (GAME2_MAX_WINNING_PROPORTION + (random.random() * 0.5)) * (1.0 - abs(firstDisagreeError - error) / 50.0)
+	if random.random() > 0.5:
+		winning= GAME2_DEFAULT_WINNING * (GAME2_MAX_WINNING_PROPORTION + (random.random() * 0.25)) * (1.0 - abs(firstDisagreeError - error) / 50.0)
+	else:
+		winning= GAME2_DEFAULT_WINNING * (GAME2_MAX_WINNING_PROPORTION - (random.random() * 0.25)) * (1.0 - abs(firstDisagreeError - error) / 50.0)
 	os.system('echo get_winning end')
 
 	update_winbatt_record (filename, error, get_selections(filename))

@@ -46,14 +46,18 @@ class DegradedImage(Base):
 	num_played = Column(Integer)
 	num_agree = Column(Integer)
 	num_disagree = Column(Integer)
+	org_num_agree = Column(Integer)
+	org_num_disagree = Column(Integer)
 	org_image_id = Column(Integer, ForeignKey("original_images.image_id"))
 
-	def __init__(self, imagename, error, num_played, num_agree, num_disagree, org_image_id):
+	def __init__(self, imagename, error, num_played, num_agree, num_disagree, org_num_agree, org_num_disagree, org_image_id):
 		self.imagename = imagename
 		self.error = error
 		self.num_played = num_played
 		self.num_agree = num_agree
 		self.num_disagree = num_disagree
+		self.org_num_agree = org_num_agree
+		self.org_num_disagree = org_num_disagree
 		self.org_image_id = org_image_id
 
 	def __repr__(self):

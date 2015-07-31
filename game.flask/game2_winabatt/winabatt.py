@@ -43,7 +43,7 @@ def winabatt():
 				session['power'] += reward
 				session['power_history'].append(session['power'])
 				session['error_history'].append(error_rate)
-				session['bet_history'].append(bet)
+				session['bet_history'].append(int(bet))
 				session['reward_history'].append(reward)
 				# session['selections_history'].append(selections)
 				session['average_history'].append(average)

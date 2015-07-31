@@ -53,29 +53,26 @@
                 <center>
                     <div class="col-md-12">
 
-                        <span style="padding: 0px; padding-right: 360px; padding-bottom: 100px; float: right; width: 100px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;"><img
+                        <!-- <span style="padding: 0px; padding-right: 360px; padding-bottom: 100px; float: right; width: 100px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;"><img
                                 id="battery" src="{{ url_for('static',filename='img/batteries/3.png') }}" class="thumb"
-                                style="width:50px"></span>
-                        <center><h1 class="text-center">Round {{ stage }}</h1></center>
-                        <span style="padding: 0px; padding-right: 210px; padding-top: 30px; padding-bottom: 40px; float: right; width: 100px; text-align: center; margin-left: 0px; font-size:15px; height: 20px; border: 1px">
-                            <div style="width:100px; height:60px"><span id="remaining" class="label label-success" style="width:150px;font-size:160%">Current Balance: ${{ '%.2f' % power }}</span>
-                            </div>
-                        </span>
+                                style="width:50px"></span> -->
+                        <center><h1 class="text-center" style="font-size:200%; padding-right:300px">Round {{ stage }}</h1></center>
+
                     </div>
-                    <div class="col-md-12">
-                        <img id="image" src="{{ gamedata_home_url + '/sobelimage/' + imagename + '-sobel.png' }}"
-                             class="thumb" style="width:500px">
-
-                        <h2><i>How much would you spend for <b>good-enough</b> quality of this picture?</i></h2>
-                        <br>
-                        <h3>Slide to improve it!</h3><br><br>
-
-                        <div style="width:700px">
+                    <div style="width:1200px">
+                        <img id="image" src=""
+                             class="thumb" style="width:500px; height: 350px">
+                        <br><br>
+                        <div style="width:900px">
+                            <div style="display:inline;width:60px;height:60px;"><span id="remaining" class="label label-success"
+                                                                      style="width:150px;font-size:150%">Current Balance: ${{ '%.2f' % power }}</span>
+                            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <div style="display:inline;width:60px;height:60px;"><span id="investing" class="label label-danger"
                                                                       style="width:150px;font-size:150%">Current Cost: $0</span>
                             </div>
                         </div>
-                        <br>
+                        <h3><i>How much would you spend to see a <b>better</b> picture?</i></h3>
+                        <h3>Slide to improve it!</h3>
                         <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="50"
                                data-slider-max="100" data-slider-step="1" data-slider-value="50" style="width:500px"/>
                         <br><br>
@@ -116,15 +113,8 @@
 											var total_power = {{ power }}
 											var power_consumption = calPowerConsumption(error)
 											total_power = total_power - power_consumption
-											if (total_power > 100) {
-												document.getElementById("battery").src = dirpath.concat("batteries/4.png");
-											} else if (total_power >= 75) {
-												document.getElementById("battery").src = dirpath.concat("batteries/3.png");
-											} else if (total_power >= 50) {
-												document.getElementById("battery").src = dirpath.concat("batteries/2.png");
-											} else {
-												document.getElementById("battery").src = dirpath.concat("batteries/1.png");
-											}
+
+                                            <!--document.getElementById("ex1Slider").data-slider-min = 100 - error -->
 											document.getElementById("betbutton").name = "bet_".concat(String(power_consumption)).concat("_").concat(String(error));
 											document.getElementById("remaining").innerHTML = "Current Balance: $".concat(String(total_power));
 											document.getElementById("investing").innerHTML = "Current Cost: $".concat(String(power_consumption));
