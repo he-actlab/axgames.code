@@ -1,4 +1,4 @@
-package Sobel;
+package Emboss;
 
 import java.io.IOException;
 import java.util.HashMap;

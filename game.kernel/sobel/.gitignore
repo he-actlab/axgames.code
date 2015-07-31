@@ -1,6 +1,9 @@
 /bin
 output/
+pngoutput/
 pngOutput/
 rgbOutput/
 *.class
 *.jar
+images/
+game.data/

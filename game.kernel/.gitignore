@@ -2,3 +2,9 @@ baboon*
 output/
 .classpath
 .project
+game.data/
+pngoutput/
+images/
+pngOutput/
+out2
+hs_err_pid*

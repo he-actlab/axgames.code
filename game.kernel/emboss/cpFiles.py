@@ -34,5 +34,5 @@ for line in  os.popen('ls ' + orgdir + ' | grep -v images*').readlines():
 
 	os.system('cp ' + orgdir + '/' + filename + '.png ' + dstdir + '/orgimage') 
 	os.system('cp ' + degdir + '/' + filename + '/nrmse/' + filename + '_* ' +  dstdir + '/degimage') 
-	os.system('cp ' + degdir + '/' + filename + '/nrmse/' + filename + '-jpeg* ' +  dstdir + '/sobelimage') 
+	os.system('cp ' + degdir + '/' + filename + '/nrmse/' + filename + '-emboss* ' +  dstdir + '/sobelimage') 
 	
