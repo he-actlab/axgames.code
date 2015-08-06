@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Consensus</title>
+    <title>{{ GAME_NAME }}</title>
     <link rel="icon" href="https://research.cc.gatech.edu/act-lab/sites/edu.act-lab/files/ACT-logo-scaled_1.png" type="image/png">
 
     <!-- Latest compiled and minified CSS -->
@@ -29,7 +29,7 @@
             </button>
             <div class="navbar-brand">
                 <img alt="Brand" style="height: 30px; width: 30px; display: inline; padding-right: 5px"
-                     src="https://research.cc.gatech.edu/act-lab/sites/edu.act-lab/files/ACT-logo-scaled_1.png">Consensus - Pollice Verso
+                     src="https://research.cc.gatech.edu/act-lab/sites/edu.act-lab/files/ACT-logo-scaled_1.png">{{ GAME_NAME }} - Pollice Verso
             </div>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -37,9 +37,8 @@
                 <input type="submit" name="start" value="Select Game" class="btn btn-default"
                        data-toggle="tooltip" data-placement="bottom" style=" font-size:100%"></input>
             </form>
-            <form action='/logout' method="post" target=_self class="navbar-form navbar-left">
-                <input type="submit" name="logout" value="Logout" class="btn btn-default"
-                       data-toggle="tooltip" data-placement="bottom" style=" font-size:100%"></input>
+            <form action='/logout' class="navbar-form navbar-left">
+                <input id="logoutbutton" type="submit" name="logout" value="Logout" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" style=" font-size:100%"></input>
             </form>
         </div>
     </div>
@@ -102,24 +101,37 @@
             </div>
             <br><br>
 
+
+            {% if stage|length != max_round %}
             <form action='/acceptable' method="post" target=_self>
-                {% if stage|length != max_round %}
-                <div class="container">
-                    <center><input type="submit" name="continue" value="Next Round" class="btn" data-toggle="tooltip" data-placement="bottom"
-                                   style="background-color:#4d4d4d;color:white;font-size:20px"></input></center>
-                </div>
-                {% else %}
-                <div class="container">
-                    <center>
-                        <input type="submit" name="finish" value="Finish Game" class="btn" data-toggle="tooltip" data-placement="bottom"
-                               style="background-color:#4d4d4d;color:white;font-size:20px"></input>
-                        <input type="submit" name="initialize" value="Restart Game" class="btn" data-toggle="tooltip" data-placement="bottom"
-                               style="background-color:#4d4d4d;color:white;font-size:20px"></input>
-                    </center>
-                </div>
-                {% endif %}
+            <div class="container">
+                <center><input type="submit" name="continue" value="Next Round" class="btn" data-toggle="tooltip" data-placement="bottom"
+                               style="background-color:#4d4d4d;color:white;font-size:20px"></input></center>
+            </div>
+            </form>
+            {% else %}
+            <div class="container" style="display:inline;width:1240px">
+                <center>
+                    <form action='/acceptable' method="post" target=_self style="display:inline;">
+                    <input type="submit" name="initialize" value="Restart" class="btn" data-toggle="tooltip" data-placement="bottom"
+                           style="display:inline;background-color:#4d4d4d;color:white;font-size:20px"></input>
+                    </form>
+                    <form action='/selectgame' method="post" target=_self style="display: inline;">
+                        <input type="submit" name="start" value="Select Game" class="btn" data-toggle="tooltip" data-placement="bottom"
+                           style="display:inline;background-color:#4d4d4d;color:white;font-size:20px"></input>
+                    </form>
+                    <form action='/acceptable' method="post" target=_self style="display:inline;">
+                    <input type="submit" name="finish" value="Logout" class="btn" data-toggle="tooltip" data-placement="bottom"
+                           style="display:inline;background-color:#4d4d4d;color:white;font-size:20px"></input>
+                    </form>
+                </center>
+            </div>
+            <div class="container" style="display:inline;width:1240px">
+                <h3>Code: {{ uniq_code }}</h3>
+            </div>
+            {% endif %}
         </center>
-        </form>
+
 
         <!-- Code for stacked bar ends -->
     </div>

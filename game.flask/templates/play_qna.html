@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Consensus</title>
+    <title>{{ GAME_NAME }}</title>
     <link rel="icon" href="https://research.cc.gatech.edu/act-lab/sites/edu.act-lab/files/ACT-logo-scaled_1.png"
           type="image/png">
     <!-- Latest compiled and minified CSS -->
@@ -30,7 +30,7 @@
             </button>
             <div class="navbar-brand">
                 <img alt="Brand" style="height: 30px; width: 30px; display: inline; padding-right: 5px"
-                     src="https://research.cc.gatech.edu/act-lab/sites/edu.act-lab/files/ACT-logo-scaled_1.png">Consensus
+                     src="https://research.cc.gatech.edu/act-lab/sites/edu.act-lab/files/ACT-logo-scaled_1.png">{{ GAME_NAME }}
                 - QnA
             </div>
         </div>
@@ -60,7 +60,7 @@
                     </div>
                     <div class="col-md-12">
                         <img id="image" src=""
-                             class="thumb" style="width:500px; height:300px"><br><br>
+                             class="thumb" style="max-width:500px; max-height:300px"><br><br>
                         <div style="width:700px">
                             <div style="display:inline;width:60px;height:60px;"><span id="remaining" class="label label-success"
                                       style="width:150px;font-size:150%">Current Balance: ${{ '%.2f' % power }}</span>
@@ -88,7 +88,7 @@
                             </div>
                             <br>
                             <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="50"
-                                   data-slider-max="100" data-slider-step="1" data-slider-value="50"
+                                   data-slider-max="100" data-slider-step="1" data-slider-value="{{ 100 - init_slider_value|int }}"
                                    style="width:500px"/>
                             <br><br>
                             <center><input id="betbutton" type="submit" name="bet" value="Spend" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" style=" font-size:150%"></input></center>
@@ -106,7 +106,7 @@
 											var error = 100 - value;
 											var dirpath = "{{ url_for('static',filename='img/') }}";
 											if (error == 0) {
-												document.getElementById("image").src = "{{ gamedata_home_url + '/sobelimage/' + imagename + '-sobel.png' }}"
+												document.getElementById("image").src = "{{ gamedata_home_url + '/sobelimage/' + imagename + '-' + kernel_name + '.png' }}"
 											} else {
 												var i;
 												var filename;
@@ -134,15 +134,10 @@
 									});
 
 
-                                    var originalVal;
-                                    var oldVal = 50;
-                                    $('#ex1').on('slideStart', function (ev) {
-                                        originalVal = $('#ex1').val();
-                                    });
+                                    var oldVal = parseInt({{ 100 - init_slider_value|int }});
                                     $('#ex1').on('slideStop', function (ev) {
                                         var newVal = $('#ex1').val();
                                         newValNum = parseInt(newVal);
-                                        <!--alert(originalValNum + "," + newValNum);-->
                                         if (oldVal > newValNum) {
                                             slider.setValue(oldVal);
                                         } else {

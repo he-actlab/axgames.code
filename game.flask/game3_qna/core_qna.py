@@ -1,7 +1,7 @@
 import os, random
 
 from query_qna import get_selections, update_qna_record, get_history
-from gatech.conf import drawn_errors, GAME3_DEFAULT_WINNING, GAME3_MAX_WINNING_PROPORTION, GAME3_WRONG_ANSWER_PENALTY
+from gatech.conf import drawn_errors, GAME3_DEFAULT_WINNING, GAME3_MAX_WINNING_PROPORTION, GAME3_INIT_AVG
 
 def find_first_disagree_error(history):
 	for i in range(0, len(history)):
@@ -10,9 +10,9 @@ def find_first_disagree_error(history):
 		if float(history[i][0]) / float(history[i][1]) < 0.5:
 			return i
 	if random.random() > 0.5:
-		ret = (len(history) / 2) + random.randint(0,10)
+		ret = GAME3_INIT_AVG + random.randint(0,10)
 	else:
-		ret = (len(history) / 2) - random.randint(0,10)
+		ret = GAME3_INIT_AVG - random.randint(0,10)
 	return ret
 
 def get_winning(filename, error):
@@ -20,10 +20,18 @@ def get_winning(filename, error):
 
 	history = get_history(filename)
 	firstDisagreeError = find_first_disagree_error(history)
-	if random.random() > 0.5:
-		winning= GAME3_DEFAULT_WINNING * (GAME3_MAX_WINNING_PROPORTION + random.random() * 0.25) * (1.0 - abs(firstDisagreeError - error) / 50.0)
+	errDiffRatio = abs(firstDisagreeError - error) / 50.0
+	if errDiffRatio != 0.0:
+		winningRatio = (1.0 / errDiffRatio) - 2.0
+		if winningRatio > 10.0:
+			winningRatio = 10.0
 	else:
-		winning= GAME3_DEFAULT_WINNING * (GAME3_MAX_WINNING_PROPORTION - random.random() * 0.25) * (1.0 - abs(firstDisagreeError - error) / 50.0)
+		winningRatio = 10.0
+	if random.random() > 0.5:
+		randFactor = random.random() * 0.1
+	else:
+		randFactor = -random.random() * 0.1
+	winning = GAME3_DEFAULT_WINNING * (GAME3_MAX_WINNING_PROPORTION + randFactor) * winningRatio
 
 	update_qna_record (filename, error, get_selections(filename))
 

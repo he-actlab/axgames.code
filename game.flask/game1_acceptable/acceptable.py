@@ -6,10 +6,10 @@ from gatech import session
 from flask import render_template, request
 from query_acceptable import draw_acceptable_image_files, get_image_id, get_degimage_id, save_play, save_play_gallery
 from core_acceptable import scoring
-from gatech.query import store_session
-from gatech.conf import gamedata_home_url, max_round
+from gatech.query import store_session, get_promo_code
+from gatech.conf import gamedata_home_url, max_round, GAME_NAME, GAME1_INIT_BALANCE
 
-import os, uuid
+import os, uuid, random
 
 from enum import Enum
 
@@ -66,13 +66,16 @@ def acceptable():
 									 filePaths=session['filepaths'], \
 									 msg=str(msg), \
 									 sessionid=session['sessionid'], \
-									 gamedata_home_url=gamedata_home_url)
+									 gamedata_home_url=gamedata_home_url, \
+								     GAME_NAME=GAME_NAME)
 		elif action == 'finish':
-			save_play_gallery(session['userid'], session['ig_id'], session['sessionid'], session['playidlist'])
+			# save_play_gallery(session['userid'], session['ig_id'], session['sessionid'], session['playidlist'])
 			session.clear()
-			return render_template('index.html', state=0)
+			return render_template('index.html', \
+								   state=0, \
+								   GAME_NAME=GAME_NAME)
 		elif action == 'initialize':
-			save_play_gallery(session['userid'], session['ig_id'], session['sessionid'], session['playidlist'])
+			# save_play_gallery(session['userid'], session['ig_id'], session['sessionid'], session['playidlist'])
 			initialize()
 			session['ig_id'], session['filePathsList'] = draw_acceptable_image_files(session['userid'])
 			session['filepaths'] = (session['filePathsList'])[session['stage']-1]
@@ -100,6 +103,8 @@ def acceptable():
 						color.append(getColor(option))
 					session['color'].append(color)
 
+					if session['stage'] == max_round:
+						save_play_gallery(session['userid'], session['ig_id'], session['sessionid'], session['playidlist'])
 					return render_template('result_acceptable.html', \
 											 stage=range(1, session['stage'] + 1), \
 											 score=session['score'], \
@@ -111,7 +116,9 @@ def acceptable():
 											 bankroll_history=session['bankroll_history'], \
 											 gamedata_home_url=gamedata_home_url, \
 											 max_round=max_round, \
-										     bet_history=session['bet_history'])
+										     bet_history=session['bet_history'], \
+										     uniq_code=session['uniq_code'], \
+										     GAME_NAME=GAME_NAME)
 			elif action == 'clear':
 				session['betmoney'] = 0
 			elif action == '5d':
@@ -140,7 +147,8 @@ def acceptable():
 							 filePaths=session['filepaths'], \
 							 msg=str(msg), \
 							 sessionid=session['sessionid'], \
-							 gamedata_home_url=gamedata_home_url)
+							 gamedata_home_url=gamedata_home_url, \
+						     GAME_NAME=GAME_NAME)
 
 
 def start_acceptable():
@@ -165,18 +173,19 @@ def start_acceptable():
 							 final=final, \
 							 filePaths=session['filepaths'], \
 							 msg=str(msg), \
-							 gamedata_home_url=gamedata_home_url)
-
+							 gamedata_home_url=gamedata_home_url, \
+						     GAME_NAME=GAME_NAME)
 
 def init_session():
 	uid = uuid.uuid4()
 	session['sessionid'] = str(uid)
-	store_session(session['userid'], session['sessionid'])
+	session['uniq_code'] = str(get_promo_code(10))
+	store_session(session['userid'], session['sessionid'], session['uniq_code'])
 	session['win'] = 0.0
 	initialize()
 
 def initialize():
-	session['bankroll'] = 5000
+	session['bankroll'] = GAME1_INIT_BALANCE
 	session['stage'] = 1
 	session['betmoney'] = 0
 	session['score'] = []

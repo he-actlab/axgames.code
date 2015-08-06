@@ -13,6 +13,7 @@ import gatech.select_game
 import gatech.game1_acceptable.acceptable
 import gatech.game2_winabatt.winabatt
 import gatech.game3_qna.qna
+import gatech.result.result
 from gatech.conf import wait_minutes_for_newplayer
 
 # SESSION_TYPE = 'filesystem'

@@ -82,10 +82,12 @@ class PlaySession(Base):
 	session_id = Column(Integer, primary_key=True)
 	session_uuid = Column(String(100), unique=True)
 	user_id = Column(Integer, ForeignKey("users.user_id"))
+	uniq_code = Column(String(15))
 
-	def __init__(self, session_uuid, user_id):
+	def __init__(self, session_uuid, user_id, uniq_code):
 		self.session_uuid = session_uuid
 		self.user_id = user_id
+		self.uniq_code = uniq_code
 
 	def __repr__(self):
 		return '<PlaySession %r>' % (self.name)

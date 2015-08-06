@@ -2,7 +2,7 @@ import os, random
 
 from gatech.database import db_session
 from gatech.models import Image, DegradedImage, User, PlaySession
-from conf import imagelist_file_path, question_file_path, degimagelist_file_path, ERROR_MAX
+from conf import imagelist_file_path, question_file_path, degimagelist_file_path, ERROR_MAX, GAME1_INIT_NUM_PLAYED
 
 
 def doLogin(username, password):
@@ -65,20 +65,20 @@ def read_questions(question_file_path):
 def initial_consensus(error):
 	os.system('echo error = ' + str(error))
 	if error <= 0.01:
-		agree = 95 + random.randint(0,5)
+		agree = (GAME1_INIT_NUM_PLAYED - 5) + random.randint(0,5)
 	elif error <= 0.03:
-		agree = 85 + random.randint(0,10)
+		agree = (GAME1_INIT_NUM_PLAYED - 15) + random.randint(0,10)
 	elif error <= 0.05:
-		agree = 75 + random.randint(0,10)
+		agree = (GAME1_INIT_NUM_PLAYED - 25) + random.randint(0,10)
 	elif error <= 0.1:
-		agree = 45 + random.randint(0,10)
+		agree = (GAME1_INIT_NUM_PLAYED - 55) + random.randint(0,10)
 	elif error <= 0.2:
-		agree = 15 + random.randint(0,10)
+		agree = (GAME1_INIT_NUM_PLAYED - 85) + random.randint(0,10)
 	elif error <= 0.4:
-		agree = 5 + random.randint(0,10)
+		agree = (GAME1_INIT_NUM_PLAYED - 95) + random.randint(0,10)
 	elif error <= 0.5:
 		agree = 0 + random.randint(0,5)
-	return agree, 100 - agree
+	return agree, GAME1_INIT_NUM_PLAYED - agree
 
 def upload_files():
 	debugMsg = 'uploading files done ...'
@@ -114,7 +114,7 @@ def upload_files():
 		wrong_answers = questions[imagename][2]
 		os.system('echo upload_files: "' + wrong_answers + '"')
 
-		i = Image(imagename, 2, 0, 0, selected_error_array, question, correct_answer, wrong_answers, selected_error_array, history, history)
+		i = Image(imagename, GAME1_INIT_NUM_PLAYED, 0, 0, selected_error_array, question, correct_answer, wrong_answers, selected_error_array, history, history)
 		db_session.add(i)
 		db_session.commit()
 
@@ -154,11 +154,21 @@ def get_user_id (username):
 	result = db_session.query(User).filter_by(username=username).first()
 	return result.user_id
 
-def store_session(user_id, session_uuid):
+def get_promo_code(num_chars):
+	code_chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+	code = ''
+	for i in range(0, num_chars):
+		slice_start = random.randint(0, len(code_chars) - 1)
+		code += code_chars[slice_start: slice_start + 1]
+	return code
+
+def store_session(user_id, session_uuid, uniq_code):
 	os.system('echo store_session start')
 
-	s = PlaySession(session_uuid, user_id)
+	s = PlaySession(session_uuid, user_id, uniq_code)
 	db_session.add(s)
 	db_session.commit()
 
 	os.system('echo store_session end')
+
+# test

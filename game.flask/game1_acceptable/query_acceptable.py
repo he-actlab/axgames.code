@@ -5,14 +5,14 @@ from datetime import datetime, timedelta
 from gatech import session
 from gatech.database import db_session
 from gatech.models import Image, DegradedImage, Play, PlaySession, ImageGallery, PlayGallery, BadPlayGallery
-from gatech.conf import drawn_errors, max_round, num_people_gallery, GAME1, wait_minutes_for_newplayer, fleiss_kappa_threshold, ERROR_MAX, GAME1_GALLERY_ASSIGN_INTERVAL
+from gatech.conf import drawn_errors, max_round, num_people_gallery, GAME1, wait_minutes_for_newplayer, fleiss_kappa_threshold, ERROR_MAX, GAME1_GALLERY_ASSIGN_INTERVAL, KERNEL_NAME
 from gatech.analysis.fleiss import fleiss_kappa
 from gatech.analysis.combination import get_combination
 
 def get_file_paths(drawnImageFilename, orgImageId):
 	filePaths = []
 	filePaths.append('/orgimage/' + drawnImageFilename + '.png')
-	filePaths.append('/sobelimage/' + drawnImageFilename + '-sobel.png')
+	filePaths.append('/sobelimage/' + drawnImageFilename + '-' + KERNEL_NAME + '.png')
 
 	minPlayed = 100000
 	for error in drawn_errors:
@@ -43,7 +43,7 @@ def assign_newplayer(userId, igId, degImageSetStr, numAssigned, playedUsers, isW
 
 		filePaths = []
 		filePaths.append('/orgimage/' + orgImageName + '.png')
-		filePaths.append('/sobelimage/' + orgImageName + '-sobel.png')
+		filePaths.append('/sobelimage/' + orgImageName + '-' + KERNEL_NAME + '.png')
 		filePaths.append('/degimage/' + degImageName + '.png')
 		filePathsList.append(filePaths)
 
@@ -231,12 +231,12 @@ def create_new_gallery(userId):
 			filePaths, degImageId = get_file_paths(result[1], result[0])
 			filePathsList.append(filePaths)
 			degImageIdSetStr += str(degImageId)
-
+			length -= 1
 			if length == 0:
 				break
 			orgImageIdSetStr += '|'
 			degImageIdSetStr += '|'
-			length -= 1
+
 		minNumPlayed += 1
 
 	ig = ImageGallery (GAME1, 1, 0, datetime.now(), orgImageIdSetStr, degImageIdSetStr, 0, str(userId), 0)
@@ -250,9 +250,9 @@ def draw_acceptable_image_files(userId):
 	os.system('echo draw_acceptable_image_files: start')
 
 	# Step 1
-	found, ig_id, filePathsList = assign_newplayer_to_low_agreement(userId)
-	if found == True:
-		return ig_id, filePathsList
+	# found, ig_id, filePathsList = assign_newplayer_to_low_agreement(userId)
+	# if found == True:
+	# 	return ig_id, filePathsList
 
 	# Step 2
 	found, ig_id, filePathsList = assign_newplayer_to_hung_gallery(userId)
@@ -306,6 +306,14 @@ def get_num_decision(degImageId, decision):
 		break
 	return record
 
+def get_num_rand_decision(degImageId, decision):
+	result = db_session.query(DegradedImage).filter_by(deg_image_id=degImageId).first()
+	if decision == "agree":
+		record = result.org_num_agree
+	elif decision == "disagree":
+		record = result.org_num_disagree
+	return record
+
 def get_newhistory(oldHistory, isAgree, error):
 	newHistory = ""
 	e = 1
@@ -355,10 +363,15 @@ def update_record(degImageId, decision):
 	if decision == "agree":
 		newNum = result.num_agree + 1
 		update_history(degImageId, True, int(float(result.error)*100))
+		os.system('echo degImageId = ' + str(degImageId))
+		os.system('echo num_agree = ' + str(newNum))
 		db_session.query(DegradedImage).filter(DegradedImage.deg_image_id == degImageId).update({"num_agree": newNum})
+		# db_session.commit()
 	elif decision == "disagree":
 		newNum = result.num_disagree + 1
 		update_history(degImageId, False, int(float(result.error)*100))
+		os.system('echo degImageId = ' + str(degImageId))
+		os.system('echo num_disagree = ' + str(newNum))
 		db_session.query(DegradedImage).filter(DegradedImage.deg_image_id == degImageId).update({"num_disagree": newNum})
 	db_session.commit()
 

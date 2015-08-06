@@ -1,7 +1,12 @@
 #
 #
 #
-KERNEL_NAME = 'sobel'
+GAME_NAME = 'Approximum'
+
+#
+#
+#
+KERNEL_NAME = 'mean'
 
 #
 # The list of image file names. It only has prefix without "_sobel" or error rate such as "_0.01".
@@ -21,7 +26,7 @@ degimagelist_file_path = 'gatech/data/degimagelist.txt'
 #
 # Under this path, we can find the three directories, org_image, deg_image, and sobel_image.
 #
-gamedata_home_url = 'https://s3-us-west-1.amazonaws.com/game.data'
+gamedata_home_url = 'https://s3.amazonaws.com/game.data.mean'
 
 #
 # Game IDs
@@ -39,7 +44,7 @@ drawn_errors = [1, 3, 5, 7, 10, 15, 20, 30, 40, 50] # should be ordered
 #
 # Number of rounds in a game. This decides how many images should be grouped
 #
-max_round = 10
+max_round = 3
 
 #
 # Number of people that are initially assigned the same gallery
@@ -65,19 +70,24 @@ ERROR_MAX = 50
 #
 #
 #
-GAME1_INIT_BALANCE = 1000
+GAME1_INIT_NUM_PLAYED = 100
+GAME1_INIT_BALANCE = 5000
 GAME1_GALLERY_ASSIGN_INTERVAL = 1
+GAME1_RAND_RECORDS_THRESHOLD = 1
 #
 #
 #
 GAME2_INIT_ENERGY = 100
-GAME2_DEFAULT_WINNING = 30
-GAME2_MAX_WINNING_PROPORTION = 1.5
+GAME2_DEFAULT_WINNING = 5
+GAME2_MAX_WINNING_PROPORTION = 1.0
+GAME2_INIT_AVG = 20
+GAME2_BADPLAY_THRESHOLD = 39
 
 #
 #
 #
 GAME3_INIT_ENERGY = 100
-GAME3_DEFAULT_WINNING = 30
-GAME3_MAX_WINNING_PROPORTION = 1.5
+GAME3_DEFAULT_WINNING = 5
+GAME3_MAX_WINNING_PROPORTION = 1.0
 GAME3_WRONG_ANSWER_PENALTY = 20
+GAME3_INIT_AVG = 20

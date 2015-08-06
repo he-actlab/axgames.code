@@ -1,6 +1,7 @@
 import os
 
-from query_acceptable import get_num_played, get_num_decision, update_record
+from query_acceptable import get_num_played, get_num_decision, update_record, get_num_rand_decision
+from gatech.conf import GAME1_INIT_NUM_PLAYED, GAME1_RAND_RECORDS_THRESHOLD
 
 # todo: we need a real scoring algorithm
 # update_todo: we need to incorporate the six level answers from strong accept to strong reject
@@ -10,6 +11,10 @@ def scoring(decision, betmoney, degImageId):
 	nPlayed = get_num_played(degImageId)
 	nAgree = get_num_decision(degImageId, "agree")
 	nDisagree = get_num_decision(degImageId, "disagree")
+	if nPlayed >= GAME1_INIT_NUM_PLAYED + GAME1_RAND_RECORDS_THRESHOLD:
+		nPlayed -= GAME1_INIT_NUM_PLAYED
+		nAgree -= get_num_rand_decision(degImageId, "agree")
+		nDisagree -= get_num_rand_decision(degImageId, "disagree")
 	os.system('echo decision = ' + str(decision))
 	os.system('echo nPlayed = ' + str(nPlayed))
 	os.system('echo nAgree = ' + str(nAgree))

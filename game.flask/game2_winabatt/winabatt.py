@@ -6,8 +6,8 @@ from gatech import session
 from flask import render_template, request
 from query_winabatt import draw_winabatt_image_file, save_play
 from core_winbatt import get_reward, get_winning
-from gatech.conf import gamedata_home_url, max_round, GAME2_INIT_ENERGY
-from gatech.query import store_session
+from gatech.conf import gamedata_home_url, max_round, GAME2_INIT_ENERGY, KERNEL_NAME, GAME_NAME
+from gatech.query import store_session, get_promo_code
 
 import os, uuid
 
@@ -68,18 +68,23 @@ def winabatt():
 									 sessionid=session['sessionid'], \
 									 gamedata_home_url=gamedata_home_url, \
 									 max_round=max_round, \
-									 average=session['average_history'])
+									 average=session['average_history'], \
+								     uniq_code=session['uniq_code'], \
+								     GAME_NAME=GAME_NAME)
 
 		elif action == 'continue':
 			os.system('echo continue')
-			session['stage'] = len(session['power_history']) + 1
-			session['imagename'] = draw_winabatt_image_file()
+			if len(session['power_history']) == session['stage']:
+				session['stage'] = len(session['power_history']) + 1
+				session['imagename'] = draw_winabatt_image_file()
 			return render_template('play_winabatt.html', \
 									 imagename=session['imagename'], \
 									 power=session['power'], \
 									 stage=session['stage'], \
 									 sessionid=session['sessionid'], \
-									 gamedata_home_url=gamedata_home_url)
+									 gamedata_home_url=gamedata_home_url, \
+								     kernel_name=KERNEL_NAME, \
+								     GAME_NAME=GAME_NAME)
 
 		elif action == 'initialize':
 			initialize()
@@ -87,20 +92,25 @@ def winabatt():
 
 		elif action == 'finish':
 			session.clear()
-			return render_template('index.html', state=0)
+			return render_template('index.html', \
+								   state=0, \
+								   GAME_NAME=GAME_NAME)
 
 		return render_template('play_winabatt.html',
 								 imagename=session['imagename'], \
 								 power=session['power'], \
 								 stage=session['stage'], \
 								 sessionid=session['sessionid'], \
-								 gamedata_home_url=gamedata_home_url)
+								 gamedata_home_url=gamedata_home_url, \
+							     kernel_name=KERNEL_NAME, \
+							     GAME_NAME=GAME_NAME)
 
 
 def init_session():
 	uid = uuid.uuid4()
 	session['sessionid'] = str(uid)
-	store_session(session['userid'], session['sessionid'])
+	session['uniq_code'] = str(get_promo_code(10))
+	store_session(session['userid'], session['sessionid'], session['uniq_code'])
 	session['win'] = 0.0
 	initialize()
 
@@ -125,8 +135,10 @@ def start_winabatt():
 
 	os.system('echo start_winabatt: ' + session['imagename'])
 	return render_template('play_winabatt.html',
-												 imagename=session['imagename'], \
-												 power=session['power'], \
-												 stage=session['stage'], \
-												 sessionid=session['sessionid'], \
-												 gamedata_home_url=gamedata_home_url)
+							 imagename=session['imagename'], \
+							 power=session['power'], \
+							 stage=session['stage'], \
+							 sessionid=session['sessionid'], \
+							 gamedata_home_url=gamedata_home_url, \
+						     kernel_name=KERNEL_NAME, \
+						     GAME_NAME=GAME_NAME)

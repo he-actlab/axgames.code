@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>{{ GAME_NAME }}</title>
+	</head>
+	<body>
+		<h3>{{ GAME_NAME }} Results</h3>
+		<h4>Game2: WinABatt</h4>
+		<a href="{{ url_for('static', filename='temp/' + stat_filename) }}" target="_blank">Download</a>
+		<br><br>
+		<table border="2">
+			<tr>
+				<th>Quality degradation level</th>
+				<th>Number of Good-enough</th>
+				<th>Number of Played</th>
+			</tr>
+			{% for key in keys %}
+				<tr>
+					<td>{{ key }}%</td>
+					<td>{{ game2NumAgreed[key-1] }}</td>
+					<td>{{ game2NumPlayed[key-1] }}</td>
+				</tr>
+			{% endfor %}
+		</table>
+	</body>
+</html>

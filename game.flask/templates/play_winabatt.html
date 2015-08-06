@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Consensus</title>
+    <title>{{ GAME_NAME }}</title>
     <link rel="icon" href="https://research.cc.gatech.edu/act-lab/sites/edu.act-lab/files/ACT-logo-scaled_1.png"
           type="image/png">
     <!-- Latest compiled and minified CSS -->
@@ -30,7 +30,7 @@
             </button>
             <div class="navbar-brand" >
                 <img alt="Brand" style="height: 30px; width: 30px; display: inline; padding-right: 5px"
-                     src="https://research.cc.gatech.edu/act-lab/sites/edu.act-lab/files/ACT-logo-scaled_1.png">Consensus
+                     src="https://research.cc.gatech.edu/act-lab/sites/edu.act-lab/files/ACT-logo-scaled_1.png">{{ GAME_NAME }}
                 - WinABatt
             </div>
         </div>
@@ -61,7 +61,7 @@
                     </div>
                     <div style="width:1200px">
                         <img id="image" src=""
-                             class="thumb" style="width:500px; height: 350px">
+                             class="thumb" style="max-width:500px; max-height: 350px">
                         <br><br>
                         <div style="width:900px">
                             <div style="display:inline;width:60px;height:60px;"><span id="remaining" class="label label-success"
@@ -94,7 +94,8 @@
 											var error = 100 - value;
 											var dirpath = "{{ url_for('static',filename='img/') }}";
 											if (error == 0) {
-												document.getElementById("image").src = "{{ gamedata_home_url + '/sobelimage/' + imagename + '-sobel.png' }}"
+												document.getElementById("image").src = "{{ gamedata_home_url + '/sobelimage/' + imagename + '-'
+												+ kernel_name + '.png' }}"
 											} else {
 												var i;
 												var filename;

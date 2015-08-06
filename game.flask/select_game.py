@@ -12,7 +12,7 @@ from database import db_session
 from database import init_db
 from database import clean_db
 from query import upload_files, add_user, doLogin, get_user_id
-from conf import max_round, GAME1_INIT_BALANCE, KERNEL_NAME
+from conf import max_round, GAME1_INIT_BALANCE, KERNEL_NAME, GAME_NAME
 
 import os, time, threading
 from enum import Enum
@@ -28,7 +28,8 @@ def selectgame():
 		action = action.split('.')[0]
 		os.system('echo startgame: ' + action)
 		if action == 'start':
-			return render_template('select_game.html')
+			return render_template('select_game.html', \
+								   GAME_NAME=GAME_NAME)
 
 
 @app.route("/playgame", methods=['POST', 'GET'])
@@ -46,29 +47,29 @@ def playgame():
 		if action == 'qna':
 			return start_qna()
 
-@app.route('/reset')
-def reset():
-	clean_database()
-	initialize_database()
-	upload_thread = threading.Thread(target=upload_files, args='')
-	upload_thread.start()
-	return "reset start"
-
-@app.route('/upload')
-def upload():
-	upload_thread = threading.Thread(target=upload_files, args='')
-	upload_thread.start()
-	return "upload_files start"
-
-@app.route('/initdb')
-def initialize_database():
-	init_db()
-	return "initializing database done ..."
-
-@app.route('/cleandb')
-def clean_database():
-	clean_db()
-	return "cleaning database done ..."
+# @app.route('/reset')
+# def reset():
+# 	clean_database()
+# 	initialize_database()
+# 	upload_thread = threading.Thread(target=upload_files, args='')
+# 	upload_thread.start()
+# 	return "reset start"
+#
+# @app.route('/upload')
+# def upload():
+# 	upload_thread = threading.Thread(target=upload_files, args='')
+# 	upload_thread.start()
+# 	return "upload_files start"
+#
+# @app.route('/initdb')
+# def initialize_database():
+# 	init_db()
+# 	return "initializing database done ..."
+#
+# @app.route('/cleandb')
+# def clean_database():
+# 	clean_db()
+# 	return "cleaning database done ..."
 
 @app.teardown_appcontext
 def shutdown_session(exception=None):
@@ -140,7 +141,8 @@ def login():
 							   state=renderState, \
 							   max_round=max_round, \
 							   GAME1_INIT_BALANCE=GAME1_INIT_BALANCE, \
-							   KERNEL_NAME=KERNEL_NAME)
+							   KERNEL_NAME=KERNEL_NAME, \
+							   GAME_NAME=GAME_NAME)
 
 @app.route("/logout")
 def logout():
@@ -150,7 +152,8 @@ def logout():
 						   state=State.default, \
 						   max_round=max_round, \
 						   GAME1_INIT_BALANCE=GAME1_INIT_BALANCE, \
-						   KERNEL_NAME=KERNEL_NAME)
+						   KERNEL_NAME=KERNEL_NAME, \
+						   GAME_NAME=GAME_NAME)
 
 @app.route('/')
 def index():
@@ -158,4 +161,5 @@ def index():
 						   state=State.default, \
 						   max_round=max_round, \
 						   GAME1_INIT_BALANCE=GAME1_INIT_BALANCE, \
-						   KERNEL_NAME=KERNEL_NAME)
+						   KERNEL_NAME=KERNEL_NAME, \
+						   GAME_NAME=GAME_NAME)

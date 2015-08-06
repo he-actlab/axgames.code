@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Consensus</title>
+    <title>{{ GAME_NAME }}</title>
     <link rel="icon" href="https://research.cc.gatech.edu/act-lab/sites/edu.act-lab/files/ACT-logo-scaled_1.png"
           type="image/png">
 
@@ -31,7 +31,7 @@
             </button>
             <div class="navbar-brand" >
                 <img alt="Brand" style="height: 30px; width: 30px; display: inline; padding-right: 5px"
-                     src="https://research.cc.gatech.edu/act-lab/sites/edu.act-lab/files/ACT-logo-scaled_1.png">Consensus
+                     src="https://research.cc.gatech.edu/act-lab/sites/edu.act-lab/files/ACT-logo-scaled_1.png">{{ GAME_NAME }}
                 - Pollice Verso
             </div>
         </div>
@@ -64,7 +64,7 @@
                 <div class="col-md-12" id="level-aux">
                     <div class="col-md-6">
                         <div class="thumbnail" style="width:500px">
-                            <img src="{{ gamedata_home_url + filePaths[1] }}" class="thumb" style="width:400px; height:250px">
+                            <img src="{{ gamedata_home_url + filePaths[1] }}" class="thumb" style="max-width:400px; max-height:250px">
 
                             <div class="caption">
                                 <p class="text-center">
@@ -75,7 +75,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="thumbnail" style="width:500px">
-                            <img src="{{ gamedata_home_url + filePaths[2] }}" class="thumb" style="width:400px; height:250px">
+                            <img src="{{ gamedata_home_url + filePaths[2] }}" class="thumb" style="max-width:400px; max-height:250px">
 
                             <div class="caption">
                                 <p class="text-center">
