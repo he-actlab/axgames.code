@@ -43,7 +43,7 @@ def scoring(decision, betmoney, degImageId):
 	#
 	# (2) y = 2 * x   where x < 0.5
 	#
-	if percentage >= 0.5:
+	if percentage > 0.5:
 		slope = (minWinningRate - maxWinningRate) / (1.0 - 0.5)
 		os.system('echo slope = ' + str(slope))
 		yIntercept = minWinningRate - slope

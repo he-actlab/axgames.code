@@ -6,7 +6,7 @@ GAME_NAME = 'Approximum'
 #
 #
 #
-KERNEL_NAME = 'mean'
+KERNEL_NAME = 'jpeg'
 
 #
 # The list of image file names. It only has prefix without "_sobel" or error rate such as "_0.01".
@@ -26,7 +26,7 @@ degimagelist_file_path = 'gatech/data/degimagelist.txt'
 #
 # Under this path, we can find the three directories, org_image, deg_image, and sobel_image.
 #
-gamedata_home_url = 'https://s3.amazonaws.com/game.data.mean'
+gamedata_home_url = 'https://s3.amazonaws.com/game.data.jpeg'
 
 #
 # Game IDs
