@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>{{ GAME_NAME }}</title>
+	</head>
+	<body>
+		<h3>{{ GAME_NAME }} Choices</h3>
+		<a href="{{ url_for('static', filename='temp/' + choice_filename) }}" target="_blank">{{ choice_filename }}</a>
+	</body>
+</html>

@@ -6,7 +6,9 @@
 	<body>
 		<h3>{{ GAME_NAME }} Results</h3>
 		<h4>Game1: Pollice Verso</h4>
-		<a href="{{ url_for('static', filename='temp/' + stat_filename) }}" target="_blank">Download</a>
+		<a href="{{ url_for('static', filename='temp/' + stat_filename) }}" target="_blank">{{ stat_filename }}</a>
+		<br>
+		<a href="{{ url_for('static', filename='temp/' + simple_filename) }}" target="_blank">{{ simple_filename }}</a>
 		<br><br>
 		<table border="2">
 			<tr>

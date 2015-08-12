@@ -362,14 +362,14 @@ def update_record(degImageId, decision):
 	result = db_session.query(DegradedImage).filter_by(deg_image_id=degImageId).first()
 	if decision == "agree":
 		newNum = result.num_agree + 1
-		update_history(degImageId, True, int(float(result.error)*100))
+		#update_history(degImageId, True, int(float(result.error)*100))
 		os.system('echo degImageId = ' + str(degImageId))
 		os.system('echo num_agree = ' + str(newNum))
 		db_session.query(DegradedImage).filter(DegradedImage.deg_image_id == degImageId).update({"num_agree": newNum})
 		# db_session.commit()
 	elif decision == "disagree":
 		newNum = result.num_disagree + 1
-		update_history(degImageId, False, int(float(result.error)*100))
+		#update_history(degImageId, False, int(float(result.error)*100))
 		os.system('echo degImageId = ' + str(degImageId))
 		os.system('echo num_disagree = ' + str(newNum))
 		db_session.query(DegradedImage).filter(DegradedImage.deg_image_id == degImageId).update({"num_disagree": newNum})

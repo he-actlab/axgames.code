@@ -6,7 +6,7 @@ GAME_NAME = 'Approximum'
 #
 #
 #
-KERNEL_NAME = 'jpeg'
+KERNEL_NAME = 'emboss'
 
 #
 # The list of image file names. It only has prefix without "_sobel" or error rate such as "_0.01".
@@ -26,7 +26,7 @@ degimagelist_file_path = 'gatech/data/degimagelist.txt'
 #
 # Under this path, we can find the three directories, org_image, deg_image, and sobel_image.
 #
-gamedata_home_url = 'https://s3.amazonaws.com/game.data.jpeg'
+gamedata_home_url = 'https://s3.amazonaws.com/game.data.' + KERNEL_NAME
 
 #
 # Game IDs
@@ -66,12 +66,13 @@ fleiss_kappa_threshold = 0.3
 #
 #
 ERROR_MAX = 50
+BADPLAY_THRESHOLD = 40
 
 #
 #
 #
 GAME1_INIT_NUM_PLAYED = 100
-GAME1_INIT_BALANCE = 5000
+GAME1_INIT_BALANCE = 500
 GAME1_GALLERY_ASSIGN_INTERVAL = 1
 GAME1_RAND_RECORDS_THRESHOLD = 1
 #
@@ -81,7 +82,6 @@ GAME2_INIT_ENERGY = 100
 GAME2_DEFAULT_WINNING = 5
 GAME2_MAX_WINNING_PROPORTION = 1.0
 GAME2_INIT_AVG = 20
-GAME2_BADPLAY_THRESHOLD = 39
 
 #
 #

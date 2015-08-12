@@ -44,3 +44,6 @@ def get_history(image_id):
 		history.append([int(nAgree), int(nPlayed)])
 	return history
 
+def get_all_plays(game_type):
+	return db_session.query(Play).filter_by(game_type=str(game_type))
+
