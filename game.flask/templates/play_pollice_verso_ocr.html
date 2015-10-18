@@ -2,8 +2,6 @@
 <html>
 <head>
     <title>{{ GAME_NAME }}</title>
-    <link rel="icon" href="https://research.cc.gatech.edu/act-lab/sites/edu.act-lab/files/ACT-logo-scaled_1.png"
-          type="image/png">
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
@@ -30,9 +28,7 @@
                 <span class="icon-bar"></span>
             </button>
             <div class="navbar-brand" >
-                <img alt="Brand" style="height: 30px; width: 30px; display: inline; padding-right: 5px"
-                     src="https://research.cc.gatech.edu/act-lab/sites/edu.act-lab/files/ACT-logo-scaled_1.png">{{ GAME_NAME }}
-                - Pollice Verso
+                {{ GAME_NAME }} - Pollice Verso
             </div>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -47,24 +43,23 @@
     </div>
     <!-- /.container-fluid -->
 </nav>
-<div class="carousel-inner" role="listbox" style="width:1200px">
+<div class="carousel-inner" role="listbox">
 
     <!-- Code for main screen -->
-    <div class="item active" style="width:1200px">
+    <div class="item active">
 
         <!-- Code for images -->
-        <div class="three-images" style="width:1200px">
+        <div class="three-images">
             <div class="container">
                 <!-- <h1 class="text-center">Is this Quality Acceptable?</h1> -->
-                <div class="col-md-12" style="display:inline; width: 900px">
-                    <h1 class="text-center" style="padding-left: 0px; padding-right: 700px; font-size:200%">Round {{ stage }}</h1>
+                <div class="col-md-12" style="display:inline; width: 1100px">
+                    <h1 class="text-center" style="padding-left: 0px; padding-right: 900px; font-size:200%">Round {{ stage }}</h1>
                 </div>
 
                 <!-- CODE FOR THUMBNAILS WITH CAPTION -->
-                <div class="col-md-8" id="level-aux"  style="width:1000px">
-                    <center>
-                    <div class="col-md-4" style="width:370px">
-                        <div class="thumbnail" style="width:350px">
+                <div class="col-md-12" id="level-aux">
+                    <div class="col-md-6">
+                        <div class="thumbnail" style="min-width: 300px; min-height: 300px; width:500px">
                             <img src="{{ gamedata_home_url + filePaths[1] }}" class="thumb" style="max-width:400px; max-height:250px">
 
                             <div class="caption">
@@ -74,9 +69,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4"  style="width:370px">
-                        <div class="thumbnail" style="width:350px">
-                            <img src="{{ gamedata_home_url + filePaths[2] }}" class="thumb" style="max-width:400px; max-height:250px">
+                    <div class="col-md-6">
+                        <div class="thumbnail" style="min-width: 300px; min-height: 300px; width:500px">
+                            <!-- <img src="{{ gamedata_home_url + filePaths[2] }}" class="thumb" style="max-width:400px; max-height:250px"> -->
+                            {% set tokens = filePaths[0].split('/')[2].split('.')[0].split('n')[0].split('x') %}
+                            <center><textarea rows="4" cols="50" style="width:{{ tokens[0] }}px; height:{{ tokens[1] }}px; max-width:400px; max-height:250px"> Test </textarea></center>
 
                             <div class="caption">
                                 <p class="text-center">
@@ -85,7 +82,6 @@
                             </div>
                         </div>
                     </div>
-                    </center>
                 </div>
                 <!-- CODE FOR THUMBNAILS WITH CAPTION ENDS -->
             </div>
@@ -94,11 +90,11 @@
         <!-- Code for images ends -->
 
         <!-- CODE FOR DISPLAYING BETTING MONEY -->
-        <div class="betting-money" id="level-betting-money" style="width:1200px">
+        <div class="betting-money" id="level-betting-money">
             <center>
             <div style="width:800px">
                 <center>
-                    <form action='/acceptable' method="post" target="_self">
+                    <form action='/pollice_verso' method="post" target="_self">
                         <input type="submit" name="agree" value="Current Balance: ${{ bankroll }}" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" style="display: inline; font-size:130%; font-weight: bold;" disabled/>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <input type="submit" name="agree" value="Current Bet: ${{ bet }}" class="btn" data-toggle="tooltip" data-placement="bottom" style="display: inline; background-color:#ff1515; color: white; font-size:130%; font-weight: bold;" disabled/>
@@ -112,9 +108,9 @@
         <!-- CODE FOR DISPLAYING BETTING MONEY ENDS-->
 
         <!-- CODE FOR BETTING CHIPS -->
-        <div class="chips" id="level-chips" style="width:1200px">
+        <div class="chips" id="level-chips">
             <div class="container" style="width:700px">
-                <form action='/acceptable' method="post" target="_self">
+                <form action='/pollice_verso' method="post" target="_self">
                     <div class="col-sm-2">
                         <center><input type="image" name="5d" src="{{ url_for('static',filename='img/chips/5.png') }}"
                                        height="60" size="80"></input></center>
@@ -154,7 +150,7 @@
         <!-- CODE FOR FOUR BUTTONS -->
         <div class="three-buttons" id="level-six-buttons">
             <div class="container">
-                <form action='/acceptable' method="post" target="_self">
+                <form action='/pollice_verso' method="post" target="_self">
                     <center><div>
                         <input type="submit" name="agree" value="Good Enough" class="btn" data-toggle="tooltip"
                         data-placement="bottom" style="background-color:#006400;color:white;font-size:120%"></input>

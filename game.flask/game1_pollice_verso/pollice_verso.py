@@ -4,12 +4,12 @@ from gatech import app
 from gatech import session
 
 from flask import render_template, request
-from query_acceptable import draw_acceptable_image_files, get_image_id, get_degimage_id, save_play, save_play_gallery
-from core_acceptable import scoring
+from query_pollice_verso import draw_acceptable_output_files, get_image_id, get_degimage_id, save_play, save_play_gallery
+from core_pollice_verso import scoring
 from gatech.query import store_session, get_promo_code
-from gatech.conf import gamedata_home_url, max_round, GAME_NAME, GAME1_INIT_BALANCE
+from gatech.conf import gamedata_home_url, max_round, GAME_NAME, GAME1_INIT_BALANCE, APPLICATION_TYPE
 
-import os, uuid, random
+import os, uuid, random, sys
 
 from enum import Enum
 
@@ -18,6 +18,18 @@ class Color(Enum):
 	agreeColor = "#006400"
 	disagreeColor = "#8B0000"
 
+def getHtmlTemplate():
+	if APPLICATION_TYPE == 'IP':
+		return 'play_pollice_verso_ip.html'
+	elif APPLICATION_TYPE == 'OCR':
+		return 'play_pollice_verso_ocr.html'
+	elif APPLICATION_TYPE == 'SR':
+		return 'play_pollice_verso_sr.html'
+	elif APPLICATION_TYPE == 'AE':
+		return 'play_pollice_verso_ae.html'
+	else:
+		print 'Error: unknown applicaiton type'
+		sys.exit()
 
 def getColor(decision):
 	if decision == "agree":
@@ -26,7 +38,7 @@ def getColor(decision):
 		return Color.disagreeColor
 
 
-@app.route("/acceptable", methods=['POST', 'GET'])
+@app.route("/pollice_verso", methods=['POST', 'GET'])
 def acceptable():
 	msg = ''
 	money = 0
@@ -39,7 +51,7 @@ def acceptable():
 		os.system('echo ' + msg)
 		if action == 'start':
 			init_session()
-			session['ig_id'], session['filePathsList'] = draw_acceptable_image_files(session['userid'])
+			session['ig_id'], session['filePathsList'] = draw_acceptable_output_files(session['userid'])
 			session['filepaths'] = (session['filePathsList'])[session['stage']-1]
 			session['imageid'] = get_image_id(((session['filepaths'])[0]).split('/')[2])
 			session['degimageid'] = get_degimage_id(((session['filepaths'])[2]).split('/')[2])
@@ -55,7 +67,7 @@ def acceptable():
 			session['filepaths'] = (session['filePathsList'])[session['stage']-1]
 			session['imageid'] = get_image_id(((session['filepaths'])[0]).split('/')[2])
 			session['degimageid'] = get_degimage_id(((session['filepaths'])[2]).split('/')[2])
-			return render_template('play_acceptable.html', \
+			return render_template(getHtmlTemplate(), \
 									 bankroll=session['bankroll'], \
 									 bet=session['betmoney'], \
 									 win=session['win'], \
@@ -77,7 +89,7 @@ def acceptable():
 		elif action == 'initialize':
 			# save_play_gallery(session['userid'], session['ig_id'], session['sessionid'], session['playidlist'])
 			initialize()
-			session['ig_id'], session['filePathsList'] = draw_acceptable_image_files(session['userid'])
+			session['ig_id'], session['filePathsList'] = draw_acceptable_output_files(session['userid'])
 			session['filepaths'] = (session['filePathsList'])[session['stage']-1]
 			session['imageid'] = get_image_id(((session['filepaths'])[0]).split('/')[2])
 			session['degimageid'] = get_degimage_id(((session['filepaths'])[2]).split('/')[2])
@@ -105,7 +117,7 @@ def acceptable():
 
 					if session['stage'] == max_round:
 						save_play_gallery(session['userid'], session['ig_id'], session['sessionid'], session['playidlist'])
-					return render_template('result_acceptable.html', \
+					return render_template('result_pollice_verso.html', \
 											 stage=range(1, session['stage'] + 1), \
 											 score=session['score'], \
 											 options=session['options'], \
@@ -136,7 +148,7 @@ def acceptable():
 			if (session['bankroll'] - session['betmoney'] - money >= 0):
 				session['betmoney'] += money
 			os.system('echo acceptable: filepaths = ' + str(session['filepaths']))
-	return render_template('play_acceptable.html', \
+	return render_template(getHtmlTemplate(), \
 							 bankroll=session['bankroll'] - session['betmoney'], \
 							 bet=session['betmoney'], \
 							 win=session['win'], \
@@ -159,11 +171,11 @@ def start_acceptable():
 	decision = ''
 
 	init_session()
-	session['ig_id'], session['filePathsList'] = draw_acceptable_image_files(session['userid'])
+	session['ig_id'], session['filePathsList'] = draw_acceptable_output_files(session['userid'])
 	session['filepaths'] = (session['filePathsList'])[session['stage']-1]
 	session['imageid'] = get_image_id(((session['filepaths'])[0]).split('/')[2])
 	session['degimageid'] = get_degimage_id(((session['filepaths'])[2]).split('/')[2])
-	return render_template('play_acceptable.html', \
+	return render_template(getHtmlTemplate(), \
 							 bankroll=session['bankroll'] - session['betmoney'], \
 							 bet=session['betmoney'], \
 							 win=session['win'], \

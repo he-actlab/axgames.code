@@ -2,7 +2,6 @@
 <html>
 <head>
     <title>{{ GAME_NAME }}</title>
-    <link rel="icon" href="https://research.cc.gatech.edu/act-lab/sites/edu.act-lab/files/ACT-logo-scaled_1.png" type="image/png">
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
@@ -28,8 +27,7 @@
                 <span class="icon-bar"></span>
             </button>
             <div class="navbar-brand">
-                <img alt="Brand" style="height: 30px; width: 30px; display: inline; padding-right: 5px"
-                     src="https://research.cc.gatech.edu/act-lab/sites/edu.act-lab/files/ACT-logo-scaled_1.png">{{ GAME_NAME }} - Pollice Verso
+                {{ GAME_NAME }} - Pollice Verso
             </div>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -103,7 +101,7 @@
 
 
             {% if stage|length != max_round %}
-            <form action='/acceptable' method="post" target=_self>
+            <form action='/pollice_verso' method="post" target=_self>
             <div class="container">
                 <center><input type="submit" name="continue" value="Next Round" class="btn" data-toggle="tooltip" data-placement="bottom"
                                style="background-color:#4d4d4d;color:white;font-size:20px"></input></center>
@@ -112,7 +110,7 @@
             {% else %}
             <div class="container" style="display:inline;width:1240px">
                 <center>
-                    <form action='/acceptable' method="post" target=_self style="display:inline;">
+                    <form action='/pollice_verso' method="post" target=_self style="display:inline;">
                     <input type="submit" name="initialize" value="Restart" class="btn" data-toggle="tooltip" data-placement="bottom"
                            style="display:inline;background-color:#4d4d4d;color:white;font-size:20px"></input>
                     </form>
@@ -120,7 +118,7 @@
                         <input type="submit" name="start" value="Select Game" class="btn" data-toggle="tooltip" data-placement="bottom"
                            style="display:inline;background-color:#4d4d4d;color:white;font-size:20px"></input>
                     </form>
-                    <form action='/acceptable' method="post" target=_self style="display:inline;">
+                    <form action='/pollice_verso' method="post" target=_self style="display:inline;">
                     <input type="submit" name="finish" value="Logout" class="btn" data-toggle="tooltip" data-placement="bottom"
                            style="display:inline;background-color:#4d4d4d;color:white;font-size:20px"></input>
                     </form>

@@ -10,7 +10,7 @@ from datetime import timedelta
 app = Flask(__name__)
 
 import gatech.select_game
-import gatech.game1_acceptable.acceptable
+import gatech.game1_pollice_verso.pollice_verso
 import gatech.game2_winabatt.winabatt
 import gatech.game3_qna.qna
 import gatech.result.result

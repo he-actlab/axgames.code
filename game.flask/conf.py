@@ -1,7 +1,15 @@
 #
 #
 #
-GAME_NAME = 'Approximum'
+GAME_NAME = 'ApproxiGame'
+
+#
+# IP:  Image Processing [input:image, output:image]
+# OCR: Optical Character Recognition [input:image, output:text]
+# SR:  Speech Recognition [input:wav, output:text]
+# AE:  Audio Compressor (Encoder) [input:wav, output:mp3]
+#
+APPLICATION_TYPE = 'OCR'
 
 #
 #

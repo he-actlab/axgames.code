@@ -1,6 +1,6 @@
 import os
 
-from query_acceptable import get_num_played, get_num_decision, update_record, get_num_rand_decision
+from query_pollice_verso import get_num_played, get_num_decision, update_record, get_num_rand_decision
 from gatech.conf import GAME1_INIT_NUM_PLAYED, GAME1_RAND_RECORDS_THRESHOLD
 
 # todo: we need a real scoring algorithm

@@ -246,7 +246,7 @@ def create_new_gallery(userId):
 
 	return ig.ig_id, filePathsList
 
-def draw_acceptable_image_files(userId):
+def draw_acceptable_output_files(userId):
 	os.system('echo draw_acceptable_image_files: start')
 
 	# Step 1

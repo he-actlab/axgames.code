@@ -4,7 +4,7 @@ from flask import render_template, request
 
 from gatech import app, session
 
-from game1_acceptable.acceptable import start_acceptable
+from game1_pollice_verso.pollice_verso import start_acceptable
 from game2_winabatt.winabatt import start_winabatt
 from game3_qna.qna import start_qna
 

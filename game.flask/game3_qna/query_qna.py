@@ -118,8 +118,8 @@ def draw_qna_image_file():
 	for image in images:
 		imagename = image[1]
 		break
-	# return imagename
-	return '500x333n8'
+	return imagename
+
 
 def get_qna(imagename):
 

@@ -114,6 +114,6 @@ def draw_winabatt_image_file():
 	for image in images:
 		imagename = image[1]
 		break
-	# return imagename
-	return '800x600n0'
+	return imagename
+
 
