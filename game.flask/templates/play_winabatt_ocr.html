@@ -114,6 +114,9 @@
 											total_power = total_power - power_consumption;
 
                                             var tempname = "{{ imagename }}";
+                                            if (tempname[0] == 'a') {
+                                                tempname = tempname.substring(1);
+                                            }
 											var tokens = tempname.split('n')[0].split('x');
                                             var width = parseInt(tokens[0]);
                                             var height = parseInt(tokens[1]);

@@ -58,7 +58,11 @@
 
                 <!-- CODE FOR THUMBNAILS WITH CAPTION -->
                 <div class="col-md-12" id="level-aux">
-                    {% set tokens = filePaths[0].split('/')[2].split('.')[0].split('n')[0].split('x') %}
+                    {% set tempname = filePaths[0].split('/')[2] %}
+                    {% if tempname[0] == 'a' %}
+                        {% set tempname = tempname[1:] %}
+                    {% endif %}
+                    {% set tokens = tempname.split('.')[0].split('n')[0].split('x') %}
                     {% set imgwidth = tokens[0]|int %}
                     {% set imgheight = tokens[1]|int %}
                     {% if imgwidth > 330 %}
