@@ -6,11 +6,23 @@ from gatech import session
 from flask import render_template, request
 from query_winabatt import draw_winabatt_image_file, save_play
 from core_winbatt import get_reward, get_winning
-from gatech.conf import gamedata_home_url, max_round, GAME2_INIT_ENERGY, KERNEL_NAME, GAME_NAME
+from gatech.conf import gamedata_home_url, max_round, GAME2_INIT_ENERGY, KERNEL_NAME, GAME_NAME, APPLICATION_TYPE
 from gatech.query import store_session, get_promo_code
 
-import os, uuid
+import os, sys, uuid
 
+def getHtmlTemplate():
+	if APPLICATION_TYPE == 'IP':
+		return 'play_winabatt_ip.html'
+	elif APPLICATION_TYPE == 'OCR':
+		return 'play_winabatt_ocr.html'
+	elif APPLICATION_TYPE == 'SR':
+		return 'play_winabatt_sr.html'
+	elif APPLICATION_TYPE == 'AE':
+		return 'play_winabatt_ae.html'
+	else:
+		print 'Error: unknown applicaiton type'
+		sys.exit()
 
 @app.route("/winabatt", methods=['POST', 'GET'])
 def winabatt():
@@ -77,7 +89,7 @@ def winabatt():
 			if len(session['power_history']) == session['stage']:
 				session['stage'] = len(session['power_history']) + 1
 				session['imagename'] = draw_winabatt_image_file()
-			return render_template('play_winabatt.html', \
+			return render_template(getHtmlTemplate(), \
 									 imagename=session['imagename'], \
 									 power=session['power'], \
 									 stage=session['stage'], \
@@ -96,7 +108,7 @@ def winabatt():
 								   state=0, \
 								   GAME_NAME=GAME_NAME)
 
-		return render_template('play_winabatt.html',
+		return render_template(getHtmlTemplate(),
 								 imagename=session['imagename'], \
 								 power=session['power'], \
 								 stage=session['stage'], \
@@ -134,7 +146,7 @@ def start_winabatt():
 	session['imagename'] = draw_winabatt_image_file()
 
 	os.system('echo start_winabatt: ' + session['imagename'])
-	return render_template('play_winabatt.html',
+	return render_template(getHtmlTemplate(),
 							 imagename=session['imagename'], \
 							 power=session['power'], \
 							 stage=session['stage'], \

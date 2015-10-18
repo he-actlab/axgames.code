@@ -58,9 +58,41 @@
 
                 <!-- CODE FOR THUMBNAILS WITH CAPTION -->
                 <div class="col-md-12" id="level-aux">
-                    <div class="col-md-6">
-                        <div class="thumbnail" style="min-width: 300px; min-height: 300px; width:500px">
-                            <img src="{{ gamedata_home_url + filePaths[1] }}" class="thumb" style="max-width:400px; max-height:250px">
+                    {% set tokens = filePaths[0].split('/')[2].split('.')[0].split('n')[0].split('x') %}
+                    {% set imgwidth = tokens[0]|int %}
+                    {% set imgheight = tokens[1]|int %}
+                    {% if imgwidth > 330 %}
+                        {% set imgheight = (330 * imgheight / imgwidth)|int %}
+                        {% set imgwidth = 330 %}
+                        {% if tokens[1]|int > 250 %}
+                            {% set imgwidth = (250 * imgwidth / imgheight)|int %}
+                            {% set imgheight = 250 %}
+                        {% endif %}
+                    {% else %}
+                        {% if tokens[1]|int > 250 %}
+                            {% set imgwidth = (250 * imgwidth / imgheight)|int %}
+                            {% set imgheight = 250 %}
+                        {% else %}
+                            {% set imgheight = (330 * imgheight / imgwidth)|int %}
+                            {% set imgwidth = 330 %}
+                        {% endif %}
+                    {% endif %}
+                    <div class="col-md-4">
+                        <div class="thumbnail" style="height: 320px; width:350px">
+                            <!--<img src="{{ gamedata_home_url + filePaths[1] }}" class="thumb" style="max-width:330px; max-height:250px">-->
+                            <img src="{{ gamedata_home_url + filePaths[1] }}" class="thumb" style="width:{{ imgwidth }}px; height:{{ imgheight }}px">
+
+                            <div class="caption">
+                                <p class="text-center">
+                                <center><h3>Input Image</h3></center>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="thumbnail" style="height: 320px; width:350px">
+                            <!-- <img src="{{ gamedata_home_url + filePaths[2] }}" class="thumb" style="max-width:400px; max-height:250px"> -->
+                            <center><textarea rows="4" cols="50" style="width:{{ imgwidth }}px; height:{{ imgheight }}px"> Test </textarea></center>
 
                             <div class="caption">
                                 <p class="text-center">
@@ -69,11 +101,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="thumbnail" style="min-width: 300px; min-height: 300px; width:500px">
+                    <div class="col-md-4">
+                        <div class="thumbnail" style="height: 320px; width:350px">
                             <!-- <img src="{{ gamedata_home_url + filePaths[2] }}" class="thumb" style="max-width:400px; max-height:250px"> -->
-                            {% set tokens = filePaths[0].split('/')[2].split('.')[0].split('n')[0].split('x') %}
-                            <center><textarea rows="4" cols="50" style="width:{{ tokens[0] }}px; height:{{ tokens[1] }}px; max-width:400px; max-height:250px"> Test </textarea></center>
+                            <center><textarea rows="4" cols="50" style="width:{{ imgwidth }}px; height:{{ imgheight }}px"> Test </textarea></center>
 
                             <div class="caption">
                                 <p class="text-center">
