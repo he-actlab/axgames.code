@@ -3,7 +3,27 @@ import os, random
 from gatech.database import db_session
 from gatech.models import Image, DegradedImage, User, PlaySession
 from conf import imagelist_file_path, question_file_path, degimagelist_file_path, ERROR_MAX, GAME1_INIT_NUM_PLAYED
+from conf import APPLICATION_TYPE
 
+import sys
+
+def getExtensions():
+	if APPLICATION_TYPE == "IP":
+		inext = ".png"
+		outext = ".png"
+	elif APPLICATION_TYPE == "OCR":
+		inext = ".jpg"
+		outext = ".txt"
+	elif APPLICATION_TYPE == "SR":
+		inext = ".wav"
+		outext = ".txt"
+	elif APPLICATION_TYPE == "AE":
+		inext = ".wav"
+		outext = ".mp3"
+	else:
+		os.system("Error: unknown application type")
+		sys.exit()
+	return inext, outext
 
 def doLogin(username, password):
 	if db_session.query(User).count() != 0 and db_session.query(User).filter_by(username=username).count() != 0:

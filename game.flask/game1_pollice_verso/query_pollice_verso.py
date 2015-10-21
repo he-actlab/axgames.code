@@ -5,14 +5,32 @@ from datetime import datetime, timedelta
 from gatech import session
 from gatech.database import db_session
 from gatech.models import Image, DegradedImage, Play, PlaySession, ImageGallery, PlayGallery, BadPlayGallery
-from gatech.conf import drawn_errors, max_round, num_people_gallery, GAME1, wait_minutes_for_newplayer, fleiss_kappa_threshold, ERROR_MAX, GAME1_GALLERY_ASSIGN_INTERVAL, KERNEL_NAME
+from gatech.conf import drawn_errors, max_round, num_people_gallery, GAME1, wait_minutes_for_newplayer, fleiss_kappa_threshold
+from gatech.conf import ERROR_MAX, GAME1_GALLERY_ASSIGN_INTERVAL, KERNEL_NAME, APPLICATION_TYPE
+from gatech.query import getExtensions
 from gatech.analysis.fleiss import fleiss_kappa
 from gatech.analysis.combination import get_combination
 
+import os, sys
+
+def getHtmlTemplate():
+	if APPLICATION_TYPE == 'IP':
+		return 'play_pollice_verso_ip.html'
+	elif APPLICATION_TYPE == 'OCR':
+		return 'play_pollice_verso_ocr.html'
+	elif APPLICATION_TYPE == 'SR':
+		return 'play_pollice_verso_sr.html'
+	elif APPLICATION_TYPE == 'AE':
+		return 'play_pollice_verso_ae.html'
+	else:
+		print 'Error: unknown applicaiton type'
+		sys.exit()
+
 def get_file_paths(drawnImageFilename, orgImageId):
 	filePaths = []
-	filePaths.append('/orgimage/' + drawnImageFilename + '.png')
-	filePaths.append('/sobelimage/' + drawnImageFilename + '-' + KERNEL_NAME + '.png')
+	inext, outext = getExtensions()
+	filePaths.append('/orgimage/' + drawnImageFilename + inext)
+	filePaths.append('/sobelimage/' + drawnImageFilename + '-' + KERNEL_NAME + outext)
 
 	minPlayed = 100000
 	for error in drawn_errors:
@@ -27,7 +45,8 @@ def get_file_paths(drawnImageFilename, orgImageId):
 	drawnImageFilename = random.choice(candidates)
 	degImageId = db_session.query(DegradedImage).filter_by(imagename=drawnImageFilename).first().deg_image_id
 
-	filePaths.append('/degimage/' + drawnImageFilename + '.png')
+	inext, outext = getExtensions()
+	filePaths.append('/degimage/' + drawnImageFilename + outext)
 	os.system('echo getFilePaths: filePaths = ' + str(filePaths))
 	return filePaths, degImageId
 
@@ -42,9 +61,10 @@ def assign_newplayer(userId, igId, degImageSetStr, numAssigned, playedUsers, isW
 		orgImageName = db_session.query(Image).filter_by(image_id=degImage.org_image_id).first().imagename
 
 		filePaths = []
-		filePaths.append('/orgimage/' + orgImageName + '.png')
-		filePaths.append('/sobelimage/' + orgImageName + '-' + KERNEL_NAME + '.png')
-		filePaths.append('/degimage/' + degImageName + '.png')
+		inext, outext = getExtensions()
+		filePaths.append('/orgimage/' + orgImageName + inext)
+		filePaths.append('/sobelimage/' + orgImageName + '-' + KERNEL_NAME + outext)
+		filePaths.append('/degimage/' + degImageName + outext)
 		filePathsList.append(filePaths)
 
 	os.system('echo filePaths(assign_newplayer) = "' + str(filePaths) + '"')
@@ -267,12 +287,14 @@ def draw_acceptable_output_files(userId):
 	# Step 4
 	ig_id, filePathsList = create_new_gallery(userId)
 
+	os.system('echo "' + str(filePathsList) + '"')
 	os.system('echo draw_acceptable_image_files: end')
 	return ig_id, filePathsList
 
 def get_image_id(imagename):
-	os.system('echo get_image_id: start')
-	imagename = imagename.split('.png')[0]
+	os.system('echo get_image_id: start imagename[' + imagename + "]")
+	inext, outext = getExtensions()
+	imagename = imagename.split(inext)[0]
 
 	image_id = ''
 	for result in db_session.query(Image).filter_by(imagename=imagename):
@@ -281,14 +303,15 @@ def get_image_id(imagename):
 	return image_id
 
 def get_degimage_id(imagename):
-	imagename = imagename.split('.png')[0]
-	os.system('echo get_degimage_id: ' + imagename)
+	inext, outext = getExtensions()
+	imagename = imagename.split(outext)[0]
+	os.system('echo get_degimage_id1: ' + imagename)
 
 	image_id = ''
 	for result in db_session.query(DegradedImage).filter_by(imagename=imagename):
 		image_id = result.deg_image_id
 		break
-	os.system('echo get_degimage_id: ' + str(image_id))
+	os.system('echo get_degimage_id2: ' + str(image_id))
 	return image_id
 
 def get_num_played(degImageId):

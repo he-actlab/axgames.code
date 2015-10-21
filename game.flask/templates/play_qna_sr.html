@@ -26,8 +26,8 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <div class="navbar-brand" >
-                {{ GAME_NAME }} - WinABatt
+            <div class="navbar-brand">
+                {{ GAME_NAME }} - QnA
             </div>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -36,7 +36,8 @@
                        data-toggle="tooltip" data-placement="bottom" style=" font-size:100%"></input>
             </form>
             <form action='/logout' class="navbar-form navbar-left">
-                <input id="logoutbutton" type="submit" name="logout" value="Logout" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" style=" font-size:100%"></input>
+                <input id="logoutbutton" type="submit" name="logout" value="Logout" class="btn btn-default"
+                       data-toggle="tooltip" data-placement="bottom" style=" font-size:100%"></input>
             </form>
         </div>
     </div>
@@ -48,38 +49,51 @@
             <div class="container">
                 <center>
                     <div class="col-md-12">
-
                         <!-- <span style="padding: 0px; padding-right: 360px; padding-bottom: 100px; float: right; width: 100px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;"><img
                                 id="battery" src="{{ url_for('static',filename='img/batteries/3.png') }}" class="thumb"
                                 style="width:50px"></span> -->
-                        <center><h1 class="text-center" style="font-size:200%; padding-right:300px">Round {{ stage }}</h1></center>
-                        <!--<center><h1 class="text-center" style="font-size:200%; padding-right:300px">Round {{ stage }}</h1></center>-->
+                        <center><h1 class="text-center" style="font-size:200%; padding-right:360px">Round {{ stage }}</h1></center>
+                        <!--<center><h1 class="text-center" style="font-size:200%; padding-right:360px">Round 3</h1></center>-->
                     </div>
                     <div style="width:1200px">
                         <div id="imgtxt" style="">
-                            <img id="image" src="" class="thumb" style="" >
-                            <textarea readonly="readonly" id="textarea1" rows="4" cols="50" style="">  </textarea>
+                            <img id="image" src="" class="thumb" style="max-width:500px; max-height:300px">
+                            <textarea readonly="readonly" id="textarea1" rows="4" cols="50" style=""> Test </textarea>
                         </div>
                         <br><br>
-                        <div style="width:900px">
+                        <div style="width:700px">
                             <div style="display:inline;width:60px;height:60px;"><span id="remaining" class="label label-success"
-                                                                      style="width:150px;font-size:150%">Current Balance: ${{ '%.2f' % power }}</span>
+                                      style="width:150px;font-size:150%">Current Balance: ${{ '%.2f' % power }}</span>
                             </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <div style="display:inline;width:60px;height:60px;"><span id="investing" class="label label-danger"
-                                                                      style="width:150px;font-size:150%">Current Cost: $0</span>
-                            </div>
                         </div>
-                        <h3><i>How much would you spend to see a <b>better</b> picture?</i></h3>
-                        <h3>Slide to adjust the quality!</h3>
-                        <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="50"
-                               data-slider-max="100" data-slider-step="1" data-slider-value="50" style="width:500px"/>
-                        <br><br>
-
-                        <form action='/winabatt' method="post" target="_self">
-                            <center><input id="betbutton" type="submit" name="bet" value="Spend" class="btn btn-primary"
-                                           data-toggle="tooltip" data-placement="bottom"
-                                           style=" font-size:150%"></input></center>
+                        <div>
+                            <h3>{{ question }}</h3>
+                        </div>
+                        <form action='/qna' method="post" target="_self">
+                            <center>
+                            <div class="radio">
+                                {% for answer in answers %}
+                                    <label style="font-size:150%"><input type="radio" name="answer_radiobutton"
+                                                                         value="{{ answer }}">{{ answer }}</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                {% endfor %}
+                            </div><br>
+                            </center>
+                            <h3 style="display: inline"><i>Spend money to get a better picture</i></h3>&nbsp;&nbsp;&nbsp;
+                            <h4 style="display: inline">[Money spent is gone!]</h4>
+                            <br><br>
+                            <div style="width:700px">
+                                <div style="display:inline;width:60px;height:60px;"><span id="investing" class="label label-danger"
+                                                                          style="width:150px;font-size:150%">Current Cost: $0</span>
+                                </div>
+                            </div>
+                            <br>
+                            <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="50"
+                                   data-slider-max="100" data-slider-step="1" data-slider-value="{{ 100 - init_slider_value|int }}"
+                                   style="width:500px"/>
+                            <br><br>
+                            <center><input id="betbutton" type="submit" name="bet" value="Spend" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" style=" font-size:150%"></input></center>
                         </form>
+
                         <script>
 									var errors = [1,  2,  3,  4,  5,  6,  7,  8,  9,  10,
 									              11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
@@ -92,8 +106,7 @@
 											var error = 100 - value;
 											var dirpath = "{{ url_for('static',filename='img/') }}";
 											if (error == 0) {
-												document.getElementById("image").src = "{{ gamedata_home_url + '/orgimage/' + imagename + '-'
-												+ kernel_name + '.png' }}"
+												document.getElementById("image").src = "{{ gamedata_home_url + '/sobelimage/' + imagename + '-' + kernel_name + '.png' }}"
 											} else {
 												var i;
 												var filename;
@@ -101,17 +114,17 @@
 												for (i=0; i<errors.length - 1; i++) {
 													if (error >= errors[i] && error < errors[i+1]) {
 														filename = "{{ imagename + '_'}}".concat(String(errors[i] / 100.0)).concat(".png");
-														document.getElementById("image").src = "{{ gamedata_home_url + '/degimage/' }}".concat(filename);
+														document.getElementById("image").src = "{{ gamedata_home_url + '/degimage/' }}".concat(filename)
 													}
 												}
 												if (error >= errors[errors.length - 1]) {
 													filename = "{{ imagename + '_'}}".concat(String(errors[errors.length - 1] / 100.0)).concat(".png");
-													document.getElementById("image").src = "{{ gamedata_home_url + '/degimage/' }}".concat(filename);
+													document.getElementById("image").src = "{{ gamedata_home_url + '/degimage/' }}".concat(filename)
 												}
 											}
-											var total_power = {{ power }};
-											var power_consumption = calPowerConsumption(error);
-											total_power = total_power - power_consumption;
+											var total_power = {{ power }}
+											var power_consumption = calPowerConsumption(error)
+											total_power = total_power - power_consumption
 
                                             var tempname = "{{ imagename }}";
                                             if (tempname[0] == 'a') {
@@ -144,13 +157,24 @@
                                             document.getElementById("textarea1").innerHTML = width.toString().concat(" ").concat(height.toString())
 											document.getElementById("imgtxt").style.width = (width * 2 + 30).toString().concat("px")
 
-                                            <!--document.getElementById("ex1Slider").data-slider-min = 100 - error -->
 											document.getElementById("betbutton").name = "bet_".concat(String(power_consumption)).concat("_").concat(String(error));
 											document.getElementById("remaining").innerHTML = "Current Balance: $".concat(String(total_power));
 											document.getElementById("investing").innerHTML = "Current Cost: $".concat(String(power_consumption));
-											return 'Current quality: ' + (100 - error) + '%';
+                                            return 'Current quality: ' + (100 - error) + '%';
 										}
 									});
+
+
+                                    var oldVal = parseInt({{ 100 - init_slider_value|int }});
+                                    $('#ex1').on('slideStop', function (ev) {
+                                        var newVal = $('#ex1').val();
+                                        newValNum = parseInt(newVal);
+                                        if (oldVal > newValNum) {
+                                            slider.setValue(oldVal);
+                                        } else {
+                                            oldVal = newValNum;
+                                        }
+                                    });
 
 									function calPowerConsumption(error) {
 										return parseInt(((50 - error) / 50) * 25 + 5);

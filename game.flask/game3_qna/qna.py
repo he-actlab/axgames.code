@@ -4,13 +4,13 @@ from gatech import app
 from gatech import session
 
 from flask import render_template, request
-from query_qna import draw_qna_image_file, get_qna, save_play
+from query_qna import draw_qna_image_file, get_qna, save_play, getHtmlTemplate
 from core_qna import get_reward, get_winning
-from gatech.conf import gamedata_home_url, max_round, GAME3_INIT_ENERGY, GAME3_WRONG_ANSWER_PENALTY, KERNEL_NAME, GAME_NAME
+from gatech.conf import gamedata_home_url, max_round, GAME3_INIT_ENERGY, GAME3_WRONG_ANSWER_PENALTY, KERNEL_NAME, GAME_NAME, APPLICATION_TYPE
 from gatech.query import store_session, get_promo_code
+from gatech.query import getExtensions
 
-import os, uuid
-
+import os, sys, uuid
 
 @app.route("/qna", methods=['POST', 'GET'])
 def qna():
@@ -18,12 +18,12 @@ def qna():
 		for action in request.form.keys():
 			action = action.split('.')[0]
 			msg = action  # for debug
-
+			inext, outext = getExtensions()
 			if action == 'start':
 				init_session()
 				session['imagename'] = draw_qna_image_file()
-				session['question'], session['correct_answer'], session['answers'] = get_qna(session['filename'] + '.png')
-				return render_template('play_qna.html',
+				session['question'], session['correct_answer'], session['answers'] = get_qna(session['filename'] + inext)
+				return render_template(getHtmlTemplate(),
 										 imagename=session['imagename'], \
 										 power=session['power'], \
 										 stage=session['stage'], \
@@ -49,7 +49,7 @@ def qna():
 					session['power'] -= int(bet)
 
 					# reward, selections, average = get_reward(session['imagename'] + ".png", int(bet), int(error_rate), session['correct_answer'] == selected_answer)
-					reward, average = get_winning(session['imagename'] + ".png", int(error_rate))
+					reward, average = get_winning(session['imagename'] + inext, int(error_rate))
 					penalty = GAME3_WRONG_ANSWER_PENALTY if session['correct_answer'] != selected_answer else 0
 					if save_play(session['sessionid'], 2, session['imagename'], error_rate, bet, session['correct_answer'] == selected_answer, reward - penalty) == True:
 						session['old_power_history'].append(session['power'] + int(bet))
@@ -88,7 +88,7 @@ def qna():
 										     uniq_code=session['uniq_code'], \
 										     GAME_NAME=GAME_NAME)
 				else:
-					return render_template('play_qna.html', \
+					return render_template(getHtmlTemplate(), \
 										 imagename=session['imagename'], \
 										 power=session['power'], \
 										 stage=session['stage'], \
@@ -105,8 +105,8 @@ def qna():
 				if len(session['power_history']) == session['stage']:
 					session['stage'] = len(session['power_history']) + 1
 					session['imagename'] = draw_qna_image_file()
-					session['question'], session['correct_answer'], session['answers'] = get_qna(session['imagename'] + '.png')
-				return render_template('play_qna.html', \
+					session['question'], session['correct_answer'], session['answers'] = get_qna(session['imagename'] + inext)
+				return render_template(getHtmlTemplate(), \
 										 imagename=session['imagename'], \
 										 power=session['power'], \
 										 stage=session['stage'], \
@@ -122,7 +122,7 @@ def qna():
 				initialize()
 				session['imagename'] = draw_qna_image_file()
 				session['question'], session['correct_answer'], session['answers'] = get_qna(session['imagename'])
-				return render_template('play_qna.html',
+				return render_template(getHtmlTemplate(),
 										 imagename=session['imagename'], \
 										 power=session['power'], \
 										 stage=session['stage'], \
@@ -165,11 +165,12 @@ def initialize():
 def start_qna():
 	init_session()
 
+	inext, outext = getExtensions()
 	session['imagename'] = draw_qna_image_file()
-	session['question'], session['correct_answer'], session['answers'] = get_qna(session['imagename'] + '.png')
+	session['question'], session['correct_answer'], session['answers'] = get_qna(session['imagename'] + inext)
 
 	os.system('echo start_qna: ' + session['imagename'])
-	return render_template('play_qna.html',
+	return render_template(getHtmlTemplate(),
 							 imagename=session['imagename'], \
 							 power=session['power'], \
 							 stage=session['stage'], \

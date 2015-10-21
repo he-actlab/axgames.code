@@ -3,7 +3,22 @@ import os, random
 from gatech import session
 from gatech.database import db_session
 from gatech.models import Image, PlaySession, Play
-from gatech.conf import ERROR_MAX
+from gatech.conf import ERROR_MAX, APPLICATION_TYPE
+
+import sys
+
+def getHtmlTemplate():
+	if APPLICATION_TYPE == 'IP':
+		return 'play_qna_ip.html'
+	elif APPLICATION_TYPE == 'OCR':
+		return 'play_qna_ocr.html'
+	elif APPLICATION_TYPE == 'SR':
+		return 'play_qna_sr.html'
+	elif APPLICATION_TYPE == 'AE':
+		return 'play_qna_ae.html'
+	else:
+		print 'Error: unknown applicaiton type'
+		sys.exit()
 
 def get_selections(imagename):
 

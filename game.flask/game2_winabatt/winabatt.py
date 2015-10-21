@@ -4,25 +4,13 @@ from gatech import app
 from gatech import session
 
 from flask import render_template, request
-from query_winabatt import draw_winabatt_image_file, save_play
+from query_winabatt import draw_winabatt_image_file, save_play, getHtmlTemplate
 from core_winbatt import get_reward, get_winning
 from gatech.conf import gamedata_home_url, max_round, GAME2_INIT_ENERGY, KERNEL_NAME, GAME_NAME, APPLICATION_TYPE
 from gatech.query import store_session, get_promo_code
+from gatech.query import getExtensions
 
 import os, sys, uuid
-
-def getHtmlTemplate():
-	if APPLICATION_TYPE == 'IP':
-		return 'play_winabatt_ip.html'
-	elif APPLICATION_TYPE == 'OCR':
-		return 'play_winabatt_ocr.html'
-	elif APPLICATION_TYPE == 'SR':
-		return 'play_winabatt_sr.html'
-	elif APPLICATION_TYPE == 'AE':
-		return 'play_winabatt_ae.html'
-	else:
-		print 'Error: unknown applicaiton type'
-		sys.exit()
 
 @app.route("/winabatt", methods=['POST', 'GET'])
 def winabatt():
@@ -47,7 +35,8 @@ def winabatt():
 			session['power'] -= int(bet)
 
 			# reward, selections, average = get_reward(session['imagename'] + ".png", int(bet), int(error_rate))
-			reward, average = get_winning(session['imagename'] + ".png", int(error_rate))
+			inext, outext = getExtensions()
+			reward, average = get_winning(session['imagename'] + inext, int(error_rate))
 			if save_play(session['sessionid'], 1, session['imagename'], error_rate, bet, reward) == True:
 				os.system('echo power ' + str(session['power']))
 				os.system('echo bet ' + bet)

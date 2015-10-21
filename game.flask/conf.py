@@ -14,22 +14,22 @@ APPLICATION_TYPE = 'OCR'
 #
 #
 #
-KERNEL_NAME = 'emboss'
+KERNEL_NAME = 'ocr'
 
 #
 # The list of image file names. It only has prefix without "_sobel" or error rate such as "_0.01".
 #
-imagelist_file_path = 'gatech/data/imagelist.txt'
+imagelist_file_path = 'gatech/data/imagelist-ocr.txt'
 
 #
 # For each image, this file contains one content-based question. The first answer is the correct answer and the others are wrong ones.
 #
-question_file_path = 'gatech/data/questions.csv'
+question_file_path = 'gatech/data/questions-ocr.csv'
 
 #
 # The list for all degraded images in the database. As of now, the list should have all file names from IMAGENAME_0.01.png to IMAGENAME_0.5.png.
 #
-degimagelist_file_path = 'gatech/data/degimagelist.txt'
+degimagelist_file_path = 'gatech/data/degimagelist-ocr.txt'
 
 #
 # Under this path, we can find the three directories, org_image, deg_image, and sobel_image.

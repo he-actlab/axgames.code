@@ -4,7 +4,7 @@ from gatech import app
 from gatech import session
 
 from flask import render_template, request
-from query_pollice_verso import draw_acceptable_output_files, get_image_id, get_degimage_id, save_play, save_play_gallery
+from query_pollice_verso import draw_acceptable_output_files, get_image_id, get_degimage_id, save_play, save_play_gallery, getHtmlTemplate
 from core_pollice_verso import scoring
 from gatech.query import store_session, get_promo_code
 from gatech.conf import gamedata_home_url, max_round, GAME_NAME, GAME1_INIT_BALANCE, APPLICATION_TYPE
@@ -13,30 +13,15 @@ import os, uuid, random, sys
 
 from enum import Enum
 
-
 class Color(Enum):
 	agreeColor = "#006400"
 	disagreeColor = "#8B0000"
-
-def getHtmlTemplate():
-	if APPLICATION_TYPE == 'IP':
-		return 'play_pollice_verso_ip.html'
-	elif APPLICATION_TYPE == 'OCR':
-		return 'play_pollice_verso_ocr.html'
-	elif APPLICATION_TYPE == 'SR':
-		return 'play_pollice_verso_sr.html'
-	elif APPLICATION_TYPE == 'AE':
-		return 'play_pollice_verso_ae.html'
-	else:
-		print 'Error: unknown applicaiton type'
-		sys.exit()
 
 def getColor(decision):
 	if decision == "agree":
 		return Color.agreeColor
 	elif decision == "disagree":
 		return Color.disagreeColor
-
 
 @app.route("/pollice_verso", methods=['POST', 'GET'])
 def acceptable():
@@ -79,7 +64,8 @@ def acceptable():
 									 msg=str(msg), \
 									 sessionid=session['sessionid'], \
 									 gamedata_home_url=gamedata_home_url, \
-								     GAME_NAME=GAME_NAME)
+								     GAME_NAME=GAME_NAME, \
+								     APPLICATION_TYPE=APPLICATION_TYPE)
 		elif action == 'finish':
 			# save_play_gallery(session['userid'], session['ig_id'], session['sessionid'], session['playidlist'])
 			session.clear()
@@ -160,7 +146,8 @@ def acceptable():
 							 msg=str(msg), \
 							 sessionid=session['sessionid'], \
 							 gamedata_home_url=gamedata_home_url, \
-						     GAME_NAME=GAME_NAME)
+						     GAME_NAME=GAME_NAME, \
+						     APPLICATION_TYPE=APPLICATION_TYPE)
 
 
 def start_acceptable():
@@ -186,7 +173,8 @@ def start_acceptable():
 							 filePaths=session['filepaths'], \
 							 msg=str(msg), \
 							 gamedata_home_url=gamedata_home_url, \
-						     GAME_NAME=GAME_NAME)
+						     GAME_NAME=GAME_NAME, \
+						     APPLICATION_TYPE=APPLICATION_TYPE)
 
 def init_session():
 	uid = uuid.uuid4()

@@ -3,7 +3,20 @@ import os, sys, random
 from gatech import session
 from gatech.database import db_session
 from gatech.models import Image, PlaySession, Play
-from gatech.conf import drawn_errors, ERROR_MAX
+from gatech.conf import drawn_errors, ERROR_MAX, APPLICATION_TYPE
+
+def getHtmlTemplate():
+	if APPLICATION_TYPE == 'IP':
+		return 'play_winabatt_ip.html'
+	elif APPLICATION_TYPE == 'OCR':
+		return 'play_winabatt_ocr.html'
+	elif APPLICATION_TYPE == 'SR':
+		return 'play_winabatt_sr.html'
+	elif APPLICATION_TYPE == 'AE':
+		return 'play_winabatt_ae.html'
+	else:
+		print 'Error: unknown applicaiton type'
+		sys.exit()
 
 def get_selections(imagename):
 

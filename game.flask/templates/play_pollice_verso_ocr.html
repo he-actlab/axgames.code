@@ -84,7 +84,7 @@
                     <div class="col-md-4">
                         <div class="thumbnail" style="height: 320px; width:350px">
                             <!--<img src="{{ gamedata_home_url + filePaths[1] }}" class="thumb" style="max-width:330px; max-height:250px">-->
-                            <img src="{{ gamedata_home_url + filePaths[1] }}" class="thumb" style="width:{{ imgwidth }}px; height:{{ imgheight }}px">
+                            <img src="{{ gamedata_home_url + filePaths[0] }}" class="thumb" style="width:{{ imgwidth }}px; height:{{ imgheight }}px">
 
                             <div class="caption">
                                 <p class="text-center">
@@ -96,8 +96,7 @@
                     <div class="col-md-4">
                         <div class="thumbnail" style="height: 320px; width:350px">
                             <!-- <img src="{{ gamedata_home_url + filePaths[2] }}" class="thumb" style="max-width:400px; max-height:250px"> -->
-                            <center><textarea rows="4" cols="50" style="width:{{ imgwidth }}px; height:{{ imgheight }}px"> Test </textarea></center>
-
+                            <center><iframe style="width:{{ imgwidth }}px; height:{{ imgheight }}px" src="{{ gamedata_home_url + filePaths[1] }}"> </iframe></center>
                             <div class="caption">
                                 <p class="text-center">
                                 <center><h3>Original Output</h3></center>
@@ -108,7 +107,7 @@
                     <div class="col-md-4">
                         <div class="thumbnail" style="height: 320px; width:350px">
                             <!-- <img src="{{ gamedata_home_url + filePaths[2] }}" class="thumb" style="max-width:400px; max-height:250px"> -->
-                            <center><textarea rows="4" cols="50" style="width:{{ imgwidth }}px; height:{{ imgheight }}px"> Test </textarea></center>
+                            <center><textarea rows="4" cols="50" style="width:{{ imgwidth }}px; height:{{ imgheight }}px"> {{ gamedata_home_url + filePaths[2] }} </textarea></center>
 
                             <div class="caption">
                                 <p class="text-center">
