@@ -46,7 +46,7 @@ def runEmboss(filename):
 def main():
 	newfiles = []
 	files = os.popen('ls images | grep png').readlines()
-	PARALLEL_WIDTH = 2
+	PARALLEL_WIDTH = 8
 	for f in files:
 		print f.strip('\n')
 		newfiles.append(f.strip('\n'))
