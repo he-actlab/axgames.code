@@ -2,6 +2,7 @@ import os, random
 
 from query_winabatt import get_selections, update_winbatt_record, get_history
 from gatech.conf import drawn_errors, GAME2_DEFAULT_WINNING, GAME2_MAX_WINNING_PROPORTION, GAME2_INIT_AVG
+from gatech.conf import ERROR_MAX, ERROR_MIN
 
 def find_first_disagree_error(history, filename):
 	for i in range(0, len(history)):
@@ -21,7 +22,7 @@ def get_winning(filename, error):
 	os.system('echo filename = ' + str(filename))
 	history = get_history(filename)
 	firstDisagreeError = find_first_disagree_error(history, filename)
-	errDiffRatio = abs(firstDisagreeError - error) / 50.0
+	errDiffRatio = abs(firstDisagreeError - error) / (ERROR_MAX - ERROR_MIN)
 	if errDiffRatio != 0.0:
 		winningRatio = (1.0 / errDiffRatio) - 2.0
 		if winningRatio > 10.0:

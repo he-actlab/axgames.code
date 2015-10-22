@@ -5,7 +5,7 @@ from gatech import app
 from flask import render_template
 from gatech.conf import GAME_NAME
 from query_result import get_org_images, get_deg_images, get_admin_sessions, get_plays, get_degimage, get_bad_users, get_bad_plays, get_all_plays
-from gatech.conf import drawn_errors, KERNEL_NAME, BADPLAY_THRESHOLD, ERROR_MAX
+from gatech.conf import drawn_errors, KERNEL_NAME, BADPLAY_THRESHOLD, ERROR_MAX, ERROR_MIN, ERROR_INT
 
 from scipy.stats import distributions
 
@@ -17,7 +17,7 @@ def statistics_game1():
 	game1NumPlayed = {}
 	game1NumAgreed = {}
 
-	for err in range(1,100):
+	for err in range(ERROR_MIN + ERROR_INT, ERROR_MAX, ERROR_INT):
 		game1NumPlayed[float(err) / 100.0] = 0
 		game1NumAgreed[float(err) / 100.0] = 0
 
@@ -125,7 +125,7 @@ def statistics_game2_excluded():
 	game2NumPlayed = []
 	game2NumAgreed = []
 
-	for i in range(0, 50):
+	for i in range(1, 51):
 		game2NumPlayed.append(0)
 		game2NumAgreed.append(0)
 
@@ -165,7 +165,7 @@ def statistics_game2_excluded():
 			busers.add(bu.user_id)
 			for bp in get_bad_plays(bu.user_id, 1):
 				error_rate = bp.error_rate_game2
-				for i in range(0, 50):
+				for i in range(1, 51):
 					game2NumPlayed[i] -= 1
 					if i < error_rate:
 						game2NumAgreed[i] -= 1
@@ -265,7 +265,7 @@ def statistics_game3_excluded():
 	game3NumPlayed = []
 	game3NumAgreed = []
 
-	for i in range(0, 50):
+	for i in range(1, 51):
 		game3NumPlayed.append(0)
 		game3NumAgreed.append(0)
 
@@ -305,7 +305,7 @@ def statistics_game3_excluded():
 			busers.add(bu.user_id)
 			for bp in get_bad_plays(bu.user_id, 1):
 				error_rate = bp.error_rate_game3
-				for i in range(0, 50):
+				for i in range(1, 51):
 					game3NumPlayed[i] -= 1
 					if i < error_rate:
 						game3NumAgreed[i] -= 1
@@ -346,7 +346,7 @@ def choices_game2():
 
 	choices = {}
 
-	for err in range(0,51):
+	for err in range(0, ERROR_MAX + ERROR_INT):
 		choices[err] = 0
 
 	for play in get_all_plays(1):
@@ -354,7 +354,7 @@ def choices_game2():
 
 	choice_filename = KERNEL_NAME + "_choices_game2.csv"
 	with open(os.path.dirname(__file__) + "/../static/temp/" + choice_filename,"w") as f:
-		for err in range(0,51):
+		for err in range(0, ERROR_MAX + ERROR_INT):
 			for i in range(0, choices[err]):
 				f.write(str(err) + '\n')
 	f.close()
@@ -368,7 +368,7 @@ def choices_game2_excluded():
 
 	choices = {}
 
-	for err in range(0,51):
+	for err in range(0, ERROR_MAX + ERROR_INT):
 		choices[err] = 0
 
 	for play in get_all_plays(1):
@@ -388,7 +388,7 @@ def choices_game2_excluded():
 
 	choice_filename = KERNEL_NAME + "_choices_game2_excluded.csv"
 	with open(os.path.dirname(__file__) + "/../static/temp/" + choice_filename,"w") as f:
-		for err in range(0,51):
+		for err in range(0, ERROR_MAX + ERROR_INT):
 			for i in range(0, choices[err]):
 				f.write(str(err) + '\n')
 	f.close()
@@ -403,7 +403,7 @@ def choices_game3():
 
 	choices = {}
 
-	for err in range(0,51):
+	for err in range(0, ERROR_MAX + ERROR_INT):
 		choices[err] = 0
 
 	for play in get_all_plays(2):
@@ -411,7 +411,7 @@ def choices_game3():
 
 	choice_filename = KERNEL_NAME + "_choices_game3.csv"
 	with open(os.path.dirname(__file__) + "/../static/temp/" + choice_filename,"w") as f:
-		for err in range(0,51):
+		for err in range(0, ERROR_MAX + ERROR_INT):
 			for i in range(0, choices[err]):
 				f.write(str(err) + '\n')
 	f.close()
@@ -425,7 +425,7 @@ def choices_game3_excluded():
 
 	choices = {}
 
-	for err in range(0,51):
+	for err in range(0, ERROR_MAX + ERROR_INT):
 		choices[err] = 0
 
 	for play in get_all_plays(2):
@@ -445,7 +445,7 @@ def choices_game3_excluded():
 
 	choice_filename = KERNEL_NAME + "_choices_game3_excluded.csv"
 	with open(os.path.dirname(__file__) + "/../static/temp/" + choice_filename,"w") as f:
-		for err in range(0,51):
+		for err in range(0, ERROR_MAX + ERROR_INT):
 			for i in range(0, choices[err]):
 				f.write(str(err) + '\n')
 	f.close()

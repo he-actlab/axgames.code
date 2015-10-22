@@ -2,6 +2,7 @@ import os, random
 
 from query_qna import get_selections, update_qna_record, get_history
 from gatech.conf import drawn_errors, GAME3_DEFAULT_WINNING, GAME3_MAX_WINNING_PROPORTION, GAME3_INIT_AVG
+from gatech.conf import ERROR_MAX, ERROR_MIN
 
 def find_first_disagree_error(history):
 	for i in range(0, len(history)):
@@ -20,7 +21,7 @@ def get_winning(filename, error):
 
 	history = get_history(filename)
 	firstDisagreeError = find_first_disagree_error(history)
-	errDiffRatio = abs(firstDisagreeError - error) / 50.0
+	errDiffRatio = abs(firstDisagreeError - error) / (ERROR_MAX - ERROR_MIN)
 	if errDiffRatio != 0.0:
 		winningRatio = (1.0 / errDiffRatio) - 2.0
 		if winningRatio > 10.0:

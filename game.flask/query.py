@@ -2,8 +2,9 @@ import os, random
 
 from gatech.database import db_session
 from gatech.models import Image, DegradedImage, User, PlaySession
-from conf import imagelist_file_path, question_file_path, degimagelist_file_path, ERROR_MAX, GAME1_INIT_NUM_PLAYED
-from conf import APPLICATION_TYPE
+from conf import imagelist_file_path, question_file_path, degimagelist_file_path, GAME1_INIT_NUM_PLAYED
+from conf import drawn_errors, APPLICATION_TYPE
+from conf import ERROR_MAX, ERROR_MIN, ERROR_INT
 
 import sys
 
@@ -84,20 +85,29 @@ def read_questions(question_file_path):
 #
 def initial_consensus(error):
 	os.system('echo error = ' + str(error))
-	if error <= 0.01:
+	if error <= drawn_errors[0] / 100.0:
 		agree = (GAME1_INIT_NUM_PLAYED - 5) + random.randint(0,5)
-	elif error <= 0.03:
+	elif error <= drawn_errors[1] / 100.0:
 		agree = (GAME1_INIT_NUM_PLAYED - 15) + random.randint(0,10)
-	elif error <= 0.05:
+	elif error <= drawn_errors[2] / 100.0:
 		agree = (GAME1_INIT_NUM_PLAYED - 25) + random.randint(0,10)
-	elif error <= 0.1:
+	elif error <= drawn_errors[3] / 100.0:
+		agree = (GAME1_INIT_NUM_PLAYED - 35) + random.randint(0,10)
+	elif error <= drawn_errors[4] / 100.0:
+		agree = (GAME1_INIT_NUM_PLAYED - 45) + random.randint(0,10)
+	elif error <= drawn_errors[5] / 100.0:
 		agree = (GAME1_INIT_NUM_PLAYED - 55) + random.randint(0,10)
-	elif error <= 0.2:
+	elif error <= drawn_errors[6] / 100.0:
+		agree = (GAME1_INIT_NUM_PLAYED - 65) + random.randint(0,10)
+	elif error <= drawn_errors[7] / 100.0:
 		agree = (GAME1_INIT_NUM_PLAYED - 85) + random.randint(0,10)
-	elif error <= 0.4:
+	elif error <= drawn_errors[8] / 100.0:
 		agree = (GAME1_INIT_NUM_PLAYED - 95) + random.randint(0,10)
-	elif error <= 0.5:
+	elif error <= drawn_errors[9] / 100.0:
 		agree = 0 + random.randint(0,5)
+	else:
+		os.system('echo Error: unknown error')
+		sys.exit()
 	return agree, GAME1_INIT_NUM_PLAYED - agree
 
 def upload_files():
@@ -116,12 +126,12 @@ def upload_files():
 			continue
 
 		selected_error_array = ""
-		for i in range(0, ERROR_MAX):
+		for i in range(ERROR_MIN, ERROR_MAX, ERROR_INT):
 			selected_error_array = selected_error_array + "0|"
 		selected_error_array = selected_error_array + str('0')
 
 		history = ""
-		for i in range(0, ERROR_MAX-1):
+		for i in range(ERROR_MIN, ERROR_MAX-1, ERROR_INT):
 			history = history + "0,0|"
 		history = history + str('0,0')
 

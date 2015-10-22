@@ -63,9 +63,10 @@
                 <div style="width:800px">
                     <center>
                     <div class="col-md-6">
-                        <div class="thumbnail" style="height: 320px; width:350px">
-                            <!--<center><iframe style="width:330px; height:250px; font-family: Tahoma;" src="{{ gamedata_home_url + filePaths[1] }}"> </iframe></center>-->
-                            <center><iframe style="width:330px; height:250px; font-family: Tahoma;" src="{{ gamedata_home_url + filePaths[1] }}"> </iframe></center>
+                        <div class="thumbnail" style="height: 120px; width:350px">
+                            <audio controls>
+                                <source src="{{ gamedata_home_url + filePaths[1] }}" type="audio/mpeg">
+                            </audio>
                             <div class="caption">
                                 <p class="text-center">
                                 <center><h3>Original Output</h3></center>
@@ -74,9 +75,10 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="thumbnail" style="height: 320px; width:350px">
-                            <center><iframe style="width:330px; height:250px; font-family: Tahoma;" src="{{ gamedata_home_url + filePaths[2] }}"> </iframe></center>
-
+                        <div class="thumbnail" style="height: 120px; width:350px">
+                            <audio controls>
+                                <source src="{{ gamedata_home_url + filePaths[2] }}" type="audio/mpeg">
+                            </audio>
                             <div class="caption">
                                 <p class="text-center">
                                 <center><h3>Approximate Output</h3></center>

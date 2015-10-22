@@ -4,6 +4,7 @@ from gatech import session
 from gatech.database import db_session
 from gatech.models import Image, PlaySession, Play
 from gatech.conf import ERROR_MAX, APPLICATION_TYPE
+from gatech.conf import ERROR_MIN, ERROR_INT
 from gatech.query import getExtensions
 
 import sys
@@ -56,7 +57,7 @@ def update_history(imagename, error):
 	oldHistory = db_session.query(Image).filter_by(imagename=imagename).first().game3_history
 
 	newHistory = ""
-	e = 1
+	e = ERROR_MIN + ERROR_INT
 	histories = oldHistory.split('|')
 	for h in histories:
 		tokens = h.split(',')
@@ -68,7 +69,7 @@ def update_history(imagename, error):
 		newHistory += str(numAgree) + ',' + str(numPlayed)
 		if e != ERROR_MAX:
 			newHistory += '|'
-		e += 1
+		e += ERROR_INT
 
 	db_session.query(Image).filter(Image.imagename == imagename).update({"game3_history": newHistory})
 	db_session.commit()
