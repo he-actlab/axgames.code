@@ -4,6 +4,7 @@ from gatech import session
 from gatech.database import db_session
 from gatech.models import Image, PlaySession, Play
 from gatech.conf import ERROR_MAX, APPLICATION_TYPE
+from gatech.query import getExtensions
 
 import sys
 
@@ -22,7 +23,8 @@ def getHtmlTemplate():
 
 def get_selections(imagename):
 
-	imagename = imagename.split('.')[0]
+	inext, outext = getExtensions()
+	imagename = imagename.split(inext)[0]
 
 	for result in db_session.query(Image).filter_by(imagename=imagename):
 		selected_error_array = result.selected_error_array_game3
@@ -34,7 +36,8 @@ def get_selections(imagename):
 	return selections
 
 def get_history(imagename):
-	imagename = imagename.split('.')[0]
+	inext, outext = getExtensions()
+	imagename = imagename.split(inext)[0]
 
 	result = db_session.query(Image).filter_by(imagename=imagename).first()
 	tokens = result.game3_history.split('|')
@@ -72,7 +75,8 @@ def update_history(imagename, error):
 
 def update_qna_record (imagename, selection, selections):
 
-	imagename = imagename.split('.')[0]
+	inext, outext = getExtensions()
+	imagename = imagename.split(inext)[0]
 	selections[selection] += 1
 
 	os.system('echo update_qna_record: ' + str(selections))
@@ -140,7 +144,8 @@ def get_qna(imagename):
 
 	os.system('echo get_qna start')
 
-	imagename = imagename.split('.')[0]
+	inext, outext = getExtensions()
+	imagename = imagename.split(inext)[0]
 	os.system('echo get_qna: imagename = ' + imagename)
 
 	for result in db_session.query(Image).filter_by(imagename=imagename):

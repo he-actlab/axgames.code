@@ -4,6 +4,7 @@ from gatech import session
 from gatech.database import db_session
 from gatech.models import Image, PlaySession, Play
 from gatech.conf import drawn_errors, ERROR_MAX, APPLICATION_TYPE
+from gatech.query import getExtensions
 
 def getHtmlTemplate():
 	if APPLICATION_TYPE == 'IP':
@@ -20,7 +21,8 @@ def getHtmlTemplate():
 
 def get_selections(imagename):
 
-	imagename = imagename.split('.')[0]
+	inext, outext = getExtensions()
+	imagename = imagename.split(inext)[0]
 
 	for result in db_session.query(Image).filter_by(imagename=imagename):
 		selected_error_array = result.selected_error_array_game2
@@ -35,7 +37,10 @@ def get_selections(imagename):
 	return selections
 
 def get_history(imagename):
-	imagename = imagename.split('.')[0]
+
+	inext, outext = getExtensions()
+	imagename = imagename.split(inext)[0]
+	os.system('echo imagename = ' + str(imagename))
 
 	result = db_session.query(Image).filter_by(imagename=imagename).first()
 	tokens = result.game2_history.split('|')
@@ -73,7 +78,8 @@ def update_history(imagename, error):
 
 def update_winbatt_record(imagename, selection, selections):
 
-	imagename = imagename.split('.')[0]
+	inext, outext = getExtensions()
+	imagename = imagename.split(inext)[0]
 	selections[selection] += 1
 
 	newSelections = ""

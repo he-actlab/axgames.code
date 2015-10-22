@@ -18,6 +18,7 @@ def find_first_disagree_error(history, filename):
 
 def get_winning(filename, error):
 	os.system('echo get_winning start')
+	os.system('echo filename = ' + str(filename))
 	history = get_history(filename)
 	firstDisagreeError = find_first_disagree_error(history, filename)
 	errDiffRatio = abs(firstDisagreeError - error) / 50.0

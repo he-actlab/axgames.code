@@ -61,29 +61,6 @@
                 <!-- CODE FOR THUMBNAILS WITH CAPTION -->
                 <center>
                 <div style="width:800px">
-                    {% set tempname = filePaths[0].split('/')[2] %}
-                    {% if tempname[0] == 'a' %}
-                        {% set tempname = tempname[1:] %}
-                    {% endif %}
-                    {% set tokens = tempname.split('.')[0].split('n')[0].split('x') %}
-                    {% set imgwidth = tokens[0]|int %}
-                    {% set imgheight = tokens[1]|int %}
-                    {% if imgwidth > 330 %}
-                        {% set imgheight = (330 * imgheight / imgwidth)|int %}
-                        {% set imgwidth = 330 %}
-                        {% if imgheight > 250 %}
-                            {% set imgwidth = (250 * imgwidth / imgheight)|int %}
-                            {% set imgheight = 250 %}
-                        {% endif %}
-                    {% else %}
-                        {% if imgheight > 250 %}
-                            {% set imgwidth = (250 * imgwidth / imgheight)|int %}
-                            {% set imgheight = 250 %}
-                        {% else %}
-                            {% set imgheight = (330 * imgheight / imgwidth)|int %}
-                            {% set imgwidth = 330 %}
-                        {% endif %}
-                    {% endif %}
                     <center>
                     <div class="col-md-6">
                         <div class="thumbnail" style="height: 320px; width:350px">
