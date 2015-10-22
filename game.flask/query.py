@@ -13,10 +13,10 @@ def getExtensions():
 		outext = ".png"
 	elif APPLICATION_TYPE == "OCR":
 		inext = ".jpg"
-		outext = ".txt"
+		outext = ".html"
 	elif APPLICATION_TYPE == "SR":
 		inext = ".wav"
-		outext = ".txt"
+		outext = ".html"
 	elif APPLICATION_TYPE == "AE":
 		inext = ".wav"
 		outext = ".mp3"

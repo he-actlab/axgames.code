@@ -52,12 +52,15 @@
         <div class="three-images">
             <div class="container">
                 <!-- <h1 class="text-center">Is this Quality Acceptable?</h1> -->
+                <center>
                 <div class="col-md-12" style="display:inline; width: 1100px">
-                    <h1 class="text-center" style="padding-left: 0px; padding-right: 900px; font-size:200%">Round {{ stage }}</h1>
+                    <h1 class="text-center" style="padding-left: 0px; padding-right: 600px; font-size:200%">Round {{ stage }}</h1>
                 </div>
+                </center>
 
                 <!-- CODE FOR THUMBNAILS WITH CAPTION -->
-                <div class="col-md-12" id="level-aux">
+                <center>
+                <div style="width:800px">
                     {% set tempname = filePaths[0].split('/')[2] %}
                     {% if tempname[0] == 'a' %}
                         {% set tempname = tempname[1:] %}
@@ -68,12 +71,12 @@
                     {% if imgwidth > 330 %}
                         {% set imgheight = (330 * imgheight / imgwidth)|int %}
                         {% set imgwidth = 330 %}
-                        {% if tokens[1]|int > 250 %}
+                        {% if imgheight > 250 %}
                             {% set imgwidth = (250 * imgwidth / imgheight)|int %}
                             {% set imgheight = 250 %}
                         {% endif %}
                     {% else %}
-                        {% if tokens[1]|int > 250 %}
+                        {% if imgheight > 250 %}
                             {% set imgwidth = (250 * imgwidth / imgheight)|int %}
                             {% set imgheight = 250 %}
                         {% else %}
@@ -81,22 +84,11 @@
                             {% set imgwidth = 330 %}
                         {% endif %}
                     {% endif %}
-                    <div class="col-md-4">
+                    <center>
+                    <div class="col-md-6">
                         <div class="thumbnail" style="height: 320px; width:350px">
-                            <!--<img src="{{ gamedata_home_url + filePaths[1] }}" class="thumb" style="max-width:330px; max-height:250px">-->
-                            <img src="{{ gamedata_home_url + filePaths[0] }}" class="thumb" style="width:{{ imgwidth }}px; height:{{ imgheight }}px">
-
-                            <div class="caption">
-                                <p class="text-center">
-                                <center><h3>Input Image</h3></center>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="thumbnail" style="height: 320px; width:350px">
-                            <!-- <img src="{{ gamedata_home_url + filePaths[2] }}" class="thumb" style="max-width:400px; max-height:250px"> -->
-                            <center><iframe style="width:{{ imgwidth }}px; height:{{ imgheight }}px" src="{{ gamedata_home_url + filePaths[1] }}"> </iframe></center>
+                            <!--<center><iframe style="width:330px; height:250px; font-family: Tahoma;" src="{{ gamedata_home_url + filePaths[1] }}"> </iframe></center>-->
+                            <center><iframe style="width:330px; height:250px; font-family: Tahoma;" src="{{ gamedata_home_url + filePaths[1] }}"> </iframe></center>
                             <div class="caption">
                                 <p class="text-center">
                                 <center><h3>Original Output</h3></center>
@@ -104,10 +96,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="thumbnail" style="height: 320px; width:350px">
-                            <!-- <img src="{{ gamedata_home_url + filePaths[2] }}" class="thumb" style="max-width:400px; max-height:250px"> -->
-                            <center><textarea rows="4" cols="50" style="width:{{ imgwidth }}px; height:{{ imgheight }}px"> {{ gamedata_home_url + filePaths[2] }} </textarea></center>
+                            <center><iframe style="width:330px; height:250px; font-family: Tahoma;" src="{{ gamedata_home_url + filePaths[2] }}"> </iframe></center>
 
                             <div class="caption">
                                 <p class="text-center">
@@ -116,7 +107,9 @@
                             </div>
                         </div>
                     </div>
+                    </center>
                 </div>
+                </center>
                 <!-- CODE FOR THUMBNAILS WITH CAPTION ENDS -->
             </div>
         </div>

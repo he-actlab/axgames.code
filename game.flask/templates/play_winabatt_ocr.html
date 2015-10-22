@@ -57,8 +57,9 @@
                     </div>
                     <div style="width:1200px">
                         <div id="imgtxt" style="">
-                            <img id="image" src="" class="thumb" style="" >
-                            <textarea readonly="readonly" id="textarea1" rows="4" cols="50" style="">  </textarea>
+                            <!--<img id="image" src="" class="thumb" style="" >-->
+                            <!--<textarea readonly="readonly" id="textarea1" rows="4" cols="50" style="">  </textarea>-->
+                            <iframe id="textarea" style="width:500px; height:250px; font-family: Tahoma;" src=""> </iframe>
                         </div>
                         <br><br>
                         <div style="width:900px">
@@ -92,57 +93,27 @@
 											var error = 100 - value;
 											var dirpath = "{{ url_for('static',filename='img/') }}";
 											if (error == 0) {
-												document.getElementById("image").src = "{{ gamedata_home_url + '/orgimage/' + imagename + '-'
-												+ kernel_name + '.png' }}"
+												document.getElementById("textarea").src = "{{ gamedata_home_url + '/sobelimage/' + imagename + '-'
+												+ kernel_name + '.html' }}"
 											} else {
 												var i;
 												var filename;
 
 												for (i=0; i<errors.length - 1; i++) {
 													if (error >= errors[i] && error < errors[i+1]) {
-														filename = "{{ imagename + '_'}}".concat(String(errors[i] / 100.0)).concat(".png");
-														document.getElementById("image").src = "{{ gamedata_home_url + '/degimage/' }}".concat(filename);
+														filename = "{{ imagename + '_0.'}}".concat(FormatNumberLength(errors[i], 2)).concat(".html");
+														document.getElementById("textarea").src = "{{ gamedata_home_url + '/degimage/' }}".concat(filename);
 													}
 												}
 												if (error >= errors[errors.length - 1]) {
-													filename = "{{ imagename + '_'}}".concat(String(errors[errors.length - 1] / 100.0)).concat(".png");
-													document.getElementById("image").src = "{{ gamedata_home_url + '/degimage/' }}".concat(filename);
+													filename = "{{ imagename + '_0.'}}".concat(FormatNumberLength(errors[errors.length - 1], 2)).concat(".html");
+													document.getElementById("textarea").src = "{{ gamedata_home_url + '/degimage/' }}".concat(filename);
 												}
 											}
 											var total_power = {{ power }};
 											var power_consumption = calPowerConsumption(error);
 											total_power = total_power - power_consumption;
 
-                                            var tempname = "{{ imagename }}";
-                                            if (tempname[0] == 'a') {
-                                                tempname = tempname.substring(1);
-                                            }
-											var tokens = tempname.split('n')[0].split('x');
-                                            var width = parseInt(tokens[0]);
-                                            var height = parseInt(tokens[1]);
-                                            var maxwidth = 500;
-                                            var maxheight = 300;
-                                            if (width > maxwidth) {
-                                                height = Math.floor(maxwidth * height / width);
-                                                width = maxwidth;
-                                                if (height > maxheight) {
-                                                    width = Math.floor(maxheight * width / height);
-                                                    height = maxheight;
-                                                }
-                                            }
-                                            else {
-                                                if (height > maxheight) {
-                                                    width = Math.floor(maxheight * width / height);
-                                                    height = maxheight;
-                                                }
-                                            }
-                                            document.getElementById("image").style.width = width.toString().concat("px")
-											document.getElementById("image").style.height = height.toString().concat("px")
-											document.getElementById("image").style.cssFloat = "left";
-											document.getElementById("textarea1").style.width = width.toString().concat("px")
-											document.getElementById("textarea1").style.height = height.toString().concat("px")
-                                            document.getElementById("textarea1").innerHTML = width.toString().concat(" ").concat(height.toString())
-											document.getElementById("imgtxt").style.width = (width * 2 + 30).toString().concat("px")
 
                                             <!--document.getElementById("ex1Slider").data-slider-min = 100 - error -->
 											document.getElementById("betbutton").name = "bet_".concat(String(power_consumption)).concat("_").concat(String(error));
@@ -155,6 +126,14 @@
 									function calPowerConsumption(error) {
 										return parseInt(((50 - error) / 50) * 25 + 5);
 									}
+
+									function FormatNumberLength(num, length) {
+                                        var r = "" + num;
+                                        while (r.length < length) {
+                                            r = "0" + r;
+                                        }
+                                        return r;
+                                    }
 
 
                         </script>
