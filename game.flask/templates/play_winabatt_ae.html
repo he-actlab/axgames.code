@@ -57,9 +57,9 @@
                     </div>
                     <div style="width:1200px">
                         <div id="imgtxt" style="">
-                            <!--<img id="image" src="" class="thumb" style="" >-->
-                            <!--<textarea readonly="readonly" id="textarea1" rows="4" cols="50" style="">  </textarea>-->
-                            <iframe id="textarea" style="width:500px; height:250px; font-family: Tahoma;" src=""> </iframe>
+                            <audio controls>
+                                <source id="audio" src="" type="audio/mpeg">
+                            </audio>
                         </div>
                         <br><br>
                         <div style="width:900px">
@@ -93,21 +93,21 @@
 											var error = 100 - value;
 											var dirpath = "{{ url_for('static',filename='img/') }}";
 											if (error == 0) {
-												document.getElementById("textarea").src = "{{ gamedata_home_url + '/sobelimage/' + imagename + '-'
-												+ kernel_name + '.html' }}"
+												document.getElementById("audio").src = "{{ gamedata_home_url + '/sobelimage/' + imagename + '-'
+												+ kernel_name + '.mp3' }}"
 											} else {
 												var i;
 												var filename;
 
 												for (i=0; i<errors.length - 1; i++) {
 													if (error >= errors[i] && error < errors[i+1]) {
-														filename = "{{ imagename + '_0.'}}".concat(FormatNumberLength(errors[i], 2)).concat(".html");
-														document.getElementById("textarea").src = "{{ gamedata_home_url + '/degimage/' }}".concat(filename);
+														filename = "{{ imagename + '_0.'}}".concat(FormatNumberLength(errors[i], 2)).concat(".mp3");
+														document.getElementById("audio").src = "{{ gamedata_home_url + '/degimage/' }}".concat(filename);
 													}
 												}
 												if (error >= errors[errors.length - 1]) {
-													filename = "{{ imagename + '_0.'}}".concat(FormatNumberLength(errors[errors.length - 1], 2)).concat(".html");
-													document.getElementById("textarea").src = "{{ gamedata_home_url + '/degimage/' }}".concat(filename);
+													filename = "{{ imagename + '_0.'}}".concat(FormatNumberLength(errors[errors.length - 1], 2)).concat(".mp3");
+													document.getElementById("audio").src = "{{ gamedata_home_url + '/degimage/' }}".concat(filename);
 												}
 											}
 											var total_power = {{ power }};
