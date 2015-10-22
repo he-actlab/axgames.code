@@ -9,33 +9,36 @@ GAME_NAME = 'ApproxiGame'
 # SR:  Speech Recognition [input:wav, output:text]
 # AE:  Audio Compressor (Encoder) [input:wav, output:mp3]
 #
-APPLICATION_TYPE = 'SR'
+APPLICATION_TYPE = 'AE'
 
 #
 #
 #
-KERNEL_NAME = 'sr'
+KERNEL_NAME = 'ae'
 
 #
 # The list of image file names. It only has prefix without "_sobel" or error rate such as "_0.01".
 #
 # imagelist_file_path = 'gatech/data/imagelist.txt'
 # imagelist_file_path = 'gatech/data/imagelist-ocr.txt'
-imagelist_file_path = 'gatech/data/imagelist-sr.txt'
+# imagelist_file_path = 'gatech/data/imagelist-sr.txt'
+imagelist_file_path = 'gatech/data/imagelist-ae.txt'
 
 #
 # For each image, this file contains one content-based question. The first answer is the correct answer and the others are wrong ones.
 #
 # question_file_path = 'gatech/data/questions.csv'
 # question_file_path = 'gatech/data/questions-ocr.csv'
-question_file_path = 'gatech/data/questions-sr.csv'
+# question_file_path = 'gatech/data/questions-sr.csv'
+question_file_path = 'gatech/data/questions-ae.csv'
 
 #
 # The list for all degraded images in the database. As of now, the list should have all file names from IMAGENAME_0.01.png to IMAGENAME_0.5.png.
 #
 # degimagelist_file_path = 'gatech/data/degimagelist.txt'
 # degimagelist_file_path = 'gatech/data/degimagelist-ocr.txt'
-degimagelist_file_path = 'gatech/data/degimagelist-sr.txt'
+# degimagelist_file_path = 'gatech/data/degimagelist-sr.txt'
+degimagelist_file_path = 'gatech/data/degimagelist-ae.txt'
 
 #
 # Under this path, we can find the three directories, org_image, deg_image, and sobel_image.
