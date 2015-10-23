@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ GAME_NAME }}</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+    <!-- My stylesheet -->
+    <link rel="stylesheet" href="main.css">
+
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="navbar-brand">
+                {{ GAME_NAME }} - QnA
+            </div>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <form action='/selectgame' method="post" target=_self class="navbar-form navbar-left">
+                <input type="submit" name="start" value="Select Game" class="btn btn-default"
+                       data-toggle="tooltip" data-placement="bottom" style=" font-size:100%"></input>
+            </form>
+            <form action='/logout' class="navbar-form navbar-left">
+                <input id="logoutbutton" type="submit" name="logout" value="Logout" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" style=" font-size:100%"></input>
+            </form>
+        </div>
+    </div>
+</nav>
+
+
+<div class="carousel-inner" role="listbox" style="overflow-x:auto;overflow-y:auto;">
+    <div class="item active">
+        <center>
+            <h1>Score Board</h1>
+
+            <div class="container" style="width:1000px;padding:0px;border:0px;" align="left">
+                <br>
+
+                <div style="width:1300px;height:20px">
+                    <div class="badge" style="background-color:#ffffff; padding: 0px; float: left; width: 100px; text-align: center; margin-right: 0px; font-size:20px; height: 25px;">T</div>
+                    <div class="label label-default" style="background-color: white; color: black; padding: 0px; float: left; width: 150px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Others' Choices<br> of Quality</div>
+                    <div class="label label-success" style="background-color: white; color: black; padding: 0px; float: left; width: 150px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Your Choice<br> of Quality</div>
+                    <div style="padding: 0px; float: left; width: 30px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;"></div>
+                    <div class="label label-default" style="background-color: white; color: black; padding: 0px; float: left; width: 130px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Original<br> Balance</div>
+                    <div class="label label-default" style="padding: 0px; float: left; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">&nbsp;</div>
+                    <div class="label label-primary" style="background-color: white; color: black; padding: 0px; float: left; width: 120px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Your<br> Winning</div>
+                    <div class="label label-default" style="padding: 0px; float: left; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">&nbsp;</div>
+                    <div class="label label-default" style="background-color: white; color: black; padding: 0px; float: left; width: 130px; text-align: center; margin-left: 10px; font-size:20px; height: 25px;">Current<br> Balance</div>
+                </div>
+                <br><br>
+                {% for i in range(1, stage+1) %}
+                    <!--<div id="chart_div{{ i }}" style="width:400px;height:100px;"></div>-->
+                    <div style="width:1300px;height:20px">
+                        <div class="badge" style="background-color: white; color: black; padding: 0px; float: left; width: 100px; text-align: center; margin-right: 0px; font-size:18px; height: 20px;">Round {{ i }}</div>
+                        <div class="label label-default" style="padding: 0px; float: left; width: 150px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">{{ 100 - average[i-1]|int }}%</div>
+                        <div class="label label-success" style="padding: 0px; float: left; width: 150px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">{{ 100 - error_history[i-1]|int }}% </div>
+                        <div style="padding: 0px; float: left; width: 30px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;"></div>
+                        <div class="label label-default" style="padding: 0px; float: left; width: 130px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ old_power_history[i-1] }}</div>
+                        {% if reward_history[i-1] - bet_history[i-1] - penalty[i-1] >= 0 %}
+                            <div class="label label-default" style="padding: 0px; float: left; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">+</div>
+                            <div class="label label-primary" style="padding: 0px; float: left; width: 120px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ reward_history[i-1] - bet_history[i-1] - penalty[i-1] }}</div>
+                        {% else %}
+                            <div class="label label-default" style="padding: 0px; float: left; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">-</div>
+                            <div class="label label-danger" style="padding: 0px; float: left; width: 120px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ bet_history[i-1] + penalty[i-1] - reward_history[i-1] }}</div>
+                        {% endif %}
+                        <div class="label label-default" style="padding: 0px; float: left; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">=</div>
+                        <div class="label label-success" style="padding: 0px; float: left; width: 130px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ power_history[i-1] }}</div>
+                    </div>
+                    <br>
+                {% endfor %}
+            </div>
+            <br><br>
+
+            {% if stage < max_round %}
+            <div class="container">
+                <form action='/qna' method="post" target=_self>
+                <center><input type="submit" name="continue" value="Next Round" class="btn" data-toggle="tooltip"
+                               data-placement="bottom"
+                               style="background-color:#4d4d4d;color:white;font-size:20px"></input></center>
+                </form>
+            </div>
+            {% else %}
+            <div class="container">
+                <center>
+                    <form action='/qna' method="post" target=_self style="display:inline;">
+                        <input type="submit" name="initialize" value="Restart" class="btn" data-toggle="tooltip" data-placement="bottom"
+                           style="display:inline;background-color:#4d4d4d;color:white;font-size:20px"></input>
+                    </form>
+                    <form action='/selectgame' method="post" target=_self style="display: inline;">
+                        <input type="submit" name="start" value="Select Game" class="btn" data-toggle="tooltip" data-placement="bottom"
+                           style="display:inline;background-color:#4d4d4d;color:white;font-size:20px"></input>
+                    </form>
+                    <form action='/qna' method="post" target=_self style="display:inline;">
+                        <input type="submit" name="finish" value="Logout" class="btn" data-toggle="tooltip" data-placement="bottom"
+                           style="display:inline;background-color:#4d4d4d;color:white;font-size:20px"></input>
+                    </form>
+                </center>
+            </div>
+            <div class="container" style="display:inline;width:1240px">
+                <h3>Code: {{ uniq_code }}</h3>
+            </div>
+            {% endif %}
+            <br><br><br>
+        </center>
+    </div>
+</div>
+</body>
+</html>

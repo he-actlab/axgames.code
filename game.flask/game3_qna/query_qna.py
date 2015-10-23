@@ -22,6 +22,19 @@ def getHtmlTemplate():
 		print 'Error: unknown applicaiton type'
 		sys.exit()
 
+def getResultTemplate():
+	if APPLICATION_TYPE == 'IP':
+		return 'result_qna_ip.html'
+	elif APPLICATION_TYPE == 'OCR':
+		return 'result_qna_ocr.html'
+	elif APPLICATION_TYPE == 'SR':
+		return 'result_qna_sr.html'
+	elif APPLICATION_TYPE == 'AE':
+		return 'result_qna_ae.html'
+	else:
+		print 'Error: unknown applicaiton type'
+		sys.exit()
+
 def get_selections(imagename):
 
 	inext, outext = getExtensions()
@@ -61,10 +74,16 @@ def update_history(imagename, error):
 	histories = oldHistory.split('|')
 	for h in histories:
 		tokens = h.split(',')
-		if e <= error:
-			numAgree = int(tokens[0]) + 1
+		if ERROR_INT > 0:
+			if e <= error:
+				numAgree = int(tokens[0]) + 1
+			else:
+				numAgree = int(tokens[0])
 		else:
-			numAgree = int(tokens[0])
+			if e >= error:
+				numAgree = int(tokens[0]) + 1
+			else:
+				numAgree = int(tokens[0])
 		numPlayed = int(tokens[1]) + 1
 		newHistory += str(numAgree) + ',' + str(numPlayed)
 		if e != ERROR_MAX:
@@ -76,8 +95,13 @@ def update_history(imagename, error):
 
 def update_qna_record (imagename, selection, selections):
 
+
 	inext, outext = getExtensions()
 	imagename = imagename.split(inext)[0]
+	if APPLICATION_TYPE == "AE":
+		os.system('echo selection = ' + str(selection))
+		selection = 50 - (selection - ERROR_MAX) / abs(ERROR_INT)
+		os.system('echo selection = ' + str(selection))
 	selections[selection] += 1
 
 	os.system('echo update_qna_record: ' + str(selections))

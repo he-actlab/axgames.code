@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ GAME_NAME }}</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+    <!-- My stylesheet -->
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="navbar-brand">
+                {{ GAME_NAME }} - Pollice Verso
+            </div>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <form action='/selectgame' method="post" target=_self class="navbar-form navbar-left">
+                <input type="submit" name="start" value="Select Game" class="btn btn-default"
+                       data-toggle="tooltip" data-placement="bottom" style=" font-size:100%"></input>
+            </form>
+            <form action='/logout' class="navbar-form navbar-left">
+                <input id="logoutbutton" type="submit" name="logout" value="Logout" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" style=" font-size:100%"></input>
+            </form>
+        </div>
+    </div>
+</nav>
+<div class="carousel-inner" role="listbox">
+
+    <!-- Code for main screen -->
+    <div class="item active">
+
+        <!-- Code for stacked bar -->
+        <center>
+            <h1>Score Board</h1>
+
+            <div class="container" style="width:1240px">
+                <!-- <div style="width:830px">
+                        <span class="badge" style="padding: 0px; float: left; width: 100px; text-align: center; margin-right: 10px; font-size:15px; height: 20px;">Stage </span>
+                        <span class="label label-default" style="padding: 0px; float: right; width: 100px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">Bankroll</span>
+                  </div> -->
+                <br>
+
+                <div style="width:1100px;">
+                    <span class="label label-success"
+                          style="background-color: white; color: black; padding: 0px; float: right; width: 120px; text-align: center; margin-left: 10px; font-size:20px; height: 15px;">Current<br> Balance</span>
+                    <span class="label label-default" style="padding: 0px; float: right; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">&nbsp;</span>
+                    <span class="label label-primary"
+                          style="background-color: white; color: black; padding: 0px; float: right; width: 120px; text-align: center; margin-left: 10px; font-size:20px; height: 15px;">Your<br> Winning</span>
+                    <span class="label label-default" style="padding: 0px; float: right; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">&nbsp;</span>
+                    <span class="label label-default"
+                          style="background-color: white; color: black; padding: 0px; float: right; width: 120px; text-align: center; margin-left: 10px; font-size:20px; height: 15px;">Original<br> Balance</span>
+                    <span class="label label-default"
+                          style="background-color: white; color: black; padding: 0px; float: right; width: 300px; text-align: center; margin-left: 10px; margin-right: 120px; font-size:20px; height: 15px;">Others'<br> Choices of Quality</span>
+                </div>
+                <br><br><br>
+                {% for i in stage %}
+                <div style="width:1100px">
+                    <span class="badge" style="background-color: white; color: black; padding: 0px; float: left; width: 100px; text-align: center; margin-right: 10px; font-size:18px; height: 20px;">Round {{ i }}</span>
+                    <span class="label label-success" style="padding: 0px; float: right; width: 120px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ bankroll_history[i-1] }}</span>
+                    <span class="label label-default" style="padding: 0px; float: right; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">=</span>
+                    {% if score[i-1] - bet_history[i-1] > 0 %}
+                        <span class="label label-primary" style="padding: 0px; float: right; width: 120px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ score[i-1] - bet_history[i-1] }}</span>
+                        <span class="label label-default" style="padding: 0px; float: right; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">+</span>
+                    {% else %}
+                        <span class="label label-danger" style="padding: 0px; float: right; width: 120px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ bet_history[i-1] - score[i-1] }}</span>
+                        <span class="label label-default" style="padding: 0px; float: right; width: 10px; text-align: center; margin-left: 10px; font-size:15px; height: 20px; background-color: white; color: black">-</span>
+                    {% endif %}
+                    <span class="label label-default" style="padding: 0px; float: right; width: 120px; text-align: center; margin-left: 10px; font-size:15px; height: 20px;">${{ old_bankroll_history[i-1] }}</span>
+
+                    <div class="progress" style="width:500px;" id="prgbar">
+                        <div class="progress-bar progress-bar-striped"
+                             style="background-color:{{ color[i-1][0] }}; width: {{ proportion[i-1][0] * 100 }}%; font-size:15px; height: 20px;"> {%
+                            if proportion[i-1][0] >= 0.3 %} Good enough: {{ (((proportion[i-1][0] * 10000)|int)/100)|float }}% {% endif %}
+                        </div>
+                        <div class="progress-bar progress-bar-striped"
+                             style="background-color:{{ color[i-1][1] }}; width: {{ proportion[i-1][1] * 100 }}%; font-size:15px; height: 20px;"> {%
+                            if proportion[i-1][1] >= 0.3 %} Unacceptable: {{ (((proportion[i-1][1] * 10000)|int)/100)|float }}% {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <br><br>
+
+
+            {% if stage|length != max_round %}
+            <form action='/pollice_verso' method="post" target=_self>
+            <div class="container">
+                <center><input type="submit" name="continue" value="Next Round" class="btn" data-toggle="tooltip" data-placement="bottom"
+                               style="background-color:#4d4d4d;color:white;font-size:20px"></input></center>
+            </div>
+            </form>
+            {% else %}
+            <div class="container" style="display:inline;width:1240px">
+                <center>
+                    <form action='/pollice_verso' method="post" target=_self style="display:inline;">
+                    <input type="submit" name="initialize" value="Restart" class="btn" data-toggle="tooltip" data-placement="bottom"
+                           style="display:inline;background-color:#4d4d4d;color:white;font-size:20px"></input>
+                    </form>
+                    <form action='/selectgame' method="post" target=_self style="display: inline;">
+                        <input type="submit" name="start" value="Select Game" class="btn" data-toggle="tooltip" data-placement="bottom"
+                           style="display:inline;background-color:#4d4d4d;color:white;font-size:20px"></input>
+                    </form>
+                    <form action='/pollice_verso' method="post" target=_self style="display:inline;">
+                    <input type="submit" name="finish" value="Logout" class="btn" data-toggle="tooltip" data-placement="bottom"
+                           style="display:inline;background-color:#4d4d4d;color:white;font-size:20px"></input>
+                    </form>
+                </center>
+            </div>
+            <div class="container" style="display:inline;width:1240px">
+                <h3>Code: {{ uniq_code }}</h3>
+            </div>
+            {% endif %}
+        </center>
+
+
+        <!-- Code for stacked bar ends -->
+    </div>
+    <!-- Code for main screen ends -->
+
+</div>
+
+</body>
+</html>

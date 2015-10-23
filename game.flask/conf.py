@@ -65,9 +65,9 @@ drawn_errors = [500, 650, 700, 800, 900, 1000, 1200, 1500, 2000, 2950] # for aud
 # ERROR_MIN = 0
 # ERROR_INT = 1
 # ERROR_MAX = 50
-ERROR_MIN = 450
-ERROR_INT = 50
-ERROR_MAX = 2950
+ERROR_MIN = 3000
+ERROR_INT = -50
+ERROR_MAX = 500
 
 #
 # Number of rounds in a game. This decides how many images should be grouped

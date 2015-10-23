@@ -26,6 +26,20 @@ def getHtmlTemplate():
 		print 'Error: unknown applicaiton type'
 		sys.exit()
 
+def getResultTemplate():
+	if APPLICATION_TYPE == 'IP':
+		return 'result_pollice_verso_ip.html'
+	elif APPLICATION_TYPE == 'OCR':
+		return 'result_pollice_verso_ocr.html'
+	elif APPLICATION_TYPE == 'SR':
+		return 'result_pollice_verso_sr.html'
+	elif APPLICATION_TYPE == 'AE':
+		return 'result_pollice_verso_ae.html'
+	else:
+		print 'Error: unknown applicaiton type'
+		sys.exit()
+
+
 def get_file_paths(drawnImageFilename, orgImageId):
 	filePaths = []
 	inext, outext = getExtensions()

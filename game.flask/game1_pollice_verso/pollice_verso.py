@@ -4,7 +4,7 @@ from gatech import app
 from gatech import session
 
 from flask import render_template, request
-from query_pollice_verso import draw_acceptable_output_files, get_image_id, get_degimage_id, save_play, save_play_gallery, getHtmlTemplate
+from query_pollice_verso import draw_acceptable_output_files, get_image_id, get_degimage_id, save_play, save_play_gallery, getHtmlTemplate, getResultTemplate
 from core_pollice_verso import scoring
 from gatech.query import store_session, get_promo_code
 from gatech.conf import gamedata_home_url, max_round, GAME_NAME, GAME1_INIT_BALANCE, APPLICATION_TYPE
@@ -103,7 +103,7 @@ def acceptable():
 
 					if session['stage'] == max_round:
 						save_play_gallery(session['userid'], session['ig_id'], session['sessionid'], session['playidlist'])
-					return render_template('result_pollice_verso.html', \
+					return render_template(getResultTemplate(), \
 											 stage=range(1, session['stage'] + 1), \
 											 score=session['score'], \
 											 options=session['options'], \

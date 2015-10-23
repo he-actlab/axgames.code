@@ -4,7 +4,7 @@ from gatech import app
 from gatech import session
 
 from flask import render_template, request
-from query_qna import draw_qna_image_file, get_qna, save_play, getHtmlTemplate
+from query_qna import draw_qna_image_file, get_qna, save_play, getHtmlTemplate, getResultTemplate
 from core_qna import get_reward, get_winning
 from gatech.conf import gamedata_home_url, max_round, GAME3_INIT_ENERGY, GAME3_WRONG_ANSWER_PENALTY, KERNEL_NAME, GAME_NAME, APPLICATION_TYPE
 from gatech.query import store_session, get_promo_code
@@ -70,7 +70,7 @@ def qna():
 						# os.system('echo qna: selections_history ' + str(session['selections_history']))
 						os.system('echo qna: average ' + str(session['average_history']))
 						os.system('echo qna: penalty ' + str(session['penalty_history']))
-					return render_template('result_qna.html',
+					return render_template(getResultTemplate(),
 											 imagename=session['imagename'], \
 											 power=session['power'], \
 											 stage=session['stage'], \

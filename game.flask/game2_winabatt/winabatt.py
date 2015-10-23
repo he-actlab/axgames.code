@@ -4,7 +4,7 @@ from gatech import app
 from gatech import session
 
 from flask import render_template, request
-from query_winabatt import draw_winabatt_image_file, save_play, getHtmlTemplate
+from query_winabatt import draw_winabatt_image_file, save_play, getHtmlTemplate, getResultTemplate
 from core_winbatt import get_reward, get_winning
 from gatech.conf import gamedata_home_url, max_round, GAME2_INIT_ENERGY, KERNEL_NAME, GAME_NAME, APPLICATION_TYPE
 from gatech.query import store_session, get_promo_code
@@ -56,7 +56,7 @@ def winabatt():
 				os.system('echo winabatt: reward_history ' + str(session['reward_history']))
 				# os.system('echo winabatt: selections_history ' + str(session['selections_history']))
 				os.system('echo winabatt: average ' + str(session['average_history']))
-			return render_template('result_winabatt.html',
+			return render_template(getResultTemplate(),
 									 imagename=session['imagename'], \
 									 power=session['power'], \
 									 stage=session['stage'], \
