@@ -141,7 +141,7 @@ public class TileDegrader {
 				
 				if (nrmse > errors[errIdx] && nrmse < errors[errIdx] + errorRange) {
 					imageSaver.save("_" + errors[errIdx] + ".rgb", newImage);
-					System.out.println("File[" + path + "]    NRMSE: " + nrmse + "\tCount: " + count);
+//					System.out.println("File[" + path + "]    NRMSE: " + nrmse + "\tCount: " + count);
 					numFound++;
 					long sum2 = 0;
 					for (int i=0; i < height; i++){
@@ -151,7 +151,7 @@ public class TileDegrader {
 						}
 					}
 //					System.out.println("sum2: " + sum2);
-					System.out.println("Real NRMSE: " + Math.sqrt(sum2 / (height * width)) / (max - min));
+//					System.out.println("Real NRMSE: " + Math.sqrt(sum2 / (height * width)) / (max - min));
 					System.out.println("Skipped," + errors[errIdx] + "," + getWrongPixels(image, newImage));
 					if (numFound == errors.length)
 						find = true;
