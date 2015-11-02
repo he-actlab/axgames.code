@@ -37,6 +37,18 @@ public class Degrader {
 		}
 	}
 	
+	int getWrongPixels(int[][][] image1, int[][][] image2){
+		int cnt = 0;
+		for (int i=0; i<height; i++){
+			for (int j=0; j<width; j++){
+				if (image1[i][j][0] != image2[i][j][0]) {
+					cnt++;
+				}
+			}
+		}
+		return cnt;
+	}
+	
 	public void degrade (double[] errors, ImageSaver imageSaver) throws IOException {
 		int[][][] newImage;
 		newImage = new int[height][][];
@@ -81,6 +93,7 @@ public class Degrader {
 						find = true;
 						imageSaver.save("_" + errors[errIdx] + ".rgb", newImage);
 						System.out.println("NRMSE: " + nrmse + "\tCount: " + count);
+						System.out.println("error[" + errors[errIdx] + "] Skipped Pixels[" + getWrongPixels(image, newImage) + "]");
 					}
 				} while (!find);	
 			} else if (mode.equalsIgnoreCase("psnr")) {

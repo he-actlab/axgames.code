@@ -40,6 +40,18 @@ public class TileDegrader {
 		}
 	}
 	
+	int getWrongPixels(int[][][] image1, int[][][] image2){
+		int cnt = 0;
+		for (int i=0; i<height; i++){
+			for (int j=0; j<width; j++){
+				if (image1[i][j][0] != image2[i][j][0] || image1[i][j][1] != image2[i][j][1] || image1[i][j][2] != image2[i][j][2]) {
+					cnt++;
+				}
+			}
+		}
+		return cnt;
+	}
+	
 	public void degrade (double[] errors, ImageSaver imageSaver) throws IOException {
 		int[][][] newImage;
 		newImage = new int[height][][];
@@ -130,7 +142,6 @@ public class TileDegrader {
 				if (nrmse > errors[errIdx] && nrmse < errors[errIdx] + errorRange) {
 					imageSaver.save("_" + errors[errIdx] + ".rgb", newImage);
 					System.out.println("File[" + path + "]    NRMSE: " + nrmse + "\tCount: " + count);
-					errIdx++;
 					numFound++;
 					long sum2 = 0;
 					for (int i=0; i < height; i++){
@@ -141,8 +152,10 @@ public class TileDegrader {
 					}
 //					System.out.println("sum2: " + sum2);
 					System.out.println("Real NRMSE: " + Math.sqrt(sum2 / (height * width)) / (max - min));
+					System.out.println("Skipped," + errors[errIdx] + "," + getWrongPixels(image, newImage));
 					if (numFound == errors.length)
 						find = true;
+					errIdx++;
 				}
 			} while (!find);	
 		} 

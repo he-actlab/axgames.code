@@ -64,7 +64,7 @@ public class RgbImage {
 		for (int j = y0; j <= y1; ++j) {
 			if (j < 0 || j >= height) {
 				for (int i = x0; i <= x1; ++i) {
-					System.out.println("1: r = " + r + "i = " + i + " x0 = " + x0);
+//					System.out.println("1: r = " + r + "i = " + i + " x0 = " + x0);
 					window[r][i-x0][0] = 0; 	
 					window[r][i-x0][1] = 0; 	
 					window[r][i-x0][2] = 0;	
@@ -72,7 +72,7 @@ public class RgbImage {
 			} else {
 				for (int i = x0; i <= x1; ++i) {
 					if (i < 0 || i >= width) {
-						System.out.println("2: r = " + r + "i = " + i + " x0 = " + x0);
+//						System.out.println("2: r = " + r + "i = " + i + " x0 = " + x0);
 						window[r][i-x0][0] = 0; 	
 						window[r][i-x0][1] = 0; 	
 						window[r][i-x0][2] = 0;	
