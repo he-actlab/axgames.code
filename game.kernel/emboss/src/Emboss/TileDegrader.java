@@ -152,7 +152,8 @@ public class TileDegrader {
 					}
 //					System.out.println("sum2: " + sum2);
 //					System.out.println("Real NRMSE: " + Math.sqrt(sum2 / (height * width)) / (max - min));
-					System.out.println("Skipped," + errors[errIdx] + "," + getWrongPixels(image, newImage));
+					String errstr = String.format("%.2f", errors[errIdx]) ;
+					System.out.println("Skipped," + errstr + "," + getWrongPixels(image, newImage));
 					if (numFound == errors.length)
 						find = true;
 					errIdx++;
