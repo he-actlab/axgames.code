@@ -44,7 +44,7 @@ public class TileDegrader {
 		int cnt = 0;
 		for (int i=0; i<height; i++){
 			for (int j=0; j<width; j++){
-				if (image1[i][j][0] != image2[i][j][0]) {
+				if (image1[i][j][0] != image2[i][j][0] || image1[i][j][1] != image2[i][j][1] || image1[i][j][2] != image2[i][j][2]) {
 					cnt++;
 				}
 			}

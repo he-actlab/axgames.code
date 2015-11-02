@@ -1,0 +1,263 @@
+baboon.png
+('/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.png', (512, 512, <itertools.imap object at 0x10350a910>, {'bitdepth': 8, 'interlace': 0, 'planes': 3, 'greyscale': False, 'alpha': False, 'size': (512, 512)}))
+width: 512
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.010375495337508199	Count: 428
+Real NRMSE: 0.010375495337508199
+Skipped,0.01,399
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.020377068324339734	Count: 1906
+Real NRMSE: 0.020377068324339734
+Skipped,0.02,1757
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.03012214018772003	Count: 3967
+Real NRMSE: 0.03012214018772003
+Skipped,0.03,3667
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.040184120650821956	Count: 7023
+Real NRMSE: 0.040184120650821956
+Skipped,0.04,6466
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.05006723660707335	Count: 11050
+Real NRMSE: 0.05006723660707335
+Skipped,0.05,10073
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.06011650869316036	Count: 15979
+Real NRMSE: 0.06011650869316036
+Skipped,0.06,14435
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.07004145529212451	Count: 21606
+Real NRMSE: 0.07004145529212451
+Skipped,0.07,19262
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.08008069747710643	Count: 28054
+Real NRMSE: 0.08008069747710643
+Skipped,0.08,24669
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.09002541398626665	Count: 36039
+Real NRMSE: 0.09002541398626665
+Skipped,0.09,31145
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.10005765350723979	Count: 44718
+Real NRMSE: 0.10005765350723979
+Skipped,0.1,37966
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.11001380501259245	Count: 54697
+Real NRMSE: 0.11001380501259245
+Skipped,0.11,45456
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.12004100286285464	Count: 65536
+Real NRMSE: 0.12004100286285464
+Skipped,0.12,53176
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.13000458395490805	Count: 78557
+Real NRMSE: 0.13000458395490805
+Skipped,0.13,61942
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.14002800840280097	Count: 92808
+Real NRMSE: 0.14002800840280097
+Skipped,0.14,71011
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.15004805074281563	Count: 109089
+Real NRMSE: 0.15004805074281563
+Skipped,0.15,80562
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.16001730010276993	Count: 126777
+Real NRMSE: 0.16001730010276993
+Skipped,0.16,90352
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.1700351638327749	Count: 146979
+Real NRMSE: 0.1700351638327749
+Skipped,0.17,100658
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.18000811635338826	Count: 169154
+Real NRMSE: 0.18000811635338826
+Skipped,0.18,111008
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.19002417944448186	Count: 195850
+Real NRMSE: 0.19002417944448186
+Skipped,0.19,122145
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.20003844305657803	Count: 223447
+Real NRMSE: 0.20003844305657803
+Skipped,0.2,132504
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.21001455433719035	Count: 254624
+Real NRMSE: 0.21001455433719035
+Skipped,0.21,142962
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.2200276100251849	Count: 289638
+Real NRMSE: 0.2200276100251849
+Skipped,0.22,153198
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.23000593409592437	Count: 329554
+Real NRMSE: 0.23000593409592437
+Skipped,0.23,163254
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.24001794114665656	Count: 374350
+Real NRMSE: 0.24001794114665656
+Skipped,0.24,173077
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.25002883340070714	Count: 426983
+Real NRMSE: 0.25002883340070714
+Skipped,0.25,182685
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.2600091679098161	Count: 485593
+Real NRMSE: 0.2600091679098161
+Skipped,0.26,191538
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.27001929388395307	Count: 562064
+Real NRMSE: 0.27001929388395307
+Skipped,0.27,200498
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.2800010984764524	Count: 650427
+Real NRMSE: 0.2800010984764524
+Skipped,0.28,208810
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.29001053952132266	Count: 761993
+Real NRMSE: 0.29001053952132266
+Skipped,0.29,216783
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.3000192227597673	Count: 901853
+Real NRMSE: 0.3000192227597673
+Skipped,0.3,223627
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.3100024184152419	Count: 1100579
+Real NRMSE: 0.3100024184152419
+Skipped,0.31,230133
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.3200105726819349	Count: 1345466
+Real NRMSE: 0.3200105726819349
+Skipped,0.32,235617
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.33001811607794895	Count: 1722062
+Real NRMSE: 0.33001811607794895
+Skipped,0.33,240604
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.3400024877218621	Count: 2312437
+Real NRMSE: 0.3400024877218621
+Skipped,0.34,245091
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.3500096115558381	Count: 3404109
+Real NRMSE: 0.3500096115558381
+Skipped,0.35,248659
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.3600162327067765	Count: 5638292
+Real NRMSE: 0.3600162327067765
+Skipped,0.36,251751
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.37000161060364145	Count: 9038927
+Real NRMSE: 0.37000161060364145
+Skipped,0.37,253315
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.380007891619628	Count: 13927922
+Real NRMSE: 0.380007891619628
+Skipped,0.38,253954
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.39001375186472415	Count: 17629108
+Real NRMSE: 0.39001375186472415
+Skipped,0.39,254001
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.40001922291372427	Count: 22033853
+Real NRMSE: 0.40001922291372427
+Skipped,0.4,253887
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.4100055794295959	Count: 26963634
+Real NRMSE: 0.4100055794295959
+Skipped,0.41,253552
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.42001080156740594	Count: 32150159
+Real NRMSE: 0.42001080156740594
+Skipped,0.42,253446
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.43001569135287215	Count: 36969153
+Real NRMSE: 0.43001569135287215
+Skipped,0.43,252979
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.4400027961184792	Count: 41763619
+Real NRMSE: 0.4400027961184792
+Skipped,0.44,252574
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.4500074756950918	Count: 46824711
+Real NRMSE: 0.4500074756950918
+Skipped,0.45,252219
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.46001186819184875	Count: 52342281
+Real NRMSE: 0.46001186819184875
+Skipped,0.46,252242
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.4700159919404217	Count: 58116387
+Real NRMSE: 0.4700159919404217
+Skipped,0.47,251614
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.4800038446597277	Count: 64815743
+Real NRMSE: 0.4800038446597277
+Skipped,0.48,251166
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.49000780698219354	Count: 71287423
+Real NRMSE: 0.49000780698219354
+Skipped,0.49,250772
+File[/Users/jspark/projects/game.code/game.kernel/emboss/images/baboon.rgb]    NRMSE: 0.5000115338923442	Count: 79380960
+Real NRMSE: 0.5000115338923442
+Skipped,0.5,250584
+Conversion done: baboon-emboss.rgb
+
+Conversion done: baboon_0.01.rgb
+
+Conversion done: baboon_0.02.rgb
+
+Conversion done: baboon_0.03.rgb
+
+Conversion done: baboon_0.04.rgb
+
+Conversion done: baboon_0.05.rgb
+
+Conversion done: baboon_0.06.rgb
+
+Conversion done: baboon_0.07.rgb
+
+Conversion done: baboon_0.08.rgb
+
+Conversion done: baboon_0.09.rgb
+
+Conversion done: baboon_0.1.rgb
+
+Conversion done: baboon_0.11.rgb
+
+Conversion done: baboon_0.12.rgb
+
+Conversion done: baboon_0.13.rgb
+
+Conversion done: baboon_0.14.rgb
+
+Conversion done: baboon_0.15.rgb
+
+Conversion done: baboon_0.16.rgb
+
+Conversion done: baboon_0.17.rgb
+
+Conversion done: baboon_0.18.rgb
+
+Conversion done: baboon_0.19.rgb
+
+Conversion done: baboon_0.2.rgb
+
+Conversion done: baboon_0.21.rgb
+
+Conversion done: baboon_0.22.rgb
+
+Conversion done: baboon_0.23.rgb
+
+Conversion done: baboon_0.24.rgb
+
+Conversion done: baboon_0.25.rgb
+
+Conversion done: baboon_0.26.rgb
+
+Conversion done: baboon_0.27.rgb
+
+Conversion done: baboon_0.28.rgb
+
+Conversion done: baboon_0.29.rgb
+
+Conversion done: baboon_0.3.rgb
+
+Conversion done: baboon_0.31.rgb
+
+Conversion done: baboon_0.32.rgb
+
+Conversion done: baboon_0.33.rgb
+
+Conversion done: baboon_0.34.rgb
+
+Conversion done: baboon_0.35.rgb
+
+Conversion done: baboon_0.36.rgb
+
+Conversion done: baboon_0.37.rgb
+
+Conversion done: baboon_0.38.rgb
+
+Conversion done: baboon_0.39.rgb
+
+Conversion done: baboon_0.4.rgb
+
+Conversion done: baboon_0.41.rgb
+
+Conversion done: baboon_0.42.rgb
+
+Conversion done: baboon_0.43.rgb
+
+Conversion done: baboon_0.44.rgb
+
+Conversion done: baboon_0.45.rgb
+
+Conversion done: baboon_0.46.rgb
+
+Conversion done: baboon_0.47.rgb
+
+Conversion done: baboon_0.48.rgb
+
+Conversion done: baboon_0.49.rgb
+
+Conversion done: baboon_0.5.rgb
+
+
+Working on baboon.png
+
+png2rgb.py done ... (png2rgb)
+emboss done ... (nrmse)
+png2rgbAll.py done ... (rgb2png)
+
+DONE!
