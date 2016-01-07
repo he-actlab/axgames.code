@@ -75,10 +75,12 @@ def update_history(imagename, error):
 
 	newHistory = ""
 	e = ERROR_MIN + ERROR_INT
+	if APPLICATION_TYPE == "AE":
+		error = ERROR_MIN - error * 50
 	histories = oldHistory.split('|')
 	for h in histories:
 		tokens = h.split(',')
-		if ERROR_INT > 0:
+		if APPLICATION_TYPE != "AE":
 			if e <= error:
 				numAgree = int(tokens[0]) + 1
 			else:
@@ -137,8 +139,8 @@ def save_play(session_uuid, game_type, imagename, error_rate, bet, winning):
 	for temp in db_session.query(Play).filter_by(session_id=session_id).filter_by(game_type=game_type).filter_by(image_id=get_image_id(imagename)):
 		cnt += 1
 
-	if cnt != 0:
-		return False
+	# if cnt != 0:
+	# 	return False
 
 	p = Play(int(session_id), int(game_type), int(get_image_id(imagename)), 1, 0, 0, 0.0, int(error_rate), int(bet), float(winning), 0, 0, 0, 0.0)
 	db_session.add(p)
@@ -158,5 +160,6 @@ def draw_winabatt_image_file():
 		imagename = image[1]
 		break
 	return imagename
-
+	# return '800x600n0'
+	# return '500x333n8'
 

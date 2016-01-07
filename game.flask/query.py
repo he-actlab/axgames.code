@@ -85,29 +85,55 @@ def read_questions(question_file_path):
 #
 def initial_consensus(error):
 	os.system('echo error = ' + str(error))
-	if error <= drawn_errors[0] / 100.0:
-		agree = (GAME1_INIT_NUM_PLAYED - 5) + random.randint(0,5)
-	elif error <= drawn_errors[1] / 100.0:
-		agree = (GAME1_INIT_NUM_PLAYED - 15) + random.randint(0,10)
-	elif error <= drawn_errors[2] / 100.0:
-		agree = (GAME1_INIT_NUM_PLAYED - 25) + random.randint(0,10)
-	elif error <= drawn_errors[3] / 100.0:
-		agree = (GAME1_INIT_NUM_PLAYED - 35) + random.randint(0,10)
-	elif error <= drawn_errors[4] / 100.0:
-		agree = (GAME1_INIT_NUM_PLAYED - 45) + random.randint(0,10)
-	elif error <= drawn_errors[5] / 100.0:
-		agree = (GAME1_INIT_NUM_PLAYED - 55) + random.randint(0,10)
-	elif error <= drawn_errors[6] / 100.0:
-		agree = (GAME1_INIT_NUM_PLAYED - 65) + random.randint(0,10)
-	elif error <= drawn_errors[7] / 100.0:
-		agree = (GAME1_INIT_NUM_PLAYED - 85) + random.randint(0,10)
-	elif error <= drawn_errors[8] / 100.0:
-		agree = (GAME1_INIT_NUM_PLAYED - 95) + random.randint(0,10)
-	elif error <= drawn_errors[9] / 100.0:
-		agree = 0 + random.randint(0,5)
-	else:
-		os.system('echo Error: unknown error')
-		sys.exit()
+	# if APPLICATION_TYPE != 'AE':
+	# 	if error <= drawn_errors[0] / 100.0:
+	# 		agree = (GAME1_INIT_NUM_PLAYED - 5) + random.randint(0,5)
+	# 	elif error <= drawn_errors[1] / 100.0:
+	# 		agree = (GAME1_INIT_NUM_PLAYED - 15) + random.randint(0,10)
+	# 	elif error <= drawn_errors[2] / 100.0:
+	# 		agree = (GAME1_INIT_NUM_PLAYED - 25) + random.randint(0,10)
+	# 	elif error <= drawn_errors[3] / 100.0:
+	# 		agree = (GAME1_INIT_NUM_PLAYED - 35) + random.randint(0,10)
+	# 	elif error <= drawn_errors[4] / 100.0:
+	# 		agree = (GAME1_INIT_NUM_PLAYED - 45) + random.randint(0,10)
+	# 	elif error <= drawn_errors[5] / 100.0:
+	# 		agree = (GAME1_INIT_NUM_PLAYED - 55) + random.randint(0,10)
+	# 	elif error <= drawn_errors[6] / 100.0:
+	# 		agree = (GAME1_INIT_NUM_PLAYED - 65) + random.randint(0,10)
+	# 	elif error <= drawn_errors[7] / 100.0:
+	# 		agree = (GAME1_INIT_NUM_PLAYED - 85) + random.randint(0,10)
+	# 	elif error <= drawn_errors[8] / 100.0:
+	# 		agree = (GAME1_INIT_NUM_PLAYED - 95) + random.randint(0,10)
+	# 	elif error <= drawn_errors[9] / 100.0:
+	# 		agree = 0 + random.randint(0,5)
+	# 	else:
+	# 		os.system('echo Error: unknown error')
+	# 		sys.exit()
+	# else:
+	# 	if error <= drawn_errors[0] / 100.0:
+	# 		agree = 0 + random.randint(0,5)
+	# 	elif error <= drawn_errors[1] / 100.0:
+	# 		agree = (GAME1_INIT_NUM_PLAYED - 95) + random.randint(0,10)
+	# 	elif error <= drawn_errors[2] / 100.0:
+	# 		agree = (GAME1_INIT_NUM_PLAYED - 80) + random.randint(0,10)
+	# 	elif error <= drawn_errors[3] / 100.0:
+	# 		agree = (GAME1_INIT_NUM_PLAYED - 50) + random.randint(0,10)
+	# 	elif error <= drawn_errors[4] / 100.0:
+	# 		agree = (GAME1_INIT_NUM_PLAYED - 30) + random.randint(0,10)
+	# 	elif error <= drawn_errors[5] / 100.0:
+	# 		agree = (GAME1_INIT_NUM_PLAYED - 25) + random.randint(0,10)
+	# 	elif error <= drawn_errors[6] / 100.0:
+	# 		agree = (GAME1_INIT_NUM_PLAYED - 20) + random.randint(0,10)
+	# 	elif error <= drawn_errors[7] / 100.0:
+	# 		agree = (GAME1_INIT_NUM_PLAYED - 15) + random.randint(0,10)
+	# 	elif error <= drawn_errors[8] / 100.0:
+	# 		agree = (GAME1_INIT_NUM_PLAYED - 10) + random.randint(0,10)
+	# 	elif error <= drawn_errors[9] / 100.0:
+	# 		agree = (GAME1_INIT_NUM_PLAYED - 5) + random.randint(0,5)
+	# 	else:
+	# 		os.system('echo Error: unknown error')
+	# 		sys.exit()
+	agree = random.randint(0, 100)
 	return agree, GAME1_INIT_NUM_PLAYED - agree
 
 def upload_files():
@@ -131,7 +157,7 @@ def upload_files():
 		selected_error_array = selected_error_array + str('0')
 
 		history = ""
-		for i in range(ERROR_MIN, ERROR_MAX-1, ERROR_INT):
+		for i in range(ERROR_MIN, ERROR_MAX-ERROR_INT, ERROR_INT):
 			history = history + "0,0|"
 		history = history + str('0,0')
 

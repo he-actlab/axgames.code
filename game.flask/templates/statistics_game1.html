@@ -17,10 +17,17 @@
 				<th>Number of Played</th>
 			</tr>
 			{% for key in keys %}
+
 				<tr>
+				{% if APPLICATION_TYPE != "AE" %}
 					<td>{{ (key|float * 100.0)|int }}%</td>
 					<td>{{ game1NumAgreed[key] }}</td>
 					<td>{{ game1NumPlayed[key] }}</td>
+				{% else %}
+					<td>{{ key }}db</td>
+					<td>{{ game1NumAgreed[key] }}</td>
+					<td>{{ game1NumPlayed[key] }}</td>
+				{% endif %}
 				</tr>
 			{% endfor %}
 		</table>

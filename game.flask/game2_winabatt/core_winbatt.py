@@ -5,16 +5,23 @@ from gatech.conf import drawn_errors, GAME2_DEFAULT_WINNING, GAME2_MAX_WINNING_P
 from gatech.conf import ERROR_MAX, ERROR_MIN, ERROR_INT, APPLICATION_TYPE
 
 def find_first_disagree_error(history, filename):
-	for i in range(0, len(history)):
-		if float(history[i][1]) == 0.0:
-			continue
-		if float(history[i][0]) / float(history[i][1]) < 0.5:
-			os.system('echo i = ' + str(i))
-			return i
-	if random.random() > 0.5:
-		ret = GAME2_INIT_AVG + random.randint(0,10)
+	if APPLICATION_TYPE != "AE":
+		for i in range(0, len(history)):
+			if float(history[i][1]) == 0.0:
+				continue
+			if float(history[i][0]) / float(history[i][1]) < 0.5:
+				return i
 	else:
-		ret = GAME2_INIT_AVG - random.randint(0,10)
+		for i in range(len(history) - 1, -1, -1):
+			if float(history[i][1]) == 0.0:
+				continue
+			if float(history[i][0]) / float(history[i][1]) < 0.5:
+				return i
+	# if random.random() > 0.5:
+	# 	ret = GAME2_INIT_AVG + random.randint(0,10)
+	# else:
+	# 	ret = GAME2_INIT_AVG - random.randint(0,10)
+	ret = random.randint(0,100)
 	return ret
 
 def get_winning(filename, error):
@@ -23,8 +30,10 @@ def get_winning(filename, error):
 	history = get_history(filename)
 	firstDisagreeError = find_first_disagree_error(history, filename)
 	if APPLICATION_TYPE == "AE":
-		firstDisagreeError = (firstDisagreeError * ERROR_INT) + ERROR_MIN
-	errDiffRatio = abs(firstDisagreeError - error) / (ERROR_MAX - ERROR_MIN)
+		erroridx = (ERROR_MIN - error) / abs(ERROR_INT)
+	else:
+		erroridx = error
+	errDiffRatio = abs(firstDisagreeError - erroridx) / 50.0
 	if errDiffRatio != 0.0:
 		winningRatio = (1.0 / errDiffRatio) - 2.0
 		if winningRatio > 10.0:
@@ -40,7 +49,10 @@ def get_winning(filename, error):
 
 	update_winbatt_record(filename, error, get_selections(filename))
 
-	return int(winning), firstDisagreeError
+	if APPLICATION_TYPE != "AE":
+		return int(winning), firstDisagreeError
+	else:
+		return int(winning), (firstDisagreeError * ERROR_INT) + ERROR_MIN
 
 def get_reward (filename, bet, error): # betting money should be in the formula
 

@@ -130,9 +130,9 @@
 
                 <b><u>Game#2 - WinABatt</u></b><br><br>
                 <b><i>WinABatt</i></b> is another game that you <i>guess</i> how other players think on the output quality.
-                You are given an image that initially has 50% quality degradation. You can slide the knob to improve the quality and it requires more cost.
-                The reward increases in proportion to how close your choice of quality is to the point that others consensus changes from "good enough" to "unacceptable".
-                Hence, your goal should be to find a quality as close as possible to the point that maximizes the reward and as low as possible that minimizes the cost.
+                You are given an output that initially has maximum level of quality loss. You can slide the knob to improve the quality and it requires more cost.
+                The reward increases in proportion to how close your choice of quality is to the point that others' choices.
+                Hence, your goal should be to find a quality level (1) as close as possible to that point that maximizes the reward, and (2) as low as possible that minimizes the cost.
                 <br><br>
                 <center><img src="{{ url_for('static',filename='img/screenshots/' ~ KERNEL_NAME ~ '/game2.png') }}" style="width:500px"><br><br></center>
 
@@ -140,7 +140,7 @@
                 <b><i>QnA</i></b> is a game, mostly similar to WinABatt, but it differs in that you will be given <i>one question</i> regarding the output.
                 Other players will try to find a quality that is required to get the correct answer for the given question.
                 Again your reward proportionally increases according to how close your choice of quality is to others'.
-                For an incorrect answer, you will get a penalty, which in turn decrease your reward.
+                If you select an incorrect answer, you will get a penalty, which in turn decrease your reward.
                 <br><br>
                 <center><img src="{{ url_for('static',filename='img/screenshots/' ~ KERNEL_NAME ~ '/game3.png') }}" style="width:500px"><br><br></center>
             </div>

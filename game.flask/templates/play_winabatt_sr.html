@@ -61,7 +61,10 @@
                             <!--<textarea readonly="readonly" id="textarea1" rows="4" cols="50" style="">  </textarea>-->
                             <iframe id="textarea" style="width:500px; height:250px; font-family: Tahoma;" src=""> </iframe>
                         </div>
-                        <br><br>
+                        <br>
+                        <b>Black</b>: Original text from books<br>
+                        <font color="00AA00"><b>Green</b></font>: Text recognized from speech <i><b>without</b></i> quality loss<br>
+                        <font color="AA0000"><b>Red</b></font>: Text recognized from speech <i><b>with</b></i> quality loss<br><br><br>
                         <div style="width:900px">
                             <div style="display:inline;width:60px;height:60px;"><span id="remaining" class="label label-success"
                                                                       style="width:150px;font-size:150%">Current Balance: ${{ '%.2f' % power }}</span>
@@ -70,7 +73,7 @@
                                                                       style="width:150px;font-size:150%">Current Cost: $0</span>
                             </div>
                         </div>
-                        <h3><i>How much would you spend to see a <b>better</b> picture?</i></h3>
+                        <h3><i>How much would you spend to see a <b>better</b> text?</i></h3>
                         <h3>Slide to adjust the quality!</h3>
                         <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="50"
                                data-slider-max="100" data-slider-step="1" data-slider-value="50" style="width:500px"/>

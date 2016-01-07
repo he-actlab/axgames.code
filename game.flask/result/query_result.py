@@ -1,5 +1,8 @@
 from gatech.database import db_session
 from gatech.models import Image, DegradedImage, Play, PlaySession, ImageGallery, PlayGallery, BadPlayGallery
+from gatech.conf import APPLICATION_TYPE
+
+import os
 
 def get_org_images():
 	return db_session.query(Image)
@@ -24,9 +27,15 @@ def get_bad_users(game_type, threshold):
 																				   DegradedImage.error > float(threshold) / 100.0, \
 																				   Play.selection == 0)
 	elif game_type == 1:
-		return db_session.query(PlaySession).join(Play).filter(Play.session_id == PlaySession.session_id, Play.game_type == game_type, Play.error_rate_game2 >= threshold)
+		if APPLICATION_TYPE != "AE":
+			return db_session.query(PlaySession).join(Play).filter(Play.session_id == PlaySession.session_id, Play.game_type == game_type, Play.error_rate_game2 >= threshold)
+		else:
+			return db_session.query(PlaySession).join(Play).filter(Play.session_id == PlaySession.session_id, Play.game_type == game_type, Play.error_rate_game2 <= threshold)
 	else:
-		return db_session.query(PlaySession).join(Play).filter(Play.session_id == PlaySession.session_id, Play.game_type == game_type, Play.error_rate_game3 >= threshold)
+		if APPLICATION_TYPE != "AE":
+			return db_session.query(PlaySession).join(Play).filter(Play.session_id == PlaySession.session_id, Play.game_type == game_type, Play.error_rate_game3 >= threshold)
+		else:
+			return db_session.query(PlaySession).join(Play).filter(Play.session_id == PlaySession.session_id, Play.game_type == game_type, Play.error_rate_game3 <= threshold)
 
 def get_bad_plays(user_id, game_type):
 	return db_session.query(Play).join(PlaySession).filter(PlaySession.user_id == user_id, \
@@ -45,5 +54,6 @@ def get_history(image_id):
 	return history
 
 def get_all_plays(game_type):
+	os.system("echo get_all_plays")
 	return db_session.query(Play).filter_by(game_type=str(game_type))
 

@@ -47,29 +47,29 @@ def playgame():
 		if action == 'qna':
 			return start_qna()
 
-@app.route('/reset')
-def reset():
-	clean_database()
-	initialize_database()
-	upload_thread = threading.Thread(target=upload_files, args='')
-	upload_thread.start()
-	return "reset start"
-
-@app.route('/upload')
-def upload():
-	upload_thread = threading.Thread(target=upload_files, args='')
-	upload_thread.start()
-	return "upload_files start"
-
-@app.route('/initdb')
-def initialize_database():
-	init_db()
-	return "initializing database done ..."
-
-@app.route('/cleandb')
-def clean_database():
-	clean_db()
-	return "cleaning database done ..."
+# @app.route('/reset')
+# def reset():
+# 	clean_database()
+# 	initialize_database()
+# 	upload_thread = threading.Thread(target=upload_files, args='')
+# 	upload_thread.start()
+# 	return "reset start"
+#
+# @app.route('/upload')
+# def upload():
+# 	upload_thread = threading.Thread(target=upload_files, args='')
+# 	upload_thread.start()
+# 	return "upload_files start"
+#
+# @app.route('/initdb')
+# def initialize_database():
+# 	init_db()
+# 	return "initializing database done ..."
+#
+# @app.route('/cleandb')
+# def clean_database():
+# 	clean_db()
+# 	return "cleaning database done ..."
 
 @app.teardown_appcontext
 def shutdown_session(exception=None):

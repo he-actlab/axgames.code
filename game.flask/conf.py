@@ -9,36 +9,60 @@ GAME_NAME = 'ApproxiGame'
 # SR:  Speech Recognition [input:wav, output:text]
 # AE:  Audio Compressor (Encoder) [input:wav, output:mp3]
 #
-APPLICATION_TYPE = 'AE'
+APPLICATION_TYPE = 'IP'
+# APPLICATION_TYPE = 'OCR'
+# APPLICATION_TYPE = 'SR'
+# APPLICATION_TYPE = 'AE'
 
 #
 #
 #
-KERNEL_NAME = 'ae'
+KERNEL_NAME = 'jpeg'
+# KERNEL_NAME = 'ocr'
+# KERNEL_NAME = 'sr'
+# KERNEL_NAME = 'ae'
 
 #
 # The list of image file names. It only has prefix without "_sobel" or error rate such as "_0.01".
 #
-# imagelist_file_path = 'gatech/data/imagelist.txt'
+imagelist_file_path = 'gatech/data/imagelist.txt'
 # imagelist_file_path = 'gatech/data/imagelist-ocr.txt'
 # imagelist_file_path = 'gatech/data/imagelist-sr.txt'
-imagelist_file_path = 'gatech/data/imagelist-ae.txt'
+# imagelist_file_path = 'gatech/data/imagelist-ae.txt'
 
 #
 # For each image, this file contains one content-based question. The first answer is the correct answer and the others are wrong ones.
 #
-# question_file_path = 'gatech/data/questions.csv'
+question_file_path = 'gatech/data/questions.csv'
 # question_file_path = 'gatech/data/questions-ocr.csv'
 # question_file_path = 'gatech/data/questions-sr.csv'
-question_file_path = 'gatech/data/questions-ae.csv'
+# question_file_path = 'gatech/data/questions-ae.csv'
 
 #
 # The list for all degraded images in the database. As of now, the list should have all file names from IMAGENAME_0.01.png to IMAGENAME_0.5.png.
 #
-# degimagelist_file_path = 'gatech/data/degimagelist.txt'
+degimagelist_file_path = 'gatech/data/degimagelist.txt'
 # degimagelist_file_path = 'gatech/data/degimagelist-ocr.txt'
 # degimagelist_file_path = 'gatech/data/degimagelist-sr.txt'
-degimagelist_file_path = 'gatech/data/degimagelist-ae.txt'
+# degimagelist_file_path = 'gatech/data/degimagelist-ae.txt'
+
+#
+# [Game #1] Which error rate will be accompanied with the image when drawn.
+# [Game #2 & #3] This decides the ranges that we differentiate the answers
+#
+drawn_errors = [1, 3, 5, 7, 10, 15, 20, 30, 40, 50]
+# drawn_errors = [500, 650, 700, 800, 900, 1000, 1200, 1500, 2000, 2950] # for audio encoder
+
+#
+#
+#
+ERROR_MIN = 0
+ERROR_INT = 1
+ERROR_MAX = 50
+# ERROR_MIN = 3000
+# ERROR_INT = -50
+# ERROR_MAX = 500
+
 
 #
 # Under this path, we can find the three directories, org_image, deg_image, and sobel_image.
@@ -51,28 +75,10 @@ gamedata_home_url = 'https://s3.amazonaws.com/game.data.' + KERNEL_NAME
 GAME1 = 0
 GAME2 = 1
 GAME3 = 2
-
-#
-# [Game #1] Which error rate will be accompanied with the image when drawn.
-# [Game #2 & #3] This decides the ranges that we differentiate the answers
-#
-# drawn_errors = [1, 3, 5, 7, 10, 15, 20, 30, 40, 50]
-drawn_errors = [500, 650, 700, 800, 900, 1000, 1200, 1500, 2000, 2950] # for audio encoder
-
-#
-#
-#
-# ERROR_MIN = 0
-# ERROR_INT = 1
-# ERROR_MAX = 50
-ERROR_MIN = 3000
-ERROR_INT = -50
-ERROR_MAX = 500
-
 #
 # Number of rounds in a game. This decides how many images should be grouped
 #
-max_round = 3
+max_round = 10
 
 #
 # Number of people that are initially assigned the same gallery

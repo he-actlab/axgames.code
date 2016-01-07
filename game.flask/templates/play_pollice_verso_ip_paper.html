@@ -52,20 +52,16 @@
         <div class="three-images">
             <div class="container">
                 <!-- <h1 class="text-center">Is this Quality Acceptable?</h1> -->
-                <center>
                 <div class="col-md-12" style="display:inline; width: 1100px">
-                    <h1 class="text-center" style="padding-left: 0px; padding-right: 600px; font-size:200%">Round {{ stage }}</h1>
+                    <h1 class="text-center" style="padding-left: 200px; padding-right: 700px; font-size:200%">Round {{ stage }}</h1>
                 </div>
-                </center>
 
                 <!-- CODE FOR THUMBNAILS WITH CAPTION -->
-                <center>
-                <div style="width:800px">
-                    <center>
-                    <div class="col-md-6">
-                        <div class="thumbnail" style="height: 320px; width:350px">
-                            <!--<center><iframe style="width:330px; height:250px; font-family: Tahoma;" src="{{ gamedata_home_url + filePaths[1] }}"> </iframe></center>-->
-                            <center><iframe style="width:330px; height:250px; font-family: Tahoma;" src="{{ gamedata_home_url + filePaths[1] }}"> </iframe></center>
+                <div class="col-md-12" id="level-aux">
+                    <div class="col-md-6" style="padding-left: 210px;">
+                        <div class="thumbnail" style="width:350px">
+                            <img src="{{ gamedata_home_url + filePaths[1] }}" class="thumb" style="max-width:400px; max-height:250px">
+
                             <div class="caption">
                                 <p class="text-center">
                                 <center><h3>Original Output</h3></center>
@@ -74,8 +70,8 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="thumbnail" style="height: 320px; width:350px">
-                            <center><iframe style="width:330px; height:250px; font-family: Tahoma;" src="{{ gamedata_home_url + filePaths[2] }}"> </iframe></center>
+                        <div class="thumbnail" style="width:350px">
+                            <img src="{{ gamedata_home_url + filePaths[2] }}" class="thumb" style="max-width:400px; max-height:250px">
 
                             <div class="caption">
                                 <p class="text-center">
@@ -84,9 +80,7 @@
                             </div>
                         </div>
                     </div>
-                    </center>
                 </div>
-                </center>
                 <!-- CODE FOR THUMBNAILS WITH CAPTION ENDS -->
             </div>
         </div>
@@ -98,9 +92,6 @@
             <center>
             <div style="width:800px">
                 <center>
-                    <b>Black</b>: Original text from books<br>
-                    <font color="00AA00"><b>Green</b></font>: Text recognized from speech <i><b>without</b></i> quality loss<br>
-                    <font color="AA0000"><b>Red</b></font>: Text recognized from speech <i><b>with</b></i> quality loss<br><br>
                     <form action='/pollice_verso' method="post" target="_self">
                         <input type="submit" name="agree" value="Current Balance: ${{ bankroll }}" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" style="display: inline; font-size:130%; font-weight: bold;" disabled/>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

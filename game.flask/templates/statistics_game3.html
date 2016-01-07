@@ -18,9 +18,15 @@
 			</tr>
 			{% for key in keys %}
 				<tr>
-					<td>{{ key }}%</td>
-					<td>{{ game3NumAgreed[key-1] }}</td>
-					<td>{{ game3NumPlayed[key-1] }}</td>
+					{% if APPLICATION_TYPE != "AE" %}
+						<td>{{ key }}%</td>
+						<td>{{ game3NumAgreed[key-1] }}</td>
+						<td>{{ game3NumPlayed[key-1] }}</td>
+					{% else %}
+						<td>{{ key / 100.0 }}db</td>
+						<td>{{ game3NumAgreed[((3000 - key) / 50 - 1) | int] }}</td>
+						<td>{{ game3NumPlayed[((3000 - key) / 50 - 1) | int] }}</td>
+					{% endif %}
 				</tr>
 			{% endfor %}
 		</table>

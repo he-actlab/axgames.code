@@ -255,6 +255,7 @@ def create_new_gallery(userId):
 	while length != 0:
 		images = []
 		for result in db_session.query(Image).filter_by(num_played_game1=minNumPlayed):
+		# for result in db_session.query(Image).filter_by(imagename='800x600n7'):
 			images.append((result.image_id, result.imagename))
 		os.system('echo images = "' + str(images) + '"')
 		random.shuffle(images)
@@ -351,47 +352,48 @@ def get_num_rand_decision(degImageId, decision):
 		record = result.org_num_disagree
 	return record
 
-def get_newhistory(oldHistory, isAgree, error):
-	newHistory = ""
-	e = 1
-	preError = 0
-	nxtError = ERROR_MAX
-	for i in range(0, len(drawn_errors)):
-		if drawn_errors[i] < error:
-			preError = drawn_errors[i]
-		if drawn_errors[i] >= error:
-			nxtError = drawn_errors[i]
-			break
-	histories = oldHistory.split('|')
-	for h in histories:
-		if e > preError and e <= nxtError:
-			tokens = h.split(',')
-			if isAgree == True:
-				numAgree = int(tokens[0]) + 1
-			else:
-				numAgree = tokens[0]
-			numPlayed = int(tokens[1]) + 1
-			newH = str(numAgree) + ',' + str(numPlayed)
-		else:
-			newH = h
-		newHistory += newH
-		if e != ERROR_MAX:
-			newHistory += '|'
-		e += 1
-
-	return newHistory
-
-def update_history(degImageId, isAgree, error):
-	orgImageId = db_session.query(DegradedImage).filter_by(deg_image_id=degImageId).first().org_image_id
-	oldHistory2 = db_session.query(Image).filter_by(image_id=orgImageId).first().game2_history
-	oldHistory3 = db_session.query(Image).filter_by(image_id=orgImageId).first().game3_history
-
-	newHistory2 = get_newhistory(oldHistory2, isAgree, error)
-	newHistory3 = get_newhistory(oldHistory3, isAgree, error)
-
-	db_session.query(Image).filter(Image.image_id == orgImageId).update({"game2_history": newHistory2})
-	db_session.query(Image).filter(Image.image_id == orgImageId).update({"game3_history": newHistory3})
-	db_session.commit()
+# def get_newhistory(oldHistory, isAgree, error):
+# 	newHistory = ""
+# 	e = 1
+# 	preError = 0
+# 	nxtError = ERROR_MAX
+# 	for i in range(0, len(drawn_errors)):
+# 		if drawn_errors[i] < error:
+# 			preError = drawn_errors[i]
+# 		if drawn_errors[i] >= error:
+# 			nxtError = drawn_errors[i]
+# 			break
+# 	histories = oldHistory.split('|')
+# 	for h in histories:
+# 		if e > preError and e <= nxtError:
+# 			tokens = h.split(',')
+# 			if isAgree == True:
+# 				numAgree = int(tokens[0]) + 1
+# 			else:
+# 				numAgree = tokens[0]
+# 			numPlayed = int(tokens[1]) + 1
+# 			newH = str(numAgree) + ',' + str(numPlayed)
+# 		else:
+# 			newH = h
+# 		newHistory += newH
+# 		if e != ERROR_MAX:
+# 			newHistory += '|'
+# 		e += 1
+#
+# 	return newHistory
+#
+# def update_history(degImageId, isAgree, error):
+# 	os.system('echo called?')
+# 	orgImageId = db_session.query(DegradedImage).filter_by(deg_image_id=degImageId).first().org_image_id
+# 	oldHistory2 = db_session.query(Image).filter_by(image_id=orgImageId).first().game2_history
+# 	oldHistory3 = db_session.query(Image).filter_by(image_id=orgImageId).first().game3_history
+#
+# 	newHistory2 = get_newhistory(oldHistory2, isAgree, error)
+# 	newHistory3 = get_newhistory(oldHistory3, isAgree, error)
+#
+# 	db_session.query(Image).filter(Image.image_id == orgImageId).update({"game2_history": newHistory2})
+# 	db_session.query(Image).filter(Image.image_id == orgImageId).update({"game3_history": newHistory3})
+# 	db_session.commit()
 
 
 def update_record(degImageId, decision):
